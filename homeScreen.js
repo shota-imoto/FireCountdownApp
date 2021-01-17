@@ -1,6 +1,6 @@
 import React from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar } from 'react-native';
-
+import { SafeAreaView, View, FlatList, StyleSheet, Text, Button } from 'react-native';
+import Signup from './App.js'
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -73,13 +73,17 @@ const Header = () => (
   </View>
 );
 
-function HomeScreen() {
+function HomeScreen({ navigation }) {
   const renderItem = ({ item }) => (
     <Item title={item.title} />
   );
 
   return (
     <SafeAreaView>
+      <Button
+        title="ユーザー登録"
+        onPress={() => navigation.navigate('UserSignup')}
+      />
       <Header />
       <Content/>
       <FlatList
@@ -88,7 +92,7 @@ function HomeScreen() {
       />
     </SafeAreaView>
   );
-};
+}
 
 
 const styles = StyleSheet.create({

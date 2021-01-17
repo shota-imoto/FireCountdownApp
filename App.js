@@ -8,8 +8,14 @@ import UserSignupScreen from './userSignupScreen.js'
 
 const Stack = createStackNavigator();
 
-function App() {
 
+
+class App extends React.Component {
+  handlePress() {
+    console.log('ok');
+  }
+
+  render() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
@@ -18,6 +24,7 @@ function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
+  }
 }
 
 export default App;
