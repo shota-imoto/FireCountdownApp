@@ -43,19 +43,21 @@ const HeaderMenuItem = ({data}) => (
   </View>
 );
 
-const HeaderMenu = () => {
+function HeaderMenu(props) {
   const renderHeaderItem = ({item}) => (
     <HeaderMenuItem data={item} />
   );
 
   return (
+
     <View style={styles.headerMenu}>
-      <FlatList
-        horizontal={true}
-        data={HEADER}
-        keyExtractor={item => item.id}
-        renderItem={renderHeaderItem}
-        />
+      <Button
+        title="ユーザー登録"
+        onPress={props.onPress}
+      />
+      <Button
+        title ="ログイン"
+      />
     </View>
   )
 };
@@ -66,12 +68,14 @@ const UserName = () => (
   </View>
 );
 
-const Header = () => (
-  <View>
-    <UserName />
-    <HeaderMenu/>
-  </View>
-);
+function Header(props) {
+  return (
+    <View>
+      <UserName />
+      <HeaderMenu onPress={props.onPress}/>
+    </View>
+  )
+};
 
 function HomeScreen({ navigation }) {
   const renderItem = ({ item }) => (
@@ -80,11 +84,7 @@ function HomeScreen({ navigation }) {
 
   return (
     <SafeAreaView>
-      <Button
-        title="ユーザー登録"
-        onPress={() => navigation.navigate('UserSignup')}
-      />
-      <Header />
+      <Header onPress={() => navigation.navigate('UserSignup')}/>
       <Content/>
       <FlatList
         data={DATA}
@@ -97,7 +97,7 @@ function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   headerMenu: {
-    alignItems: 'flex-end'
+    flexDirection: 'row',
   },
   headerMenuItem: {
     flex: 1,
