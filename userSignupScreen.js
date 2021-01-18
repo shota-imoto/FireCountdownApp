@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, TextInput } from 'react-native';
+import { SafeAreaView, View, Button, StyleSheet, Text, TextInput } from 'react-native';
 
 class Forms extends React.Component {
   constructor(props) {
@@ -29,6 +29,10 @@ class Forms extends React.Component {
     this.setState({
       password_confirmation: text
     });
+  }
+
+  handlePress() {
+    console.log('ok')
   }
 
   render() {
@@ -61,6 +65,10 @@ class Forms extends React.Component {
         autoCompleteType={ 'password' }
         secureTextEntry={ true }
         textContentType={ 'password' }
+      />
+      <Button
+        title={ '登録する' }
+        onPress={ this.handlePress }
       />
     </View>
   )
