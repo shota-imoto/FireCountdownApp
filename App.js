@@ -11,9 +11,6 @@ const Stack = createStackNavigator();
 
 
 class App extends React.Component {
-  handlePress() {
-    console.log('ok');
-  }
 
   render() {
   return (

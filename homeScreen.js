@@ -49,7 +49,6 @@ function HeaderMenu(props) {
   );
 
   return (
-
     <View style={styles.headerMenu}>
       <Button
         title="ユーザー登録"
