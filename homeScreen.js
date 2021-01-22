@@ -80,30 +80,22 @@ function Header(props) {
 //   <Item title={item.setting} />
 // );
 
-const ItemList = () => {
-  return (
-    <View>
-      <Item title='メイン設定' />
-      <Item title='期待年利' />
-      <Item title='リタイア額計算' />
-    </View>
-  );
-}
+const ItemList = () => (
+  <View>
+    <Item title='メイン設定' />
+    <Item title='期待年利' />
+    <Item title='リタイア額計算' />
+  </View>
+)
 
-class HomeScreen extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
+function HomeScreen ({navigation}) {
     return (
       <SafeAreaView>
-        <Header onPress={() => navigation.navigate('UserSignup')}/>
-        <Content/>
-        <ItemList/>
-      </SafeAreaView>
+      <Header onPress={({onPress}) => navigation.navigate('UserSignup')}/>
+      <Content/>
+      <ItemList />
+    </SafeAreaView>
     )
-  };
 }
 
 const styles = StyleSheet.create({
