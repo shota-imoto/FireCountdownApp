@@ -13,14 +13,14 @@ const Stack = createStackNavigator();
 class App extends React.Component {
 
   render() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="UserSignup" component={UserSignupScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+    return (
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="UserSignup" component={UserSignupScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
   }
 }
 

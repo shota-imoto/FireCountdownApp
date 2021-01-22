@@ -76,23 +76,35 @@ function Header(props) {
   )
 };
 
-function HomeScreen({ navigation }) {
-  const renderItem = ({ item }) => (
-    <Item title={item.title} />
-  );
+// const renderItem = ({item}) => (
+//   <Item title={item.setting} />
+// );
 
+const ItemList = () => {
   return (
-    <SafeAreaView>
-      <Header onPress={() => navigation.navigate('UserSignup')}/>
-      <Content/>
-      <FlatList
-        data={DATA}
-        renderItem={renderItem}
-      />
-    </SafeAreaView>
+    <View>
+      <Item title='メイン設定' />
+      <Item title='期待年利' />
+      <Item title='リタイア額計算' />
+    </View>
   );
 }
 
+class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <SafeAreaView>
+        <Header onPress={() => navigation.navigate('UserSignup')}/>
+        <Content/>
+        <ItemList/>
+      </SafeAreaView>
+    )
+  };
+}
 
 const styles = StyleSheet.create({
   headerMenu: {
