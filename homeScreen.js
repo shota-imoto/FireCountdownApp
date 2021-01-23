@@ -1,29 +1,5 @@
 import React from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, Button } from 'react-native';
-import Signup from './App.js'
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'メイン設定',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: '期待年利',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'リタイア額計算',
-  },
-];
-
-const HEADER = [
-  {
-    title: 'ユーザ登録',
-  },
-  {
-    title: 'ログイン',
-  }
-]
+import { SafeAreaView, View, StyleSheet, Text, Button } from 'react-native';
 
 const Item = ({ title }) => (
   <View style={styles.item}>
@@ -31,54 +7,38 @@ const Item = ({ title }) => (
   </View>
 );
 
-const Content = () => (
+const Content = ({resttime}) => (
   <View style={styles.content}>
-    <Text style={styles.mainMessage}>リタイアまでX年</Text>
-  </View>
-);
-
-const HeaderMenuItem = ({data}) => (
-  <View style={styles.headerMenuItem}>
-    <Text>{data.title}</Text>
+    <Text style={styles.mainMessage}>リタイアまで{resttime}年</Text>
   </View>
 );
 
 function HeaderMenu(props) {
-  const renderHeaderItem = ({item}) => (
-    <HeaderMenuItem data={item} />
-  );
-
   return (
     <View style={styles.headerMenu}>
       <Button
         title="ユーザー登録"
-        onPress={props.onPress}
+        onPress={() => {props.onPress()}}
       />
       <Button
         title ="ログイン"
       />
     </View>
-  )
+  );
 };
 
-const UserName = () => (
-  <View style={styles.userName}>
-    <Text style={styles.userNameText}>Shota</Text>
-  </View>
+const UserName = ({username}) => (
+  <Text style={styles.userNameText}>{username}</Text>
 );
 
 function Header(props) {
   return (
     <View>
-      <UserName />
-      <HeaderMenu onPress={props.onPress}/>
+      <UserName username={props.username} />
+      <HeaderMenu onPress={() => {props.onPress()}} />
     </View>
   )
 };
-
-// const renderItem = ({item}) => (
-//   <Item title={item.setting} />
-// );
 
 const ItemList = () => (
   <View>
@@ -88,14 +48,50 @@ const ItemList = () => (
   </View>
 )
 
-function HomeScreen ({navigation}) {
+class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: null,
+      resttime: null,
+      mounted: true
+    };
+  }
+
+  componentDidMount() {
+    const url = "http://"+ this.props.rootPath +"/api/v1"
+    fetch(url)
+    .then(res => res.json())
+    .then((result) => {
+      if (this.state.mounted) {
+        this.setState({
+          resttime: result.data.attributes.asset_years,
+          username: result.included[0].attributes.nickname
+        });
+      };
+    });
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      mounted: false
+    });
+  }
+
+  render() {
     return (
       <SafeAreaView>
-      <Header onPress={({onPress}) => navigation.navigate('UserSignup')}/>
-      <Content/>
-      <ItemList />
-    </SafeAreaView>
-    )
+        <Header
+          onPress={() => {this.props.navigation.navigate('UserSignup')}}
+          username={this.state.username}
+        />
+        <Content
+          resttime={this.state.resttime}
+        />
+        <ItemList />
+      </SafeAreaView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
