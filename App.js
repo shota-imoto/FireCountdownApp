@@ -11,8 +11,17 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      apiRootPath: 'localhost:3000',
+      protcol: 'http://',
+      hostDomain: 'localhost:3000',
+      apiVersion: 'v1',
+      rootPath :null
     }
+  }
+
+  componentDidMount() {
+    this.setState({
+      rootPath: this.state.protcol + this.state.hostDomain + '/api/' + this.state.apiVersion +'/'
+    });
   }
 
   render() {
@@ -20,9 +29,11 @@ class App extends React.Component {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home">
-            {() => <HomeScreen navigation={useNavigation()} rootPath={this.state.apiRootPath}/>}
+            {() => <HomeScreen navigation={useNavigation()} rootPath={this.state.rootPath}/>}
           </Stack.Screen>
-          <Stack.Screen name="UserSignup" component={UserSignupScreen} />
+          <Stack.Screen name="UserSignup">
+            {() => <UserSignupScreen navigation={useNavigation()} rootPath={this.state.rootPath}/>}
+          </Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
     );

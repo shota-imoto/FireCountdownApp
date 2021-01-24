@@ -3,22 +3,24 @@ import { SafeAreaView, View, Button, StyleSheet, Text, TextInput } from 'react-n
 
 
 class TextInputComponent extends React.Component {
-  // onChangeTextで変更する値をemail, passwordなど使い回せる？
-
   render() {
     var autoCompleteType, textContent;
     var secureTextEntry = false;
 
     switch (this.props.type) {
       case 'email':
-        autoCompleteType = 'email'
+        autoCompleteType = 'email';
         textContent = 'emailAddress';
         break;
       case 'password':
       case 'password_confirmation':
-        autoCompleteType = 'password'
+        autoCompleteType = 'password';
         textContent = 'password';
         secureTextEntry = true;
+        break;
+      case 'nickname':
+        autoCompleteType = 'username';
+        textContent = 'name';
     }
 
     return (
@@ -39,13 +41,20 @@ class Forms extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      nickname: null,
       email: null,
       password: null,
-      password_confirmation: null
+      password_confirmation: null,
+      rootPath: this.props.rootPath
     }
-    // this.handleChangeEmail = this.handleChangeEmail.bind(this)
-    this.handleChangePassword = this.handleChangePassword.bind(this)
   }
+
+
+  handleChangeNickname(text) {
+    this.setState({
+      nickname: text
+    });
+  };
 
   handleChangeEmail(text) {
     this.setState({
@@ -65,14 +74,58 @@ class Forms extends React.Component {
     });
   }
 
-  handlePress() {
-    console.log('ok')
+  handlePress(props) {
+    console.log('handlePress')
+    console.log(this.props)
+
+    const url = props.rootPath + 'users'
+    const data = {
+      "user": {
+        "nickname" : this.state.nickname,
+        "email" : this.state.email,
+        "password" : this.state.password,
+        "password_confirmation" : this.state.password_confirmation
+       }
+      }
+    const errorMessage = (props) =>  "通信エラー しばらくお待ちいただき、再度お試しください (何度か試してもうまく行かない場合は次のエラーメッセージを管理者に連絡ください) <エラーメッセージ> " + props
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+    }).then(res => res.json())
+    .then(result => {
+      const status = result.data.attributes.status;
+      const message = result.data.attributes.message
+      if (status == 'success') {
+        alert('ユーザー本登録用のメールを送信しました。しばらく経っても届かない場合は再度お試しください')
+        this.props.navigation.navigate('Home')
+      } else if (status == 'error') {
+        const errorMessage = []
+        Object.keys(message).forEach(key => {
+          errorMessage.push(key + ':' + message[key]);
+        });
+        alert(errorMessage.join('\n'))
+        // TODO: アラートの順番変更、日本語化
+      }
+    })
+    .catch(error => {alert(errorMessage(error))})
   }
 
 
   render() {
   return (
     <View>
+      <View style={ styles.textFormBox }>
+        <Text style={ styles.text }>ニックネーム</Text>
+        <TextInputComponent
+          value={ this.state.nickname }
+          onChangeText={(text) => this.handleChangeNickname(text)}
+          type='nickname'
+        />
+      </View>
       <View style={ styles.textFormBox }>
         <Text style={ styles.text }>メールアドレス</Text>
         <TextInputComponent
@@ -100,7 +153,7 @@ class Forms extends React.Component {
       <View style={ styles.submitBox }>
         <Button
           title={ '登録する' }
-          onPress={ this.handlePress }
+          onPress={() => {this.handlePress(this.state)} }
         />
       </View>
     </View>
@@ -116,7 +169,7 @@ class UserSignupScreen extends React.Component {
   render() {
     return (
       <View style={ styles.wrapper }>
-        <Forms />
+        <Forms rootPath={this.props.rootPath} navigation={this.props.navigation}/>
       </View>
     );
   }
