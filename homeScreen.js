@@ -9,7 +9,7 @@ const Item = ({ title }) => (
 
 const Content = ({resttime}) => (
   <View style={styles.content}>
-    <Text style={styles.mainMessage}>リタイアまで{resttime}年</Text>
+    <Text style={styles.mainMessage}>{resttime}年</Text>
   </View>
 );
 
@@ -59,7 +59,7 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    const url = "http://"+ this.props.rootPath +"/api/v1"
+    const url = this.props.rootPath
     fetch(url)
     .then(res => res.json())
     .then((result) => {
