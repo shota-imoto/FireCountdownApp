@@ -11,14 +11,18 @@ class TextInputComponent extends React.Component {
 
     switch (this.props.type) {
       case 'email':
-        autoCompleteType = 'email'
+        autoCompleteType = 'email';
         textContent = 'emailAddress';
         break;
       case 'password':
       case 'password_confirmation':
-        autoCompleteType = 'password'
+        autoCompleteType = 'password';
         textContent = 'password';
         secureTextEntry = true;
+        break;
+      case 'nickname':
+        autoCompleteType = 'username';
+        textContent = 'name';
     }
 
     return (
@@ -39,13 +43,18 @@ class Forms extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      nickname: null,
       email: null,
       password: null,
       password_confirmation: null
     }
-    // this.handleChangeEmail = this.handleChangeEmail.bind(this)
-    this.handleChangePassword = this.handleChangePassword.bind(this)
   }
+
+  handleChangeNickname(text) {
+    this.setState({
+      nickname: text
+    });
+  };
 
   handleChangeEmail(text) {
     this.setState({
@@ -73,6 +82,14 @@ class Forms extends React.Component {
   render() {
   return (
     <View>
+      <View style={ styles.textFormBox }>
+        <Text style={ styles.text }>ニックネーム</Text>
+        <TextInputComponent
+          value={ this.state.nickname }
+          onChangeText={(text) => this.handleChangeNickname(text)}
+          type='nickname'
+        />
+      </View>
       <View style={ styles.textFormBox }>
         <Text style={ styles.text }>メールアドレス</Text>
         <TextInputComponent
