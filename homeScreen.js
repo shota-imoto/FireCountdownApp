@@ -1,5 +1,7 @@
 import React from 'react';
 import { SafeAreaView, View, StyleSheet, Text, Button } from 'react-native';
+import Modal from './components/modal.js'
+import SigninForm from './views/SigninForm.js'
 
 const Item = ({ title }) => (
   <View style={styles.item}>
@@ -22,6 +24,7 @@ function HeaderMenu(props) {
       />
       <Button
         title ="ログイン"
+        onPress={() => {props.onSignin()}}
       />
     </View>
   );
@@ -35,7 +38,10 @@ function Header(props) {
   return (
     <View>
       <UserName username={props.username} />
-      <HeaderMenu onPress={() => {props.onPress()}} />
+      <HeaderMenu
+        onPress={() => {props.onPress()}}
+        onSignin={() => {props.onSignin()}}
+      />
     </View>
   )
 };
@@ -80,21 +86,26 @@ class HomeScreen extends React.Component {
 
   render() {
     return (
-      <SafeAreaView>
+      <SafeAreaView style={styles.screen}>
         <Header
           onPress={() => {this.props.navigation.navigate('UserSignup')}}
+          onSignin={() => {this.refs.modal.toggleVisible()}}
           username={this.state.username}
         />
         <Content
           resttime={this.state.resttime}
         />
         <ItemList />
+        <Modal ref='modal' content={<SigninForm/>} />
       </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  screen: {
+    ...StyleSheet.absoluteFillObject,
+  },
   headerMenu: {
     flexDirection: 'row',
   },

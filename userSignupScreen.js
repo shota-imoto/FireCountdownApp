@@ -1,41 +1,6 @@
 import React from 'react';
 import { SafeAreaView, View, Button, StyleSheet, Text, TextInput } from 'react-native';
-
-
-class TextInputComponent extends React.Component {
-  render() {
-    var autoCompleteType, textContent;
-    var secureTextEntry = false;
-
-    switch (this.props.type) {
-      case 'email':
-        autoCompleteType = 'email';
-        textContent = 'emailAddress';
-        break;
-      case 'password':
-      case 'password_confirmation':
-        autoCompleteType = 'password';
-        textContent = 'password';
-        secureTextEntry = true;
-        break;
-      case 'nickname':
-        autoCompleteType = 'username';
-        textContent = 'name';
-    }
-
-    return (
-      <TextInput
-        style={ styles.textForm }
-        value={ this.props.value }
-        onChangeText={ text => this.props.onChangeText(text) }
-        autoCapitalize={ 'none' }
-        autoCompleteType={ autoCompleteType }
-        textContentType={ textContent }
-        secureTextEntry={ secureTextEntry }
-      />
-    )
-  }
-}
+import TextInputComponent from './components/textInputComponent.js'
 
 class Forms extends React.Component {
   constructor(props) {
@@ -184,12 +149,6 @@ const styles = StyleSheet.create({
     width: 140,
     paddingHorizontal: 10,
     textAlign: 'right'
-  },
-  textForm: {
-    height: 30,
-    width: 200,
-    borderColor: 'gray',
-    borderWidth: 1
   },
   textFormBox: {
     margin: 10,
