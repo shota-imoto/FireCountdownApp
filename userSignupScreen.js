@@ -40,9 +40,6 @@ class Forms extends React.Component {
   }
 
   handlePress(props) {
-    console.log('handlePress')
-    console.log(this.props)
-
     const url = props.rootPath + 'users'
     const data = {
       "user": {
@@ -53,7 +50,6 @@ class Forms extends React.Component {
        }
       }
     const errorMessage = (props) =>  "通信エラー しばらくお待ちいただき、再度お試しください (何度か試してもうまく行かない場合は次のエラーメッセージを管理者に連絡ください) <エラーメッセージ> " + props
-
     fetch(url, {
       method: 'POST',
       headers: {
@@ -63,7 +59,7 @@ class Forms extends React.Component {
     }).then(res => res.json())
     .then(result => {
       const status = result.data.attributes.status;
-      const message = result.data.attributes.message
+      const message = result.data.attributes.message;
       if (status == 'success') {
         alert('ユーザー本登録用のメールを送信しました。しばらく経っても届かない場合は再度お試しください')
         this.props.navigation.navigate('Home')

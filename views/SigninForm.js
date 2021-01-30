@@ -24,8 +24,40 @@ class SigninForm extends React.Component {
   }
 
   handlePress(props) {
-    alert('Implement signin function!')
+    const url = props.rootPath + 'users/sign_in'
+    const data = {
+      "user": {
+        "email" : this.state.email,
+        "password" : this.state.password
+      }
+    }
+
+    const errorMessage = (props) => "通信エラー しばらくお待ちいただき、再度お試しください (何度か試してもうまく行かない場合は次のエラーメッセージを管理者に連絡ください) <エラーメッセージ> " + props
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then(res => {
+      const token = res.headers.map["x-authentication-token"];
+      this.props.setToken(token);
+      return res.json()
+    }).then(body => {
+      console.log(body)
+      const status = body.data.attributes.status;
+      const message = body.data.attributes.message;
+      if (status == 'success') {
+        alert('ログインしました')
+        this.props.toggleVisible();
+      } else if (status == 'error') {
+        alert(message)
+        // TODO: アラートの順番変更、日本語化
+      }
+    })
   }
+
 
   render() {
     return (
@@ -49,7 +81,7 @@ class SigninForm extends React.Component {
           <View style={ styles.submitBox }>
             <Button
               title={ 'ログイン' }
-              onPress={() => {this.handlePress(this.state)} }
+              onPress={() => {this.handlePress(this.props)} }
             />
           </View>
         </View>
