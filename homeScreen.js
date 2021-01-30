@@ -96,7 +96,17 @@ class HomeScreen extends React.Component {
           resttime={this.state.resttime}
         />
         <ItemList />
-        <Modal ref='modal' content={<SigninForm/>} />
+        <Modal
+          ref='modal'
+          content={
+            <SigninForm
+              rootPath={this.props.rootPath}
+              setToken={(token) => {this.props.setToken(token)}}
+              toggleVisible={() => {this.refs.modal.toggleVisible()}
+            }
+            />
+          }
+        />
       </SafeAreaView>
     );
   }

@@ -14,7 +14,8 @@ class App extends React.Component {
       protcol: 'http://',
       hostDomain: 'localhost:3000',
       apiVersion: 'v1',
-      rootPath :null
+      rootPath :null,
+      jwtToken: null
     }
   }
 
@@ -24,15 +25,21 @@ class App extends React.Component {
     });
   }
 
+  setToken(token) {
+    this.setState({
+      jwtToken: token
+    })
+  }
+
   render() {
     return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home">
-            {() => <HomeScreen navigation={useNavigation()} rootPath={this.state.rootPath}/>}
+            {() => <HomeScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} {...this.state}/>}
           </Stack.Screen>
           <Stack.Screen name="UserSignup">
-            {() => <UserSignupScreen navigation={useNavigation()} rootPath={this.state.rootPath}/>}
+            {() => <UserSignupScreen navigation={useNavigation()} {...this.state}/>}
           </Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
