@@ -51,6 +51,7 @@ class SigninForm extends React.Component {
       if (status == 'success') {
         alert('ログインしました')
         this.props.toggleVisible();
+        this.props.fetchData();
       } else if (status == 'error') {
         alert(message)
         // TODO: アラートの順番変更、日本語化

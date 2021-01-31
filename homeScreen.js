@@ -65,8 +65,22 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
+    this.fetchData()
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      mounted: false
+    });
+  }
+
+  fetchData() {
     const url = this.props.rootPath
-    fetch(url)
+    fetch(url, {
+      headers: {
+        'Authorization': 'Token ' + this.props.jwtToken
+      }
+    })
     .then(res => res.json())
     .then((result) => {
       if (this.state.mounted) {
@@ -75,12 +89,6 @@ class HomeScreen extends React.Component {
           username: result.included[0].attributes.nickname
         });
       };
-    });
-  }
-
-  componentWillUnmount() {
-    this.setState({
-      mounted: false
     });
   }
 
@@ -102,8 +110,8 @@ class HomeScreen extends React.Component {
             <SigninForm
               rootPath={this.props.rootPath}
               setToken={(token) => {this.props.setToken(token)}}
-              toggleVisible={() => {this.refs.modal.toggleVisible()}
-            }
+              toggleVisible={() => {this.refs.modal.toggleVisible()}}
+              fetchData={() => {this.fetchData()}}
             />
           }
         />
