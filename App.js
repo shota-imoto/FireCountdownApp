@@ -3,7 +3,8 @@ import React from 'react';
 import { NavigationContainer, useLinkProps, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './homeScreen.js';
-import UserSignupScreen from './userSignupScreen.js'
+import UserSignupScreen from './userSignupScreen.js';
+import ConfigScreen from './configScreen.js';
 
 const Stack = createStackNavigator();
 
@@ -40,6 +41,9 @@ class App extends React.Component {
           </Stack.Screen>
           <Stack.Screen name="UserSignup">
             {() => <UserSignupScreen navigation={useNavigation()} {...this.state}/>}
+          </Stack.Screen>
+          <Stack.Screen name="Config">
+            {() => <ConfigScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} {...this.state}/>}
           </Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>

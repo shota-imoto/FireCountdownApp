@@ -21,6 +21,9 @@ class TextInputComponent extends React.Component {
       case 'nickname':
         autoCompleteType = 'username';
         textContent = 'name';
+        break;
+      case 'number':
+
     }
 
     return (
