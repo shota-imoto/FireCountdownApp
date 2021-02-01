@@ -1,13 +1,16 @@
 import React from 'react';
 import { SafeAreaView, View, StyleSheet, Text, Button } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Modal from './components/modal.js'
 import SigninForm from './views/SigninForm.js'
 
-const Item = ({ title }) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
-  </View>
-);
+function Item(props) {
+  return (
+    <TouchableOpacity style={styles.item} onPress={() => {props.onPress()}}>
+      <Text style={styles.title}>{props.title}</Text>
+    </TouchableOpacity>
+  )
+};
 
 const Content = ({resttime}) => (
   <View style={styles.content}>
@@ -46,13 +49,14 @@ function Header(props) {
   )
 };
 
-const ItemList = () => (
-  <View>
-    <Item title='メイン設定' />
-    <Item title='期待年利' />
-    <Item title='リタイア額計算' />
-  </View>
-)
+function ItemList(props) {
+  return (
+    <View>
+      <Item title='メイン設定' onPress={() => {props.onPressConfig()}} />
+      <Item title='リタイア額計算' onPress={() => {console.log('call onPressRetireConfig()')}}/>
+    </View>
+  )
+}
 
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -103,7 +107,9 @@ class HomeScreen extends React.Component {
         <Content
           resttime={this.state.resttime}
         />
-        <ItemList />
+        <ItemList
+          onPressConfig={() => {this.props.navigation.navigate('Config')}}
+        />
         <Modal
           ref='modal'
           content={
@@ -145,8 +151,10 @@ const styles = StyleSheet.create({
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
+    borderRadius: 10,
   },
   title: {
+    color: '#ffffff',
     fontSize: 32,
   },
   content: {
