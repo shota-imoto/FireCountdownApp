@@ -53,7 +53,7 @@ function ItemList(props) {
   return (
     <View>
       <Item title='メイン設定' onPress={() => {props.onPressConfig()}} />
-      <Item title='リタイア額計算' onPress={() => {console.log('call onPressRetireConfig()')}}/>
+      <Item title='リタイア額計算' onPress={() => {props.onPressRetirementAssetConfig()}}/>
     </View>
   )
 }
@@ -109,6 +109,7 @@ class HomeScreen extends React.Component {
         />
         <ItemList
           onPressConfig={() => {this.props.navigation.navigate('Config')}}
+          onPressRetirementAssetConfig={() => {this.props.navigation.navigate('RetirementAssetConfig')}}
         />
         <Modal
           ref='modal'
