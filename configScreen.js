@@ -31,29 +31,36 @@ class ConfigScreen extends React.Component {
   };
 
   handlePress(props) {
-    const url = this.props.rootPath
+    const url = this.props.rootPath + 'config'
     const data = {
       "asset_config": {
         initial_asset: this.state.initial_asset,
-        monthly_purchase: this.state.monthly_purchase
-      },
-      "yield_config": {
+        monthly_purchase: this.state.monthly_purchase,
         annual_yield: this.state.annual_yield
       }
     }
-
-    console.log(data)
-
     fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': this.props.jwtToken
       },
       body: JSON.stringify(data)
     }).then(res => res.json())
     .then(body => {
-      console.log(body)
-      this.props.navigation.navigate('Home')
+      const status = body.data.attributes.status;
+      const message = body.data.attributes.message;
+      if (status == 'success') {
+        alert('設定が完了しました')
+        this.props.navigation.navigate('Home')
+      } else {
+        const errorMessage = []
+        Object.keys(message).forEach(key => {
+          errorMessage.push(key + ':' + message[key]);
+        });
+        console.log(errorMessage);
+        alert(errorMessage.join('\n'));
+      }
     })
   }
 
