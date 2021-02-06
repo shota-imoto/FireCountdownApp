@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './homeScreen.js';
 import UserSignupScreen from './userSignupScreen.js';
 import ConfigScreen from './configScreen.js';
+import RetirementAssetConfigScreen from './retirementAssetConfigScreen.js';
 
 const Stack = createStackNavigator();
 
@@ -44,6 +45,9 @@ class App extends React.Component {
           </Stack.Screen>
           <Stack.Screen name="Config">
             {() => <ConfigScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} {...this.state}/>}
+          </Stack.Screen>
+          <Stack.Screen name="RetirementAssetConfig">
+            {() => <RetirementAssetConfigScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} {...this.state}/>}
           </Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
