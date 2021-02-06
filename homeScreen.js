@@ -29,6 +29,10 @@ function HeaderMenu(props) {
         title ="ログイン"
         onPress={() => {props.onSignin()}}
       />
+      <Button
+        title ="ログアウト"
+        onPress={() => {props.onSignout()}}
+      />
     </View>
   );
 };
@@ -44,6 +48,7 @@ function Header(props) {
       <HeaderMenu
         onPress={() => {props.onPress()}}
         onSignin={() => {props.onSignin()}}
+        onSignout={() => {props.onSignout()}}
       />
     </View>
   )
@@ -96,12 +101,15 @@ class HomeScreen extends React.Component {
     });
   }
 
+
+
   render() {
     return (
       <SafeAreaView style={styles.screen}>
         <Header
           onPress={() => {this.props.navigation.navigate('UserSignup')}}
           onSignin={() => {this.refs.modal.toggleVisible()}}
+          onSignout={() => {this.props.onSignout()}}
           username={this.state.username}
         />
         <Content

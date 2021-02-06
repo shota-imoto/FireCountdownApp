@@ -17,7 +17,7 @@ class App extends React.Component {
       hostDomain: 'localhost:3000',
       apiVersion: 'v1',
       rootPath :null,
-      jwtToken: null
+      jwtToken: ""
     }
   }
 
@@ -33,12 +33,18 @@ class App extends React.Component {
     })
   }
 
+  handleSignout() {
+    this.setState({
+      jwtToken: ""
+    })
+  }
+
   render() {
     return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home">
-            {() => <HomeScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} {...this.state}/>}
+            {() => <HomeScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} onSignout={() => {this.handleSignout()}} {...this.state}/>}
           </Stack.Screen>
           <Stack.Screen name="UserSignup">
             {() => <UserSignupScreen navigation={useNavigation()} {...this.state}/>}

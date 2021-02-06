@@ -33,6 +33,7 @@ class SigninForm extends React.Component {
     }
     const errorMessage = (props) => "通信エラー しばらくお待ちいただき、再度お試しください (何度か試してもうまく行かない場合は次のエラーメッセージを管理者に連絡ください) <エラーメッセージ> " + props
 
+
     fetch(url, {
       method: 'POST',
       headers: {
