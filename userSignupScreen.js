@@ -40,7 +40,7 @@ class Forms extends React.Component {
   }
 
   handlePress(props) {
-    const url = props.rootPath + 'users'
+    const url = props.rootPath + 'users/sign_up'
     const data = {
       "user": {
         "nickname" : this.state.nickname,
@@ -61,7 +61,8 @@ class Forms extends React.Component {
       const status = result.data.attributes.status;
       const message = result.data.attributes.message;
       if (status == 'success') {
-        alert('ユーザー本登録用のメールを送信しました。しばらく経っても届かない場合は再度お試しください')
+        // alert('ユーザー本登録用のメールを送信しました。しばらく経っても届かない場合は再度お試しください')
+        alert('ユーザー登録が完了しました')
         this.props.navigation.navigate('Home')
       } else if (status == 'error') {
         const errorMessage = []
