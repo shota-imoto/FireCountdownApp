@@ -31,7 +31,6 @@ class SigninForm extends React.Component {
         "password" : this.state.password
       }
     }
-
     const errorMessage = (props) => "通信エラー しばらくお待ちいただき、再度お試しください (何度か試してもうまく行かない場合は次のエラーメッセージを管理者に連絡ください) <エラーメッセージ> " + props
 
     fetch(url, {
@@ -45,7 +44,6 @@ class SigninForm extends React.Component {
       this.props.setToken(token);
       return res.json()
     }).then(body => {
-      console.log(body)
       const status = body.data.attributes.status;
       const message = body.data.attributes.message;
       if (status == 'success') {
