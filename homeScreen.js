@@ -12,55 +12,74 @@ function Item(props) {
   )
 };
 
-const Content = ({resttime}) => (
-  <View style={styles.content}>
-    <Text style={styles.mainMessage}>{resttime}年</Text>
-  </View>
-);
+function Content(props) {
+  if (props.jwtToken) {
+    return (
+      <View style={styles.content}>
+        <Text style={styles.mainMessage}>{props.resttime}年</Text>
+      </View>
+    )
+  } else {
+    return (
+      <View>
+        <Text>ようこそ！まずはユーザー登録から始めましょう！！</Text>
+      </View>
+    )
+  }
+};
 
 function HeaderMenu(props) {
-  return (
-    <View style={styles.headerMenu}>
-      <Button
-        title="ユーザー登録"
-        onPress={() => {props.onPress()}}
-      />
-      <Button
-        title ="ログイン"
-        onPress={() => {props.onSignin()}}
-      />
-      <Button
-        title ="ログアウト"
-        onPress={() => {props.onSignout()}}
-      />
-    </View>
-  );
+
+
 };
 
 const UserName = ({username}) => (
-  <Text style={styles.userNameText}>{username}</Text>
+  <Text style={styles.userNameText}>{username}さん、こんにちは！</Text>
 );
 
 function Header(props) {
-  return (
-    <View>
-      <UserName username={props.username} />
-      <HeaderMenu
-        onPress={() => {props.onPress()}}
-        onSignin={() => {props.onSignin()}}
-        onSignout={() => {props.onSignout()}}
-      />
-    </View>
-  )
+  if (props.jwtToken) {
+    return (
+      <View>
+        <UserName username={props.username}></UserName>
+        <View style={styles.headerMenu}>
+          <Button
+            title ="ログアウト"
+            onPress={() => {props.onSignout()}}
+          />
+        </View>
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.headerMenu}>
+        <Button
+          title="ユーザー登録"
+          onPress={() => {props.onPress()}}
+        />
+        <Button
+          title ="ログイン"
+          onPress={() => {props.onSignin()}}
+        />
+      </View>
+    )
+  }
 };
 
 function ItemList(props) {
-  return (
-    <View>
-      <Item title='メイン設定' onPress={() => {props.onPressConfig()}} />
-      <Item title='リタイア額計算' onPress={() => {props.onPressRetirementAssetConfig()}}/>
-    </View>
-  )
+  if (props.jwtToken) {
+    return (
+      <View>
+        <Item title='メイン設定' onPress={() => {props.onPressConfig()}} />
+        <Item title='リタイア額計算' onPress={() => {props.onPressRetirementAssetConfig()}}/>
+      </View>
+    )
+  } else {
+    return (
+      <View>
+      </View>
+    )
+  }
 }
 
 class HomeScreen extends React.Component {
@@ -110,14 +129,17 @@ class HomeScreen extends React.Component {
           onPress={() => {this.props.navigation.navigate('UserSignup')}}
           onSignin={() => {this.refs.modal.toggleVisible()}}
           onSignout={() => {this.props.onSignout()}}
+          jwtToken={this.props.jwtToken}
           username={this.state.username}
         />
         <Content
           resttime={this.state.resttime}
+          jwtToken={this.props.jwtToken}
         />
         <ItemList
           onPressConfig={() => {this.props.navigation.navigate('Config')}}
           onPressRetirementAssetConfig={() => {this.props.navigation.navigate('RetirementAssetConfig')}}
+          jwtToken={this.props.jwtToken}
         />
         <Modal
           ref='modal'
