@@ -93,7 +93,7 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchData()
+    if (this.props.jwtToken) {this.fetchData()}
   }
 
   componentWillUnmount() {
