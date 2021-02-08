@@ -12,13 +12,29 @@ function Item(props) {
   )
 };
 
+// TODO: リファクタリング
 function Content(props) {
   if (props.jwtToken) {
-    return (
-      <View style={styles.content}>
-        <Text style={styles.mainMessage}>{props.resttime}年</Text>
-      </View>
-    )
+    if (props.resttime) {
+      return (
+        <View style={styles.content}>
+          <Text style={styles.mainMessage}>{props.resttime}年</Text>
+        </View>
+      )
+    } else if (props.unset_configs) {
+      const array = props.unset_configs
+      return (
+        <View>
+          <Text>{props.unset_configs.join("、 ")}が未設定です。</Text>
+        </View>
+      )
+    } else {
+      return(
+        <View>
+          <Text></Text>
+        </View>
+      )
+    }
   } else {
     return (
       <View>
@@ -28,10 +44,6 @@ function Content(props) {
   }
 };
 
-function HeaderMenu(props) {
-
-
-};
 
 const UserName = ({username}) => (
   <Text style={styles.userNameText}>{username}さん、こんにちは！</Text>
@@ -88,6 +100,7 @@ class HomeScreen extends React.Component {
     this.state = {
       username: null,
       resttime: null,
+      unset_config: null,
       mounted: true
     };
   }
@@ -112,10 +125,22 @@ class HomeScreen extends React.Component {
     .then(res => res.json())
     .then((result) => {
       if (this.state.mounted) {
-        this.setState({
-          resttime: result.data.attributes.asset_years,
-          username: result.included[0].attributes.nickname
-        });
+        const messages = result.data.attributes.messages
+        const unset_configs = Object.keys(messages)
+
+        if (!unset_configs.length) {
+          this.setState({
+            resttime: result.data.attributes.asset_years,
+            username: result.included[0].attributes.nickname,
+            messages: null
+          });
+        } else {
+          this.setState({
+            resttime: null,
+            username: result.included[0].attributes.nickname,
+            unset_configs: unset_configs
+          })
+        }
       };
     });
   }
@@ -133,8 +158,8 @@ class HomeScreen extends React.Component {
           username={this.state.username}
         />
         <Content
-          resttime={this.state.resttime}
           jwtToken={this.props.jwtToken}
+          {...this.state}
         />
         <ItemList
           onPressConfig={() => {this.props.navigation.navigate('Config')}}
