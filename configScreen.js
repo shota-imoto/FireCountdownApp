@@ -58,7 +58,6 @@ class ConfigScreen extends React.Component {
         Object.keys(message).forEach(key => {
           errorMessage.push(key + ':' + message[key]);
         });
-        console.log(errorMessage);
         alert(errorMessage.join('\n'));
       }
     })
