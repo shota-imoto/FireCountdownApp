@@ -12,6 +12,7 @@ function Item(props) {
   )
 };
 
+// TODO: リファクタリング
 function Content(props) {
   if (props.jwtToken) {
     if (props.resttime) {
