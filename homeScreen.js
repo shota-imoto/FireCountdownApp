@@ -105,8 +105,15 @@ class HomeScreen extends React.Component {
     };
   }
 
+
   componentDidMount() {
+    // home画面の初期表示。↓単体だと、コード更新後のリフレッシュで呼ばれない
     if (this.props.jwtToken) {this.fetchData()}
+
+    // home画面のリレンダリング時
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      if (this.props.jwtToken) {this.fetchData()}
+    });
   }
 
   componentWillUnmount() {
