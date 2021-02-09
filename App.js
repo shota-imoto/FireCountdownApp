@@ -16,7 +16,7 @@ class App extends React.Component {
       protcol: 'http://',
       hostDomain: 'localhost:3000',
       apiVersion: 'v1',
-      rootPath :null,
+      rootPath: null,
       jwtToken: ""
     }
   }

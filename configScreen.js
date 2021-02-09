@@ -9,6 +9,7 @@ class ConfigScreen extends React.Component {
       initial_asset: null, // 現在の資産
       monthly_purchase: null, // 月々の積立額
       annual_yield: null, // 期待年利
+      mouted: true
     }
   }
 
@@ -29,6 +30,25 @@ class ConfigScreen extends React.Component {
       annual_yield: text
     });
   };
+
+  getConfig(props) {
+    const url = this.props.rootPath + 'config/new'
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': this.props.jwtToken
+      }
+    }).then(res => res.json())
+    .then(body => {
+      const asset_config = body.data.attributes
+      const newState = {};
+      Object.keys(asset_config).forEach(key => {
+            newState[key] = asset_config[key];
+      });
+      this.setState(newState);
+    })
+  }
 
   handlePress(props) {
     const url = this.props.rootPath + 'config'
@@ -61,6 +81,16 @@ class ConfigScreen extends React.Component {
         alert(errorMessage.join('\n'));
       }
     })
+  }
+
+  componentDidMount() {
+    this.getConfig();
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      mounted: false
+    });
   }
 
   render() {
