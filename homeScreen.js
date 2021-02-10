@@ -15,10 +15,10 @@ function Item(props) {
 // TODO: リファクタリング
 function Content(props) {
   if (props.jwtToken) {
-    if (props.resttime) {
+    if (props.rest_years) {
       return (
         <View style={styles.content}>
-          <Text style={styles.mainMessage}>{props.resttime}年</Text>
+          <Text style={styles.mainMessage}>{props.rest_years}年 {props.rest_months}ヶ月後にリタイア</Text>
         </View>
       )
     } else if (props.unset_configs) {
@@ -99,7 +99,8 @@ class HomeScreen extends React.Component {
     super(props);
     this.state = {
       username: null,
-      resttime: null,
+      rest_years: null,
+      rest_months: null,
       unset_config: null,
       mounted: true
     };
@@ -137,13 +138,15 @@ class HomeScreen extends React.Component {
 
         if (!unset_configs.length) {
           this.setState({
-            resttime: result.data.attributes.asset_years,
+            rest_years: result.data.attributes.asset_years,
+            rest_months: result.data.attributes.asset_months,
             username: result.included[0].attributes.nickname,
             messages: null
           });
         } else {
           this.setState({
-            resttime: null,
+            rest_years: null,
+            rest_months: null,
             username: result.included[0].attributes.nickname,
             unset_configs: unset_configs
           })
