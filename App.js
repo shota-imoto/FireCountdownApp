@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as Linking from 'expo-linking';
 import HomeScreen from './homeScreen.js';
 import UserSignupScreen from './userSignupScreen.js';
+import UserSigninScreen from './userSigninScreen.js';
 import ConfigScreen from './configScreen.js';
 import RetirementAssetConfigScreen from './retirementAssetConfigScreen.js';
 
@@ -51,24 +52,34 @@ class App extends React.Component {
       config
     };
 
-    // firecalc://home
-    console.log(linking)
-
     return (
       <NavigationContainer linking={linking}>
         <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home">
-            {() => <HomeScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} onSignout={() => {this.handleSignout()}} {...this.state}/>}
-          </Stack.Screen>
-          <Stack.Screen name="UserSignup">
-            {() => <UserSignupScreen navigation={useNavigation()} {...this.state}/>}
-          </Stack.Screen>
-          <Stack.Screen name="Config">
-            {() => <ConfigScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} {...this.state}/>}
-          </Stack.Screen>
-          <Stack.Screen name="RetirementAssetConfig">
-            {() => <RetirementAssetConfigScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} {...this.state}/>}
-          </Stack.Screen>
+          {this.state.jwtToken == "" ? (
+            <>
+              <Stack.Screen name="UserSignin">
+                {() => <UserSigninScreen navigation={useNavigation()} {...this.state} setToken={(token) => {this.setToken(token)}} />}
+              </Stack.Screen>
+              <Stack.Screen name="UserSignup">
+                {() => <UserSignupScreen navigation={useNavigation()} {...this.state}/>}
+              </Stack.Screen>
+            </>
+          ) : (
+            <>
+              <Stack.Screen name="Home">
+                {() => <HomeScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} onSignout={() => {this.handleSignout()}} {...this.state}/>}
+              </Stack.Screen>
+
+              <Stack.Screen name="Config">
+                {() => <ConfigScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} {...this.state}/>}
+              </Stack.Screen>
+              <Stack.Screen name="RetirementAssetConfig">
+                {() => <RetirementAssetConfigScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} {...this.state}/>}
+              </Stack.Screen>
+            </>
+          )
+        }
+
         </Stack.Navigator>
       </NavigationContainer>
     );
