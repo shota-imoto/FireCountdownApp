@@ -18,7 +18,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "firecalc"
+      "bundleIdentifier": "firecountdownapp"
     },
     "android": {
       "adaptiveIcon": {

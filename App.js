@@ -47,7 +47,7 @@ class App extends React.Component {
       }
     }
     const linking = {
-      prefixes: ['firecalc://'],
+      prefixes: ['firecountdownapp://'],
       config
     };
 
