@@ -1,8 +1,6 @@
 import React from 'react';
 import { SafeAreaView, View, StyleSheet, Text, Button } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import Modal from './components/modal.js'
-import SigninForm from './views/SigninForm.js'
 
 function Item(props) {
   return (
@@ -50,32 +48,17 @@ const UserName = ({username}) => (
 );
 
 function Header(props) {
-  if (props.jwtToken) {
-    return (
-      <View>
-        <UserName username={props.username}></UserName>
-        <View style={styles.headerMenu}>
-          <Button
-            title ="ログアウト"
-            onPress={() => {props.onSignout()}}
-          />
-        </View>
-      </View>
-    );
-  } else {
-    return (
+  return (
+    <View>
+      <UserName username={props.username}></UserName>
       <View style={styles.headerMenu}>
         <Button
-          title="ユーザー登録"
-          onPress={() => {props.onPress()}}
-        />
-        <Button
-          title ="ログイン"
-          onPress={() => {props.onSignin()}}
+          title ="ログアウト"
+          onPress={() => {props.onSignout()}}
         />
       </View>
-    )
-  }
+    </View>
+  );
 };
 
 function ItemList(props) {
@@ -109,7 +92,11 @@ class HomeScreen extends React.Component {
 
   componentDidMount() {
     // home画面の初期表示。↓単体だと、コード更新後のリフレッシュで呼ばれない
-    if (this.props.jwtToken) {this.fetchData()}
+    if (this.props.jwtToken) {
+      this.fetchData()
+    } else {
+      this.props.navigation.navigate('UserSignin')
+    }
 
     // home画面のリレンダリング時
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
@@ -161,10 +148,7 @@ class HomeScreen extends React.Component {
     return (
       <SafeAreaView style={styles.screen}>
         <Header
-          onPress={() => {this.props.navigation.navigate('UserSignup')}}
-          onSignin={() => {this.refs.modal.toggleVisible()}}
           onSignout={() => {this.props.onSignout()}}
-          jwtToken={this.props.jwtToken}
           username={this.state.username}
         />
         <Content
@@ -175,17 +159,6 @@ class HomeScreen extends React.Component {
           onPressConfig={() => {this.props.navigation.navigate('Config')}}
           onPressRetirementAssetConfig={() => {this.props.navigation.navigate('RetirementAssetConfig')}}
           jwtToken={this.props.jwtToken}
-        />
-        <Modal
-          ref='modal'
-          content={
-            <SigninForm
-              rootPath={this.props.rootPath}
-              setToken={(token) => {this.props.setToken(token)}}
-              toggleVisible={() => {this.refs.modal.toggleVisible()}}
-              fetchData={() => {this.fetchData()}}
-            />
-          }
         />
       </SafeAreaView>
     );
