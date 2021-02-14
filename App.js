@@ -2,6 +2,7 @@ import React from 'react';
 
 import { NavigationContainer, useLinkProps, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import * as Linking from 'expo-linking';
 import HomeScreen from './homeScreen.js';
 import UserSignupScreen from './userSignupScreen.js';
 import ConfigScreen from './configScreen.js';
@@ -40,8 +41,21 @@ class App extends React.Component {
   }
 
   render() {
+    const config = {
+      screens: {
+        Home: 'home'
+      }
+    }
+    const linking = {
+      prefixes: ['firecountdownapp://'],
+      config
+    };
+
+    // firecalc://home
+    console.log(linking)
+
     return (
-      <NavigationContainer>
+      <NavigationContainer linking={linking}>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home">
             {() => <HomeScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} onSignout={() => {this.handleSignout()}} {...this.state}/>}
