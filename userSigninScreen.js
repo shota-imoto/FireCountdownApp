@@ -1,6 +1,18 @@
 import React from 'react';
-import { SafeAreaView, View, Button, StyleSheet, Text, TextInput } from 'react-native';
-import TextInputComponent from './components/textInputComponent.js'
+import { SafeAreaView, View, Button, StyleSheet, Text, ImageBackground } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import TextInputComponent from './components/textInputComponent.js';
+
+const TitleLogo = () => (
+  <View style={styles.titleWrapper}>
+    <View>
+      <Text style={textTitleMain}>F.I.R.E</Text>
+    </View>
+    <View>
+      <Text style={textTitleSub}>Countdown App</Text>
+    </View>
+  </View>
+)
 
 class UserSigninScreen extends React.Component {
   constructor(props) {
@@ -59,35 +71,45 @@ class UserSigninScreen extends React.Component {
 
 
   render() {
+    const backgroundImage = require('./assets/background_img.jpg')
+
     return (
-        <View>
-          <View style={ styles.textFormBox }>
-            <Text style={ styles.text }>メールアドレス</Text>
+        <View style={styles.wrapper}>
+          <ImageBackground source={backgroundImage} style={styles.backgroundImage}/>
+          <TitleLogo />
+          <View style={ styles.formWrapper }>
+            <Text style={ styles.formText }>メールアドレス</Text>
             <TextInputComponent
               value={ this.state.email }
               onChangeText={(text) => this.handleChangeEmail(text)}
               type='email'
             />
           </View>
-          <View style={ styles.textFormBox }>
-            <Text style={ styles.text }>パスワード</Text>
+          <View style={ styles.formWrapper }>
+            <Text style={ styles.formText }>パスワード</Text>
             <TextInputComponent
               value={ this.state.password }
               onChangeText={(text) => this.handleChangePassword(text)}
               type='password'
             />
           </View>
-          <View style={ styles.submitBox }>
-            <Button
-              title={ 'ログイン' }
-              onPress={() => {this.handlePress(this.props)} }
-            />
-          </View>
-          <View>
-            <Button
-              title="ユーザー登録"
-              onPress={() => {this.props.navigation.navigate('UserSignup')}}
-            />
+          <View style={ styles.buttonWrapper }>
+            <View>
+              <TouchableOpacity
+                style={buttonYellow}
+                onPress={() => {this.handlePress(this.props)} }
+              >
+                <Text style={styles.buttonYellowText}>ログイン</Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {this.props.navigation.navigate('UserSignup')}}
+              >
+                <Text style={styles.buttonText}>新規登録</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
     )
@@ -95,18 +117,74 @@ class UserSigninScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  text: {
-    width: 140,
-    paddingVertical: 10,
-    textAlign: 'left'
+  backgroundImage: {
+    ...StyleSheet.absoluteFillObject,
+    top: -270,
+    left: -340,
+    width: 1100
   },
-  textFormBox: {
-    margin: 10,
-    alignItems: 'flex-start'
-  },
-  submitBox: {
+  wrapper: {
+    ...StyleSheet.absoluteFillObject,
+    padding: 40,
     alignItems: 'center'
-  }
+  },
+  titleWrapper: {
+    marginTop: 30,
+    marginBottom: 20,
+    width: 310
+  },
+  textTitleCommon: {
+    fontFamily: 'Fira Sans',
+    color: '#ffffff'
+  },
+  textTitleMain: {
+    fontSize: 120,
+    textAlign: 'center'
+  },
+  textTitleSub: {
+    fontSize: 43,
+    textAlign: 'center'
+  },
+  formWrapper: {
+    marginVertical: 'auto',
+    width: 310,
+  },
+  formText: {
+    paddingVertical: 10,
+    width: 140,
+    textAlign: 'left',
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#ffffff'
+  },
+  buttonWrapper: {
+    marginTop: 20,
+    width: 310,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  button: {
+    marginTop: 20,
+    height: 40,
+    width: 140,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  buttonYellow: {
+    borderRadius: 8,
+    backgroundColor: '#edb413'
+  },
+  buttonText: {
+    fontSize: 26,
+    color: '#555555'
+  },
+  buttonYellowText: {
+    fontSize: 26,
+    color: '#ffffff',
+  },
 })
 
+const textTitleMain = StyleSheet.compose(styles.textTitleMain, styles.textTitleCommon)
+const textTitleSub = StyleSheet.compose(styles.textTitleSub, styles.textTitleCommon)
+const buttonYellow = StyleSheet.compose(styles.button, styles.buttonYellow)
 export default UserSigninScreen;
