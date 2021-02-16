@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { NavigationContainer, useLinkProps, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as Linking from 'expo-linking';
@@ -56,6 +55,7 @@ class App extends React.Component {
       prefixes: ['firecountdownapp://'],
       config
     };
+
 
     return (
       <NavigationContainer linking={linking}>
