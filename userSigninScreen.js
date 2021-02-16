@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextInputComponent from './components/textInputComponent.js';
 
 const TitleLogo = () => (
-  <View style={styles.titleWrapper}>
+  <View style={titleStyle.wrapper}>
     <View>
       <Text style={textTitleMain}>F.I.R.E</Text>
     </View>
@@ -71,43 +71,42 @@ class UserSigninScreen extends React.Component {
 
 
   render() {
-    const backgroundImage = require('./assets/background_img.jpg')
 
     return (
         <View style={styles.wrapper}>
           <ImageBackground source={backgroundImage} style={styles.backgroundImage}/>
           <TitleLogo />
-          <View style={ styles.formWrapper }>
-            <Text style={ styles.formText }>メールアドレス</Text>
+          <View style={ formStyle.wrapper }>
+            <Text style={ formStyle.text }>メールアドレス</Text>
             <TextInputComponent
               value={ this.state.email }
               onChangeText={(text) => this.handleChangeEmail(text)}
               type='email'
             />
           </View>
-          <View style={ styles.formWrapper }>
-            <Text style={ styles.formText }>パスワード</Text>
+          <View style={ formStyle.wrapper }>
+            <Text style={ formStyle.text }>パスワード</Text>
             <TextInputComponent
               value={ this.state.password }
               onChangeText={(text) => this.handleChangePassword(text)}
               type='password'
             />
           </View>
-          <View style={ styles.buttonWrapper }>
+          <View style={ btnStyle.wrapper }>
             <View>
               <TouchableOpacity
-                style={buttonYellow}
+                style={btnYellow}
                 onPress={() => {this.handlePress(this.props)} }
               >
-                <Text style={styles.buttonYellowText}>ログイン</Text>
+                <Text style={btnStyle.textYellow}>ログイン</Text>
               </TouchableOpacity>
             </View>
             <View>
               <TouchableOpacity
-                style={styles.button}
+                style={btnStyle.btn}
                 onPress={() => {this.props.navigation.navigate('UserSignup')}}
               >
-                <Text style={styles.buttonText}>新規登録</Text>
+                <Text style={btnStyle.text}>新規登録</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -115,6 +114,10 @@ class UserSigninScreen extends React.Component {
     )
   }
 }
+
+// StyleSheet
+
+const backgroundImage = require('./assets/background_img.jpg')
 
 const styles = StyleSheet.create({
   backgroundImage: {
@@ -128,63 +131,73 @@ const styles = StyleSheet.create({
     padding: 40,
     alignItems: 'center'
   },
-  titleWrapper: {
+})
+
+const titleStyle = StyleSheet.create({
+  wrapper: {
     marginTop: 30,
     marginBottom: 20,
     width: 310
   },
-  textTitleCommon: {
-    fontFamily: 'Fira Sans',
+  textCommon: {
     color: '#ffffff'
   },
-  textTitleMain: {
+  textMain: {
     fontSize: 120,
     textAlign: 'center'
   },
-  textTitleSub: {
+  textSub: {
     fontSize: 43,
     textAlign: 'center'
-  },
-  formWrapper: {
-    marginVertical: 'auto',
-    width: 310,
-  },
-  formText: {
-    paddingVertical: 10,
-    width: 140,
-    textAlign: 'left',
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#ffffff'
-  },
-  buttonWrapper: {
+  }
+})
+
+const textTitleMain = StyleSheet.compose(titleStyle.textMain, titleStyle.textCommon)
+const textTitleSub = StyleSheet.compose(titleStyle.textSub, titleStyle.textCommon)
+
+const btnStyle = StyleSheet.create ({
+  wrapper: {
     marginTop: 20,
     width: 310,
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
-  button: {
+  btn: {
     marginTop: 20,
     height: 40,
     width: 140,
     alignItems: 'center',
     justifyContent: 'center'
   },
-  buttonYellow: {
+  btnYellow: {
     borderRadius: 8,
     backgroundColor: '#edb413'
   },
-  buttonText: {
+  text: {
     fontSize: 26,
     color: '#555555'
   },
-  buttonYellowText: {
+  textYellow: {
     fontSize: 26,
     color: '#ffffff',
   },
 })
 
-const textTitleMain = StyleSheet.compose(styles.textTitleMain, styles.textTitleCommon)
-const textTitleSub = StyleSheet.compose(styles.textTitleSub, styles.textTitleCommon)
-const buttonYellow = StyleSheet.compose(styles.button, styles.buttonYellow)
+const btnYellow = StyleSheet.compose(btnStyle.btn, btnStyle.btnYellow)
+
+const formStyle = StyleSheet.create ({
+  wrapper: {
+    marginVertical: 'auto',
+    width: 310,
+  },
+  text: {
+    paddingVertical: 10,
+    width: 140,
+    textAlign: 'left',
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#ffffff'
+  }
+})
+
 export default UserSigninScreen;
