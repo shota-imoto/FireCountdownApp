@@ -27,6 +27,11 @@ class App extends React.Component {
     this.setState({
       rootPath: this.state.protcol + this.state.hostDomain + '/api/' + this.state.apiVersion +'/'
     });
+    Linking.addEventListener('url', this.handleLink())
+  }
+
+  handleLink() {
+    alert('本登録が完了しました。登録したメールアドレスとパスワードを入力してログインしてください')
   }
 
   setToken(token) {
