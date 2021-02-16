@@ -41,14 +41,13 @@ class TextInputComponent extends React.Component {
 }
 
 const styles = StyleSheet.create({
-
   textForm: {
-    padding: 3,
+    padding: 8,
     height: 42,
     width: 310,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderRadius: 8,
-    fontSize: 18
+    fontSize: 18,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
   },
 })
 
