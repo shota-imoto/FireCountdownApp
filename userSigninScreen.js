@@ -71,7 +71,6 @@ class UserSigninScreen extends React.Component {
 
 
   render() {
-
     return (
         <View style={styles.wrapper}>
           <ImageBackground source={backgroundImage} style={styles.backgroundImage}/>
