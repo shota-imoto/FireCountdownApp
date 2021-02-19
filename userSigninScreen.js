@@ -43,7 +43,6 @@ class UserSigninScreen extends React.Component {
         "password" : this.state.password
       }
     }
-    const errorMessage = (props) => "通信エラー しばらくお待ちいただき、再度お試しください (何度か試してもうまく行かない場合は次のエラーメッセージを管理者に連絡ください) <エラーメッセージ> " + props
 
     fetch(url, {
       method: 'POST',
@@ -53,22 +52,18 @@ class UserSigninScreen extends React.Component {
       body: JSON.stringify(data)
     }).then(res => {
       const token = res.headers.map["x-authentication-token"];
-      this.props.setToken(token);
+      if (token) {this.props.setToken(token)}
       return res.json()
     }).then(body => {
       const status = body.data.attributes.status;
       const message = body.data.attributes.message;
       if (status == 'success') {
         alert('ログインしました')
-        this.props.toggleVisible();
-        this.props.fetchData();
       } else if (status == 'error') {
         alert(message)
-        // TODO: アラートの順番変更、日本語化
       }
     })
   }
-
 
   render() {
     return (
