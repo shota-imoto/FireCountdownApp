@@ -67,7 +67,7 @@ class ResetPasswordScreen extends React.Component {
         </View>
         <View style={ styles.submitBox }>
           <Button
-            title={ '登録する' }
+            title={ '変更する' }
             onPress={() => {this.handlePress(this.state)} }
           />
         </View>
