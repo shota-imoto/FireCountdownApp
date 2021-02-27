@@ -7,6 +7,13 @@ import UserSignupScreen from './userSignupScreen.js';
 import UserSigninScreen from './userSigninScreen.js';
 import ConfigScreen from './configScreen.js';
 import RetirementAssetConfigScreen from './retirementAssetConfigScreen.js';
+import Url from 'url-parse';
+import { Buffer } from 'buffer';
+import { Encoding } from 'encoding-japanese';
+
+// UTF-8デコード
+const encoding = require('encoding-japanese');
+// const encoding = Encoding
 
 const Stack = createStackNavigator();
 
@@ -23,14 +30,25 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+
+
     this.setState({
       rootPath: this.state.protcol + this.state.hostDomain + '/api/' + this.state.apiVersion +'/'
     });
-    Linking.addEventListener('url', this.handleLink())
+    Linking.addEventListener('url', this.handleLink)
   }
 
-  handleLink() {
-    alert('本登録が完了しました。登録したメールアドレスとパスワードを入力してログインしてください')
+  handleLink(e) {
+    const str=decodeURI(e.url)
+    const url = new Url(str);
+    const query = url.query.slice(1).split('&')
+    const queryObject = query.reduce((result, val, i) => {
+      const index = val.indexOf('=')
+      const key = val.slice(0, index)
+      result[key] = val.slice(index + 1)
+      return result
+    }, {})
+    alert(queryObject.message)
   }
 
   setToken(token) {
@@ -48,7 +66,7 @@ class App extends React.Component {
   render() {
     const config = {
       screens: {
-        Home: 'home'
+        UserSignin: 'home'
       }
     }
     const linking = {
