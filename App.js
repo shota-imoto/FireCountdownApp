@@ -8,6 +8,12 @@ import UserSigninScreen from './userSigninScreen.js';
 import ConfigScreen from './configScreen.js';
 import RetirementAssetConfigScreen from './retirementAssetConfigScreen.js';
 import Url from 'url-parse';
+import { Buffer } from 'buffer';
+import { Encoding } from 'encoding-japanese';
+
+// UTF-8デコード
+const encoding = require('encoding-japanese');
+// const encoding = Encoding
 
 const Stack = createStackNavigator();
 
@@ -24,21 +30,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const str = 'http://google.com?status=success&message=%E3%81%99%E3%81%A7%E3%81%AB%E6%9C%AC%E7%99%BB%E9%8C%B2%E3%81%8C%E5%AE%8C%E4%BA%86%E3%81%97%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99';
-    const url = new Url(str);
-    const query = url.query.slice(1).split('&')
-    const queryObject = query.reduce((result, val, i) => {
-      const index = val.indexOf('=')
-      const key = val.slice(0, index)
-      result[key] = val.slice(index + 1, -1)
-      return result
-    }, {})
-    const message = queryObject.message
-    // console.log(url.constructor.name)
-    // const queryStrings = url.search;
-    console.log(message)
-    // const message = queryStrings.get('message')
-    // console.log(message)
+
 
     this.setState({
       rootPath: this.state.protcol + this.state.hostDomain + '/api/' + this.state.apiVersion +'/'
@@ -47,12 +39,16 @@ class App extends React.Component {
   }
 
   handleLink(e) {
-    // const url = 'firecountdownapp://home?status=success&message=%E3%81%99%E3%81%A7%E3%81%AB%E6%9C%AC%E7%99%BB%E9%8C%B2%E3%81%8C%E5%AE%8C%E4%BA%86%E3%81%97%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99'
-    // const params = url.replace(/.+:\/\//, '')
-
-    // alert('ok')
-    // alert(params)
-    // alert('本登録が完了しました。登録したメールアドレスとパスワードを入力してログインしてください')
+    const str=decodeURI(e.url)
+    const url = new Url(str);
+    const query = url.query.slice(1).split('&')
+    const queryObject = query.reduce((result, val, i) => {
+      const index = val.indexOf('=')
+      const key = val.slice(0, index)
+      result[key] = val.slice(index + 1)
+      return result
+    }, {})
+    alert(queryObject.message)
   }
 
   setToken(token) {
