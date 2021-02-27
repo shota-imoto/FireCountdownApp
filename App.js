@@ -79,7 +79,7 @@ class App extends React.Component {
 
     return (
       <NavigationContainer linking={linking}>
-        <Stack.Navigator initialRouteName="ResetPassword">
+        <Stack.Navigator initialRouteName="Home">
           {this.state.jwtToken == "" ? (
             <>
               <Stack.Screen name="UserSignin">
