@@ -68,7 +68,8 @@ class App extends React.Component {
   render() {
     const config = {
       screens: {
-        UserSignin: 'home'
+        UserSignin: 'home',
+        ResetPassword: 'reset_password'
       }
     }
     const linking = {
