@@ -39,6 +39,7 @@ class App extends React.Component {
   }
 
   handleLink(e) {
+    // FIXME: アプリが起動されていない状態で本登録をタップしたときに、イベントリスナーが機能しない不具合
     const str=decodeURI(e.url)
     const url = new Url(str);
     const query = url.query.slice(1).split('&')
