@@ -6,6 +6,7 @@ import HomeScreen from './homeScreen.js';
 import UserSignupScreen from './userSignupScreen.js';
 import UserSigninScreen from './userSigninScreen.js';
 import ConfigScreen from './configScreen.js';
+import ResetPasswordScreen from './resetPasswordScreen.js';
 import RetirementAssetConfigScreen from './retirementAssetConfigScreen.js';
 import Url from 'url-parse';
 import { Buffer } from 'buffer';
@@ -86,6 +87,9 @@ class App extends React.Component {
               </Stack.Screen>
               <Stack.Screen name="UserSignup">
                 {() => <UserSignupScreen navigation={useNavigation()} {...this.state}/>}
+              </Stack.Screen>
+              <Stack.Screen name="ResetPassword">
+                {() => <ResetPasswordScreen navigation={useNavigation()} {...this.state}/>}
               </Stack.Screen>
             </>
           ) : (
