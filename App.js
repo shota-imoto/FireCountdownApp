@@ -28,8 +28,9 @@ class App extends React.Component {
       jwtToken: "",
       linkingUrl: null,
       linkingHostname: null,
-      linkingParams: null
-
+      linkingParams: null,
+      email: null,
+      password: null,
     };
     // this.handleLink = this.handleLink.bind(this)
   }
@@ -66,6 +67,18 @@ class App extends React.Component {
     })
   }
 
+  handleChangeEmail(text) {
+    this.setState({
+      email: text
+    });
+  };
+
+  handleChangePassword(text) {
+    this.setState({
+      password: text
+    });
+  }
+
   render() {
     const config = {
       screens: {
@@ -85,7 +98,7 @@ class App extends React.Component {
           {this.state.jwtToken == "" ? (
             <>
               <Stack.Screen name="UserSignin">
-                {() => <UserSigninScreen navigation={useNavigation()} {...this.state} setToken={(token) => {this.setToken(token)} } />}
+                {() => <UserSigninScreen navigation={useNavigation()} {...this.state} setToken={(token) => {this.setToken(token)}} onChangeEmail={(text) => {this.handleChangeEmail(text)}} onChangePassword={(text) => {this.handleChangePassword(text)}}/>}
               </Stack.Screen>
               <Stack.Screen name="UserSignup">
                 {() => <UserSignupScreen navigation={useNavigation()} {...this.state}/>}
