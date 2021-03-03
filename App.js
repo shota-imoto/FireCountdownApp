@@ -31,6 +31,7 @@ class App extends React.Component {
       linkingParams: null,
       email: null,
       password: null,
+      password_confirmation: null
     };
     // this.handleLink = this.handleLink.bind(this)
   }
@@ -79,6 +80,12 @@ class App extends React.Component {
     });
   }
 
+  handleChangePasswordConfirmation(text) {
+    this.setState({
+      password_confirmation: text
+    });
+  }
+
   render() {
     const config = {
       screens: {
@@ -94,7 +101,7 @@ class App extends React.Component {
 
     return (
       <NavigationContainer linking={linking}>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="ResetPassword">
           {this.state.jwtToken == "" ? (
             <>
               <Stack.Screen name="UserSignin">
@@ -104,7 +111,7 @@ class App extends React.Component {
                 {() => <UserSignupScreen navigation={useNavigation()} {...this.state}/>}
               </Stack.Screen>
               <Stack.Screen name="ResetPassword">
-                {() => <ResetPasswordScreen navigation={useNavigation()} {...this.state}/>}
+                {() => <ResetPasswordScreen navigation={useNavigation()} {...this.state} onChangePassword={(text) => {this.handleChangePassword(text)}} onChangePasswordConfirmation={(text) => {this.handleChangePasswordConfirmation(text)}}/>}
               </Stack.Screen>
             </>
           ) : (
