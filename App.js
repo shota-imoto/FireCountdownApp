@@ -29,6 +29,7 @@ class App extends React.Component {
       linkingUrl: null,
       linkingHostname: null,
       linkingParams: null,
+      nickname: null,
       email: null,
       password: null,
       password_confirmation: null
@@ -68,6 +69,12 @@ class App extends React.Component {
     })
   }
 
+  handleChangeNickname(text) {
+    this.setState({
+      nickname: text
+    });
+  };
+
   handleChangeEmail(text) {
     this.setState({
       email: text
@@ -101,14 +108,14 @@ class App extends React.Component {
 
     return (
       <NavigationContainer linking={linking}>
-        <Stack.Navigator initialRouteName="ResetPassword">
+        <Stack.Navigator initialRouteName="UserSignup">
           {this.state.jwtToken == "" ? (
             <>
               <Stack.Screen name="UserSignin">
                 {() => <UserSigninScreen navigation={useNavigation()} {...this.state} setToken={(token) => {this.setToken(token)}} onChangeEmail={(text) => {this.handleChangeEmail(text)}} onChangePassword={(text) => {this.handleChangePassword(text)}}/>}
               </Stack.Screen>
               <Stack.Screen name="UserSignup">
-                {() => <UserSignupScreen navigation={useNavigation()} {...this.state}/>}
+                {() => <UserSignupScreen navigation={useNavigation()} {...this.state} onChangeNickname={(text) => {this.handleChangeNickname(text)}} onChangeEmail={(text) => {this.handleChangeEmail(text)}} onChangePassword={(text) => {this.handleChangePassword(text)}} onChangePasswordConfirmation={(text) => {this.handleChangePasswordConfirmation(text)}}/>}
               </Stack.Screen>
               <Stack.Screen name="ResetPassword">
                 {() => <ResetPasswordScreen navigation={useNavigation()} {...this.state} onChangePassword={(text) => {this.handleChangePassword(text)}} onChangePasswordConfirmation={(text) => {this.handleChangePasswordConfirmation(text)}}/>}
