@@ -2,6 +2,9 @@ import React from 'react';
 import { SafeAreaView, View, Button, StyleSheet, Text, ImageBackground } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextInputComponent from './components/textInputComponent.js';
+import * as Linking from 'expo-linking';
+import Url from 'url-parse';
+import { Buffer } from 'buffer';
 
 const TitleLogo = () => (
   <View style={titleStyle.wrapper}>
@@ -65,6 +68,55 @@ class UserSigninScreen extends React.Component {
     })
   }
 
+  componentDidMount() {
+    if (this.props.linkingHostname == 'home') {
+      this.handleLinkSignUp()
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.linkingHostname == 'home') {
+      this.handleLinkSignUp()
+    }
+  }
+
+  handleLinkSignin() {
+  }
+
+
+  componentWillUnmount() {
+  }
+
+  handleLinkSignUp() {
+    alert(this.props.linkingHostname)
+    alert(this.props.linkingParams.message)
+    alert('props.linkingUrl')
+    // alert(this.props.linkingUrl)
+    // alert('url')
+    // alert(url)
+    // alert('url.query')
+    // alert(url.query)
+    // const urlobj = new Url(url)
+    // alert('urlobj')
+    // alert(urlobj.query)
+
+
+
+    // FIXME: アプリが起動されていない状態で本登録をタップしたときに、イベントリスナーが機能しない不具合
+    // const query = this.props.linkingQuery.slice(1).split('&')
+    // alert('1')
+
+    // const queryObject = query.reduce((result, val, i) => {
+    //   const index = val.indexOf('=')
+    //   const key = val.slice(0, index)
+    //   result[key] = val.slice(index + 1)
+    //   return result
+    // }, {})
+    // alert('2')
+
+    // alert(queryObject.message)
+  }
+
   render() {
     return (
         <View style={styles.wrapper}>
@@ -125,6 +177,9 @@ const styles = StyleSheet.create({
     padding: 40,
     alignItems: 'center'
   },
+  listner: {
+    display: 'none'
+  }
 })
 
 const titleStyle = StyleSheet.create({

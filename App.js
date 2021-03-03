@@ -8,12 +8,11 @@ import UserSigninScreen from './userSigninScreen.js';
 import ConfigScreen from './configScreen.js';
 import ResetPasswordScreen from './resetPasswordScreen.js';
 import RetirementAssetConfigScreen from './retirementAssetConfigScreen.js';
-import Url from 'url-parse';
-import { Buffer } from 'buffer';
-import { Encoding } from 'encoding-japanese';
+import UrlParser from './lib/url.js';
+
 
 // UTF-8デコード
-const encoding = require('encoding-japanese');
+// const encoding = require('encoding-japanese');
 // const encoding = Encoding
 
 const Stack = createStackNavigator();
@@ -26,12 +25,19 @@ class App extends React.Component {
       hostDomain: 'localhost:3000',
       apiVersion: 'v1',
       rootPath: null,
-      jwtToken: ""
-    }
+      jwtToken: "",
+      linkingUrl: null,
+      linkingHostname: null,
+      linkingParams: null
+
+    };
+    // this.handleLink = this.handleLink.bind(this)
   }
 
   componentDidMount() {
-
+    // console.log('App did mount')
+    // var string = decodeURI('firecalc://home?status=error&message=%E7%99%BB%E9%8C%B2%E7%A2%BA%E8%AA%8D%E3%83%A1%E3%83%BC%E3%83%AB%E3%81%AE%E6%9C%9F%E9%99%90%E3%81%8C%E5%88%87%E3%82%8C%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99')
+    // const url = new UrlParser(string);
 
     this.setState({
       rootPath: this.state.protcol + this.state.hostDomain + '/api/' + this.state.apiVersion +'/'
@@ -40,17 +46,12 @@ class App extends React.Component {
   }
 
   handleLink(e) {
-    // FIXME: アプリが起動されていない状態で本登録をタップしたときに、イベントリスナーが機能しない不具合
     const str=decodeURI(e.url)
-    const url = new Url(str);
-    const query = url.query.slice(1).split('&')
-    const queryObject = query.reduce((result, val, i) => {
-      const index = val.indexOf('=')
-      const key = val.slice(0, index)
-      result[key] = val.slice(index + 1)
-      return result
-    }, {})
-    alert(queryObject.message)
+    const url = new UrlParser(str);
+    this.setState({
+      linkingHostname: url.hostname,
+      linkingParams: url.params
+    })
   }
 
   setToken(token) {
@@ -74,7 +75,7 @@ class App extends React.Component {
     }
     const linking = {
       prefixes: ['firecountdownapp://'],
-      config
+      config,
     };
 
 
@@ -84,7 +85,7 @@ class App extends React.Component {
           {this.state.jwtToken == "" ? (
             <>
               <Stack.Screen name="UserSignin">
-                {() => <UserSigninScreen navigation={useNavigation()} {...this.state} setToken={(token) => {this.setToken(token)}} />}
+                {() => <UserSigninScreen navigation={useNavigation()} {...this.state} setToken={(token) => {this.setToken(token)} } />}
               </Stack.Screen>
               <Stack.Screen name="UserSignup">
                 {() => <UserSignupScreen navigation={useNavigation()} {...this.state}/>}
