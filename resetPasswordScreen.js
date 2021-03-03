@@ -1,6 +1,10 @@
 import React from 'react';
 import { SafeAreaView, View, StyleSheet, Text, Button } from 'react-native';
 import TextInputComponent from './components/textInputComponent.js'
+import * as Linking from 'expo-linking';
+import Url from 'url-parse';
+
+
 
 class ResetPasswordScreen extends React.Component {
   constructor(props) {
@@ -45,6 +49,29 @@ class ResetPasswordScreen extends React.Component {
       alert('reset_password!!')
     })
   }
+
+  componentDidMount() {
+    alert('didmount: ' + this.props.linkingUrl)
+    alert(this.props.linkingUrl.query)
+    // alert(this.props.linkingUrl)
+    // if (this.props.linkingUrl == null) {return}
+    if (this.props.linkingUrl.hostname == 'reset_password') {
+      this.handleLinkResetPassword()
+    }
+  }
+
+  componentDidUpdate() {
+    alert('didupdate: ' + this.props.linkingUrl)
+  }
+
+  componentWillUnmount() {
+    // this.props.resetLinkingUrl
+  }
+
+  handleLinkResetPassword() {
+    alert('reset password callback')
+  }
+
 
   render() {
     return (
