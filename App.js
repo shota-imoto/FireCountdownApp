@@ -34,11 +34,10 @@ class App extends React.Component {
       password: null,
       password_confirmation: null
     };
-    // this.handleLink = this.handleLink.bind(this)
+    this.clearUserInput = this.clearUserInput.bind(this);
   }
 
   componentDidMount() {
-    // console.log('App did mount')
     // var string = decodeURI('firecalc://home?status=error&message=%E7%99%BB%E9%8C%B2%E7%A2%BA%E8%AA%8D%E3%83%A1%E3%83%BC%E3%83%AB%E3%81%AE%E6%9C%9F%E9%99%90%E3%81%8C%E5%88%87%E3%82%8C%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99')
     // const url = new UrlParser(string);
 
@@ -93,6 +92,15 @@ class App extends React.Component {
     });
   }
 
+  clearUserInput() {
+    this.setState({
+      nickname: null,
+      email: null,
+      password: null,
+      password_confirmation: null
+    });
+  }
+
   render() {
     const config = {
       screens: {
@@ -115,7 +123,7 @@ class App extends React.Component {
                 {() => <UserSigninScreen navigation={useNavigation()} {...this.state} setToken={(token) => {this.setToken(token)}} onChangeEmail={(text) => {this.handleChangeEmail(text)}} onChangePassword={(text) => {this.handleChangePassword(text)}}/>}
               </Stack.Screen>
               <Stack.Screen name="UserSignup">
-                {() => <UserSignupScreen navigation={useNavigation()} {...this.state} onChangeNickname={(text) => {this.handleChangeNickname(text)}} onChangeEmail={(text) => {this.handleChangeEmail(text)}} onChangePassword={(text) => {this.handleChangePassword(text)}} onChangePasswordConfirmation={(text) => {this.handleChangePasswordConfirmation(text)}}/>}
+                {() => <UserSignupScreen navigation={useNavigation()} {...this.state} onChangeNickname={(text) => {this.handleChangeNickname(text)}} onChangeEmail={(text) => {this.handleChangeEmail(text)}} onChangePassword={(text) => {this.handleChangePassword(text)}} onChangePasswordConfirmation={(text) => {this.handleChangePasswordConfirmation(text)}} onClearInput={this.clearUserInput}/>}
               </Stack.Screen>
               <Stack.Screen name="ResetPassword">
                 {() => <ResetPasswordScreen navigation={useNavigation()} {...this.state} onChangePassword={(text) => {this.handleChangePassword(text)}} onChangePasswordConfirmation={(text) => {this.handleChangePasswordConfirmation(text)}}/>}

@@ -13,8 +13,7 @@ function handlePress(props) {
     }
   }
 
-  console.log(url)
-  console.log(data)
+
   const errorMessage = (props) =>  "通信エラー しばらくお待ちいただき、再度お試しください (何度か試してもうまく行かない場合は次のエラーメッセージを管理者に連絡ください) <エラーメッセージ> " + props
   fetch(url, {
     method: 'POST',
@@ -27,9 +26,10 @@ function handlePress(props) {
     const status = result.data.attributes.status;
     const message = result.data.attributes.message;
     if (status == 'success') {
+      props.onClearInput()
+      props.navigation.navigate('UserSignin')
       // alert('ユーザー本登録用のメールを送信しました。しばらく経っても届かない場合は再度お試しください')
       alert('ユーザー登録が完了しました')
-      this.props.navigation.navigate('Home')
     } else if (status == 'error') {
       const errorMessage = []
       Object.keys(message).forEach(key => {
@@ -87,18 +87,12 @@ function Forms(props) {
   )
 }
 
-class UserSignupScreen extends React.Component {
-  constructor(props) {
-    super(props);
-  };
-
-  render() {
-    return (
-      <View style={ styles.wrapper }>
-        <Forms {...this.props} navigation={this.props.navigation} onChangeNickname={(text) => {this.props.onChangeNickname(text)}} onChangeEmail={(text) => {this.props.onChangeEmail(text)}} onChangePassword={(text) => {this.props.onChangePassword(text)}} onChangePasswordConfirmation={(text) => {this.props.onChangePasswordConfirmation(text)}}/>
-      </View>
-    );
-  }
+function UserSignupScreen (props) {
+  return (
+    <View style={ styles.wrapper }>
+      <Forms {...props} onChangeNickname={(text) => {props.onChangeNickname(text)}} onChangeEmail={(text) => {props.onChangeEmail(text)}} onChangePassword={(text) => {props.onChangePassword(text)}} onChangePasswordConfirmation={(text) => {props.onChangePasswordConfirmation(text)}} onClearInput={() => {props.onClearInput()}}/>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
