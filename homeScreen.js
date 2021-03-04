@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, View, StyleSheet, Text, Button, ImageBackground } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -105,85 +105,44 @@ function Footer(props) {
   )
 }
 
-class HomeScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: null,
-      rest_years: null,
-      rest_months: null,
-      unset_configs: [],
-      mounted: true
-    };
-  }
-
-
-  componentDidMount() {
-    // home画面の初期表示。↓単体だと、コード更新後のリフレッシュで呼ばれない
-    if (this.props.jwtToken) {
-      this.fetchData()
-    } else {
-      this.props.navigation.navigate('UserSignin')
+function fetchData(props) {
+  const url = props.rootPath
+  fetch(url, {
+    headers: {
+      'Authorization': 'Token ' + props.jwtToken
     }
+  })
+  .then(res => res.json())
+  .then((result) => {
+    if (props.mounted) {
+      const messages = result.data.attributes.messages
+      const unset_configs = Object.keys(messages)
 
-    // home画面のリレンダリング時
-    this._unsubscribe = this.props.navigation.addListener('focus', () => {
-      if (this.props.jwtToken) {this.fetchData()}
-    });
-  }
-
-  componentWillUnmount() {
-    this.setState({
-      mounted: false
-    });
-  }
-
-  fetchData() {
-    const url = this.props.rootPath
-    fetch(url, {
-      headers: {
-        'Authorization': 'Token ' + this.props.jwtToken
+      if (!unset_configs.length) {
+        props.setSuccessData(result)
+      } else {
+        props.setErrorData(result)
       }
-    })
-    .then(res => res.json())
-    .then((result) => {
-      if (this.state.mounted) {
-        const messages = result.data.attributes.messages
-        const unset_configs = Object.keys(messages)
+    };
+  });
+}
 
-        if (!unset_configs.length) {
-          this.setState({
-            rest_years: result.data.attributes.asset_years,
-            rest_months: result.data.attributes.asset_months,
-            username: result.included[0].attributes.nickname,
-            messages: null
-          });
-        } else {
-          this.setState({
-            rest_years: null,
-            rest_months: null,
-            username: result.included[0].attributes.nickname,
-            unset_configs: unset_configs
-          })
-        }
-      };
-    });
-  }
+function HomeScreen (props) {
 
-  render() {
-    return (
-      <SafeAreaView style={styles.screen}>
-        <ImageBackground source={backgroundImage} style={styles.backgroundImage}/>
-        <Header/>
-        <Content {...this.state}/>
-        <ItemList
-          onPressConfig={() => {this.props.navigation.navigate('Config')}}
-          onPressRetirementAssetConfig={() => {this.props.navigation.navigate('RetirementAssetConfig')}}
-        />
-        <Footer onSignout={() => {this.props.onSignout()}}/>
-      </SafeAreaView>
-    );
-  }
+  useEffect(() => {fetchData(props)}, [props.config_changed])
+
+  return (
+    <SafeAreaView style={styles.screen}>
+      <ImageBackground source={backgroundImage} style={styles.backgroundImage}/>
+      <Header/>
+      <Content {...props}/>
+      <ItemList
+        onPressConfig={() => {props.navigation.navigate('Config')}}
+        onPressRetirementAssetConfig={() => {props.navigation.navigate('RetirementAssetConfig')}}
+      />
+      <Footer onSignout={() => {props.onSignout()}}/>
+    </SafeAreaView>
+  );
 }
 
 const backgroundImage = require('./assets/background_img.jpg')

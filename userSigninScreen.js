@@ -51,7 +51,6 @@ function handlePress(props) {
       "password" : props.password
     }
   }
-console.log(url)
   fetch(url, {
     method: 'POST',
     headers: {

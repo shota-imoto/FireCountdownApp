@@ -25,14 +25,23 @@ class App extends React.Component {
       hostDomain: 'localhost:3000',
       apiVersion: 'v1',
       rootPath: null,
-      jwtToken: "",
+      // jwtToken: "",
+      jwtToken: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOjE4LCJpYXQiOjE2MTc0OTUwMTh9.BK8J6efrBhqJ7ts2rPMH0hJrEO-9c4LSY6V-a296YM9aDyEJY8n5dY3XFBP2VTn13zi1IfHuuekazhcLCruTavPwsjOZc2Jaluzl4RRHtaZBt9K8xKmrS2a_8jAxaW4TO6jPValhsoIfHpNZDk-krW3TrYKRtngvBqz7QFiLPoGjKr7MzN0j801OgvwnDe7rRVPPBnPPwQApPwLqp5bt4efxlPf6fEqgQIjnbDDHDymO5VcQXgR9o9kgzC781PLE9kBiHeXbsJM08VbaUSpdDdW4lPUU36L7a5X0g5JNdOdgsfuQ1xo156AUZ1NRQcu9UIvbr_BRIj0YE-KjHg",
       linkingUrl: null,
       linkingHostname: null,
       linkingParams: null,
+      // user
       nickname: null,
       email: null,
       password: null,
-      password_confirmation: null
+      password_confirmation: null,
+      // home mount
+      mounted: true,
+      username: null,
+      rest_years: null,
+      rest_months: null,
+      unset_configs: [],
+      config_changed: false
     };
     this.clearUserInput = this.clearUserInput.bind(this);
   }
@@ -101,6 +110,33 @@ class App extends React.Component {
     });
   }
 
+  setSuccessData(result) {
+    this.setState({
+      rest_years: result.data.attributes.asset_years,
+      rest_months: result.data.attributes.asset_months,
+      username: result.included[0].attributes.nickname,
+      messages: null
+    })
+  }
+
+  setErrorData(result) {
+    const messages = result.data.attributes.messages
+    const unset_configs = Object.keys(messages)
+
+    this.setState({
+      rest_years: null,
+      rest_months: null,
+      username: result.included[0].attributes.nickname,
+      unset_configs: unset_configs
+    })
+  }
+
+  notifyConfigChanged() {
+    this.setState({
+      config_changed: !this.state.config_changed
+    })
+  }
+
   render() {
     const config = {
       screens: {
@@ -116,7 +152,7 @@ class App extends React.Component {
 
     return (
       <NavigationContainer linking={linking}>
-        <Stack.Navigator initialRouteName="UserSignup">
+        <Stack.Navigator initialRouteName="Signin">
           {this.state.jwtToken == "" ? (
             <>
               <Stack.Screen name="UserSignin">
@@ -132,7 +168,7 @@ class App extends React.Component {
           ) : (
             <>
               <Stack.Screen name="Home">
-                {() => <HomeScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} onSignout={() => {this.handleSignout()}} {...this.state}/>}
+                {() => <HomeScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} onSignout={() => {this.handleSignout()}} {...this.state} setSuccessData={(props) => {this.setSuccessData(props)}} setErrorData={(props) => {this.setErrorData(props)}}/>}
               </Stack.Screen>
 
               <Stack.Screen name="Config">
