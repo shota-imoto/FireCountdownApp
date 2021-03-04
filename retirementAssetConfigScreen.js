@@ -73,6 +73,7 @@ class RetirementAssetConfigScreen extends React.Component {
       if (status == 'success') {
         alert('設定が完了しました')
         this.props.navigation.navigate('Home')
+        this.props.changeConfig()
       } else {
         const errorMessage = []
         Object.keys(message).forEach(key => {
