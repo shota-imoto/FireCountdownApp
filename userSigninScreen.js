@@ -17,148 +17,102 @@ const TitleLogo = () => (
   </View>
 )
 
-class UserSigninScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: null,
-      password: null,
+function handleLinkSignUp() {
+  // alert('url')
+  // alert(url)
+  // alert('url.query')
+  // alert(url.query)
+  // const urlobj = new Url(url)
+  // alert('urlobj')
+  // alert(urlobj.query)
+
+
+
+  // FIXME: アプリが起動されていない状態で本登録をタップしたときに、イベントリスナーが機能しない不具合
+  // const query = this.props.linkingQuery.slice(1).split('&')
+  // alert('1')
+
+  // const queryObject = query.reduce((result, val, i) => {
+  //   const index = val.indexOf('=')
+  //   const key = val.slice(0, index)
+  //   result[key] = val.slice(index + 1)
+  //   return result
+  // }, {})
+  // alert('2')
+
+  // alert(queryObject.message)
+}
+
+function handlePress(props) {
+  const url = props.rootPath + 'users/sign_in'
+  const data = {
+    "user": {
+      "email" : props.email,
+      "password" : props.password
     }
   }
-
-  handleChangeEmail(text) {
-    this.setState({
-      email: text
-    });
-  };
-
-  handleChangePassword(text) {
-    this.setState({
-      password: text
-    });
-  }
-
-  handlePress(props) {
-    const url = props.rootPath + 'users/sign_in'
-    const data = {
-      "user": {
-        "email" : this.state.email,
-        "password" : this.state.password
-      }
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }).then(res => {
+    const token = res.headers.map["x-authentication-token"];
+    if (token) {props.setToken(token)}
+    return res.json()
+  }).then(body => {
+    const status = body.data.attributes.status;
+    const message = body.data.attributes.message;
+    if (status == 'success') {
+      alert('ログインしました')
+    } else if (status == 'error') {
+      alert(message)
     }
+  })
+}
 
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    }).then(res => {
-      const token = res.headers.map["x-authentication-token"];
-      if (token) {this.props.setToken(token)}
-      return res.json()
-    }).then(body => {
-      const status = body.data.attributes.status;
-      const message = body.data.attributes.message;
-      if (status == 'success') {
-        alert('ログインしました')
-      } else if (status == 'error') {
-        alert(message)
-      }
-    })
-  }
-
-  componentDidMount() {
-    if (this.props.linkingHostname == 'home') {
-      this.handleLinkSignUp()
-    }
-  }
-
-  componentDidUpdate() {
-    if (this.props.linkingHostname == 'home') {
-      this.handleLinkSignUp()
-    }
-  }
-
-  handleLinkSignin() {
-  }
-
-
-  componentWillUnmount() {
-  }
-
-  handleLinkSignUp() {
-    alert(this.props.linkingHostname)
-    alert(this.props.linkingParams.message)
-    alert('props.linkingUrl')
-    // alert(this.props.linkingUrl)
-    // alert('url')
-    // alert(url)
-    // alert('url.query')
-    // alert(url.query)
-    // const urlobj = new Url(url)
-    // alert('urlobj')
-    // alert(urlobj.query)
-
-
-
-    // FIXME: アプリが起動されていない状態で本登録をタップしたときに、イベントリスナーが機能しない不具合
-    // const query = this.props.linkingQuery.slice(1).split('&')
-    // alert('1')
-
-    // const queryObject = query.reduce((result, val, i) => {
-    //   const index = val.indexOf('=')
-    //   const key = val.slice(0, index)
-    //   result[key] = val.slice(index + 1)
-    //   return result
-    // }, {})
-    // alert('2')
-
-    // alert(queryObject.message)
-  }
-
-  render() {
-    return (
-        <View style={styles.wrapper}>
-          <ImageBackground source={backgroundImage} style={styles.backgroundImage}/>
-          <TitleLogo />
-          <View style={ formStyle.wrapper }>
-            <Text style={ formStyle.text }>メールアドレス</Text>
-            <TextInputComponent
-              value={ this.state.email }
-              onChangeText={(text) => this.handleChangeEmail(text)}
-              type='email'
-            />
-          </View>
-          <View style={ formStyle.wrapper }>
-            <Text style={ formStyle.text }>パスワード</Text>
-            <TextInputComponent
-              value={ this.state.password }
-              onChangeText={(text) => this.handleChangePassword(text)}
-              type='password'
-            />
-          </View>
-          <View style={ btnStyle.wrapper }>
-            <View>
-              <TouchableOpacity
-                style={btnYellow}
-                onPress={() => {this.handlePress(this.props)} }
-              >
-                <Text style={btnStyle.textYellow}>ログイン</Text>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity
-                style={btnStyle.btn}
-                onPress={() => {this.props.navigation.navigate('UserSignup')}}
-              >
-                <Text style={btnStyle.text}>新規登録</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+function UserSigninScreen(props) {
+  return (
+    <View style={styles.wrapper}>
+      <ImageBackground source={backgroundImage} style={styles.backgroundImage}/>
+      <TitleLogo />
+      <View style={ formStyle.wrapper }>
+        <Text style={ formStyle.text }>メールアドレス</Text>
+        <TextInputComponent
+          value={ props.email }
+          onChangeText={(text) => props.onChangeEmail(text)}
+          type='email'
+        />
+      </View>
+      <View style={ formStyle.wrapper }>
+        <Text style={ formStyle.text }>パスワード</Text>
+        <TextInputComponent
+          value={ props.password }
+          onChangeText={(text) => props.onChangePassword(text)}
+          type='password'
+        />
+      </View>
+      <View style={ btnStyle.wrapper }>
+        <View>
+          <TouchableOpacity
+            style={btnYellow}
+            onPress={() => {handlePress(props)} }
+          >
+            <Text style={btnStyle.textYellow}>ログイン</Text>
+          </TouchableOpacity>
         </View>
-    )
-  }
+        <View>
+          <TouchableOpacity
+            style={btnStyle.btn}
+            onPress={() => {props.navigation.navigate('UserSignup')}}
+          >
+            <Text style={btnStyle.text}>新規登録</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+  )
 }
 
 // StyleSheet
