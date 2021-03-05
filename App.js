@@ -41,7 +41,11 @@ class App extends React.Component {
       rest_years: null,
       rest_months: null,
       unset_configs: [],
-      config_changed: false
+      config_changed: false,
+      // asset config
+      initial_asset: null, // 現在の資産
+      monthly_purchase: null, // 月々の積立額
+      annual_yield: null, // 期待年利
     };
     this.clearUserInput = this.clearUserInput.bind(this);
   }
@@ -137,6 +141,25 @@ class App extends React.Component {
     })
   }
 
+  // asset_config
+  handleChangeInitialAsset(text) {
+    this.setState({
+      initial_asset: text
+    });
+  };
+
+  handleChangeMonthlyPurchase(text) {
+    this.setState({
+      monthly_purchase: text
+    });
+  };
+
+  handleChangeAnnualYield(text) {
+    this.setState({
+      annual_yield: text
+    });
+  };
+
   render() {
     const config = {
       screens: {
@@ -148,7 +171,6 @@ class App extends React.Component {
       prefixes: ['firecountdownapp://'],
       config,
     };
-
 
     return (
       <NavigationContainer linking={linking}>
@@ -172,7 +194,7 @@ class App extends React.Component {
               </Stack.Screen>
 
               <Stack.Screen name="Config">
-                {() => <ConfigScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} changeConfig={() => {this.notifyConfigChanged()}} {...this.state}/>}
+                {() => <ConfigScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} changeConfig={() => {this.notifyConfigChanged()}} handleChangeInitialAsset={(props) => {this.handleChangeInitialAsset(props)}} handleChangeMonthlyPurchase={(props) => {this.handleChangeMonthlyPurchase(props)}} handleChangeAnnualYield={(props) => {this.handleChangeAnnualYield(props)}} setConfig={(props) => {this.setState(props)}} {...this.state}/>}
               </Stack.Screen>
               <Stack.Screen name="RetirementAssetConfig">
                 {() => <RetirementAssetConfigScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} changeConfig={() => {this.notifyConfigChanged()}} {...this.state}/>}
