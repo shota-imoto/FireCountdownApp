@@ -46,6 +46,11 @@ class App extends React.Component {
       initial_asset: null, // 現在の資産
       monthly_purchase: null, // 月々の積立額
       annual_yield: null, // 期待年利
+      // retirement asset config
+      monthly_living_cost: null, // 月々の生活費
+      tax_rate: null, // 税引き後レート
+      annual_yield: null, // 期待年利
+      mouted: true
     };
     this.clearUserInput = this.clearUserInput.bind(this);
   }
@@ -160,6 +165,25 @@ class App extends React.Component {
     });
   };
 
+  // retirement_asset_config
+  handleChangeMonthlyLivingCost(text) {
+    this.setState({
+      monthly_living_cost: text
+    });
+  };
+
+  handleChangeTaxRate(text) {
+    this.setState({
+      tax_rate: text
+    });
+  };
+
+  handleChangeAnnualYield(text) {
+    this.setState({
+      annual_yield: text
+    });
+  };
+
   render() {
     const config = {
       screens: {
@@ -197,7 +221,7 @@ class App extends React.Component {
                 {() => <ConfigScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} changeConfig={() => {this.notifyConfigChanged()}} handleChangeInitialAsset={(props) => {this.handleChangeInitialAsset(props)}} handleChangeMonthlyPurchase={(props) => {this.handleChangeMonthlyPurchase(props)}} handleChangeAnnualYield={(props) => {this.handleChangeAnnualYield(props)}} setConfig={(props) => {this.setState(props)}} {...this.state}/>}
               </Stack.Screen>
               <Stack.Screen name="RetirementAssetConfig">
-                {() => <RetirementAssetConfigScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} changeConfig={() => {this.notifyConfigChanged()}} {...this.state}/>}
+                {() => <RetirementAssetConfigScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} changeConfig={() => {this.notifyConfigChanged()}} handleChangeMonthlyLivingCost={(props) => {this.handleChangeMonthlyLivingCost(props)}} handleChangeTaxRate={(props) => {this.handleChangeTaxRate(props)}} handleChangeAnnualYield={(props) => {this.handleChangeAnnualYield(props)}} setConfig={(props) => {this.setState(props)}} {...this.state}/>}
               </Stack.Screen>
             </>
           )
