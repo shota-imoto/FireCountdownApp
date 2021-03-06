@@ -75,7 +75,10 @@ function handlePress(props) {
 function UserSigninScreen(props) {
 
   useEffect(() => {
-    alert(props.linkingParams.message)
+    console.log(props)
+    if (props.linkingParams) {
+      alert(props.linkingParams.message)
+    }
   }, [props.linkingParams])
 
   return (
