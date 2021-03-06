@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, View, Button, StyleSheet, Text, ImageBackground } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextInputComponent from './components/textInputComponent.js';
@@ -73,6 +73,13 @@ function handlePress(props) {
 }
 
 function UserSigninScreen(props) {
+
+  useEffect(() => {
+
+    alert(props.linkingParams.message)
+    }
+  }, [props.linkingParams])
+
   return (
     <View style={styles.wrapper}>
       <ImageBackground source={backgroundImage} style={styles.backgroundImage}/>
