@@ -8,8 +8,8 @@ function handlePress(props) {
   const url = props.rootPath + 'users/password'
   const data = {
     "user": {
-      "user_id" : 'user_id',
-      "reset_password_token" : "reset_password_token",
+      "user_id" : props.linkingParams.user_id,
+      "reset_password_token" : props.linkingParams.reset_password_token,
       "password" : props.password,
       "password_confirmation" : props.password_confirmation
     }
@@ -27,14 +27,6 @@ function handlePress(props) {
 }
 
 function ResetPasswordScreen (props) {
-  // componentDidMount() {
-    // alert(this.props.linkingUrl)
-    // if (this.props.linkingUrl == null) {return}
-    // if (this.props.linkingUrl.hostname == 'reset_password') {
-    //   this.handleLinkResetPassword()
-    // }
-  // }
-
   return (
     <View>
       <View style={ styles.textFormBox }>

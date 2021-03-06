@@ -29,7 +29,10 @@ class App extends React.Component {
       // jwtToken: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOjE4LCJpYXQiOjE2MTc0OTUwMTh9.BK8J6efrBhqJ7ts2rPMH0hJrEO-9c4LSY6V-a296YM9aDyEJY8n5dY3XFBP2VTn13zi1IfHuuekazhcLCruTavPwsjOZc2Jaluzl4RRHtaZBt9K8xKmrS2a_8jAxaW4TO6jPValhsoIfHpNZDk-krW3TrYKRtngvBqz7QFiLPoGjKr7MzN0j801OgvwnDe7rRVPPBnPPwQApPwLqp5bt4efxlPf6fEqgQIjnbDDHDymO5VcQXgR9o9kgzC781PLE9kBiHeXbsJM08VbaUSpdDdW4lPUU36L7a5X0g5JNdOdgsfuQ1xo156AUZ1NRQcu9UIvbr_BRIj0YE-KjHg",
       linkingUrl: null,
       linkingHostname: null,
-      linkingParams: null,
+      linkingParams: {
+        user_id: '104',
+        reset_password_token: 'xfNaVk04nQUEHG1NpbEF'
+      },
       // user
       nickname: null,
       email: null,
@@ -50,7 +53,7 @@ class App extends React.Component {
       monthly_living_cost: null, // 月々の生活費
       tax_rate: null, // 税引き後レート
       annual_yield: null, // 期待年利
-      mouted: true
+      mouted: true,
     };
   }
 
@@ -67,7 +70,7 @@ class App extends React.Component {
   handleLink = (e) => {
     const str=decodeURI(e.url)
     const url = new UrlParser(str);
-    this.setState({q
+    this.setState({
       linkingHostname: url.hostname,
       linkingParams: url.params
     })
@@ -197,7 +200,7 @@ class App extends React.Component {
 
     return (
       <NavigationContainer linking={linking}>
-        <Stack.Navigator initialRouteName="Signin">
+        <Stack.Navigator initialRouteName="ResetPassword">
           {this.state.jwtToken == "" ? (
             <>
               <Stack.Screen name="UserSignin">
