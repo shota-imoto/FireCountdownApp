@@ -9,11 +9,7 @@ import ConfigScreen from './configScreen.js';
 import ResetPasswordScreen from './resetPasswordScreen.js';
 import RetirementAssetConfigScreen from './retirementAssetConfigScreen.js';
 import UrlParser from './lib/url.js';
-
-
-// UTF-8デコード
-// const encoding = require('encoding-japanese');
-// const encoding = Encoding
+import { TransitionPresets } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
 
@@ -211,7 +207,7 @@ class App extends React.Component {
               <Stack.Screen name="UserSignin">
                 {() => <UserSigninScreen navigation={useNavigation()} {...this.state} setToken={(token) => {this.setToken(token)}} onChangeEmail={(text) => {this.handleChangeEmail(text)}} onChangePassword={(text) => {this.handleChangePassword(text)}}/>}
               </Stack.Screen>
-              <Stack.Screen name="UserSignup">
+              <Stack.Screen name="UserSignup" options={{ headerShown: false, ...TransitionPresets.ModalTransition }}>
                 {() => <UserSignupScreen navigation={useNavigation()} {...this.state} onChangeNickname={(text) => {this.handleChangeNickname(text)}} onChangeEmail={(text) => {this.handleChangeEmail(text)}} onChangePassword={(text) => {this.handleChangePassword(text)}} onChangePasswordConfirmation={(text) => {this.handleChangePasswordConfirmation(text)}} onClearInput={this.clearUserInput}/>}
               </Stack.Screen>
               <Stack.Screen name="ResetPassword">
@@ -223,7 +219,6 @@ class App extends React.Component {
               <Stack.Screen name="Home">
                 {() => <HomeScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} onSignout={() => {this.handleSignout()}} {...this.state} setSuccessData={(props) => {this.setSuccessData(props)}} setErrorData={(props) => {this.setErrorData(props)}}/>}
               </Stack.Screen>
-
               <Stack.Screen name="Config">
                 {() => <ConfigScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} changeConfig={() => {this.notifyConfigChanged()}} handleChangeInitialAsset={(props) => {this.handleChangeInitialAsset(props)}} handleChangeMonthlyPurchase={(props) => {this.handleChangeMonthlyPurchase(props)}} handleChangeAnnualYield={(props) => {this.handleChangeAnnualYield(props)}} setConfig={(props) => {this.setState(props)}} {...this.state}/>}
               </Stack.Screen>
@@ -233,7 +228,6 @@ class App extends React.Component {
             </>
           )
         }
-
         </Stack.Navigator>
       </NavigationContainer>
     );
