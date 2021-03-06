@@ -75,9 +75,7 @@ function handlePress(props) {
 function UserSigninScreen(props) {
 
   useEffect(() => {
-
     alert(props.linkingParams.message)
-    }
   }, [props.linkingParams])
 
   return (
