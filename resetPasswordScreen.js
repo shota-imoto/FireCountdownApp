@@ -21,8 +21,15 @@ function handlePress(props) {
     },
     body: JSON.stringify(data),
   }).then(res => res.json())
-  .then(result => {
-    alert('reset_password!!')
+  .then(body => {
+    const status = body.data.attributes.status;
+    const message = body.data.attributes.message;
+
+    alert(message.join('\n'))
+    if (status == 'error') return
+    props.resetState(['password', 'password_confirmation', 'linkingParams'])
+    console.log(status)
+    props.navigation.navigate('UserSignin')
   })
 }
 
