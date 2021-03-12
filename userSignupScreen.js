@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { SafeAreaView, View, Button, StyleSheet, Text, TextInput } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextInputComponent from './components/textInputComponent.js'
 
-function handlePress(props) {
-  const url = props.rootPath + 'users/sign_up'
+function handlePress(props, rootPath, navigation) {
+  console.log(props)
+  console.log(rootPath)
+  const url = rootPath + 'users/sign_up'
   const data = {
     "user": {
       "nickname" : props.nickname,
@@ -12,7 +15,7 @@ function handlePress(props) {
       "password_confirmation" : props.password_confirmation
     }
   }
-
+  console.log(navigation)
 
   const errorMessage = (props) =>  "通信エラー しばらくお待ちいただき、再度お試しください (何度か試してもうまく行かない場合は次のエラーメッセージを管理者に連絡ください) <エラーメッセージ> " + props
   fetch(url, {
@@ -26,8 +29,8 @@ function handlePress(props) {
     const status = result.data.attributes.status;
     const message = result.data.attributes.message;
     if (status == 'success') {
-      props.onClearInput()
-      props.navigation.navigate('UserSignin')
+      // props.onClearInput()
+      navigation.navigate('UserSignin')
       // alert('ユーザー本登録用のメールを送信しました。しばらく経っても届かない場合は再度お試しください')
       alert('ユーザー登録が完了しました')
     } else if (status == 'error') {
@@ -42,63 +45,81 @@ function handlePress(props) {
   .catch(error => {alert(errorMessage(error))})
 }
 
-function Forms(props) {
+function UserSignupScreen(props) {
+  const [nickname, setNickname] = useState(null)
+  const [email, setEmail] = useState(null)
+  const [password, setPassword] = useState(null)
+  const [password_confirmation, setPasswordConfirmation] = useState(null)
+
+  const signupInput = {
+    nickname: nickname,
+    email: email,
+    password: password,
+    password_confirmation: password_confirmation
+  }
+
+  useEffect(() => {
+    // これが死ぬほどよばれる＝navigate(signupが死ぬほどよばれる)
+    // console.log('signup useEffect')
+  }, [])
   return (
-    <View>
-      <View style={ styles.textFormBox }>
-        <Text style={ styles.text }>ニックネーム</Text>
+    <View style={ styles.wrapper }>
+      <View style={ textStyle.wrapper }>
+        <View style={ textStyle.labelBlock }>
+          <Text style={ textStyle.label }>ニックネーム</Text>
+        </View>
         <TextInputComponent
           value={ props.nickname }
-          onChangeText={(text) => props.onChangeNickname(text)}
+          onChangeText={(text) => setNickname(text)}
           type='nickname'
         />
       </View>
-      <View style={ styles.textFormBox }>
-        <Text style={ styles.text }>メールアドレス</Text>
+      <View style={ textStyle.wrapper }>
+        <View style={ textStyle.labelBlock }>
+          <Text style={ textStyle.label }>メールアドレス</Text>
+        </View>
         <TextInputComponent
           value={ props.email }
-          onChangeText={(text) => props.onChangeEmail(text)}
+          onChangeText={(text) => setEmail(text)}
           type='email'
         />
       </View>
-      <View style={ styles.textFormBox }>
-        <Text style={ styles.text }>パスワード</Text>
+      <View style={ textStyle.wrapper }>
+        <View style={ textStyle.labelBlock }>
+          <Text style={ textStyle.label }>パスワード</Text>
+        </View>
         <TextInputComponent
           value={ props.password }
-          onChangeText={(text) => props.onChangePassword(text)}
+          onChangeText={(text) => setPassword(text)}
           type='password'
         />
       </View>
-      <View style={ styles.textFormBox }>
-        <Text style={ styles.text }>パスワード(確認用)</Text>
+      <View style={ textStyle.wrapper }>
+        <View style={ textStyle.labelBlock }>
+          <Text style={ textStyle.label }>パスワード(確認用)</Text>
+        </View>
         <TextInputComponent
           value={ props.password_confirmation }
-          onChangeText={(text) => props.onChangePasswordConfirmation(text)}
+          onChangeText={(text) => setPasswordConfirmation(text)}
           type='password_confirmation'
         />
       </View>
-      <View style={ styles.submitBox }>
-        <Button
-          title={ '登録する' }
-          onPress={() => {handlePress(props)} }
-        />
+      <View style={ btnStyle.wrapper }>
+        <TouchableOpacity style={ btnStyle.btn } onPress={() => {handlePress(signupInput, props.rootPath, props.navigation)} }>
+          <Text style={ btnStyle.text }>登録</Text>
+        </TouchableOpacity>
       </View>
     </View>
   )
 }
 
-function UserSignupScreen (props) {
-  return (
-    <View style={ styles.wrapper }>
-      <Forms {...props} onChangeNickname={(text) => {props.onChangeNickname(text)}} onChangeEmail={(text) => {props.onChangeEmail(text)}} onChangePassword={(text) => {props.onChangePassword(text)}} onChangePasswordConfirmation={(text) => {props.onChangePasswordConfirmation(text)}} onClearInput={() => {props.onClearInput()}}/>
-    </View>
-  );
-}
-
 const styles = StyleSheet.create({
-  wrapper:{
+  wrapper: {
+    ...StyleSheet.absoluteFillObject,
+    paddingTop: 150,
+    paddingHorizontal: 40,
     alignItems: 'center',
-    justifyContent: 'flex-start'
+    backgroundColor: 'rgba(255, 255, 255, 0.6)',
   },
   text: {
     width: 140,
@@ -112,6 +133,41 @@ const styles = StyleSheet.create({
   },
   submitBox: {
     alignItems: 'center'
+  }
+})
+
+const textStyle = StyleSheet.create({
+  wrapper: {
+
+  },
+  labelBlock: {
+    marginTop: 25,
+    marginBottom: 15
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: 'bold'
+  }
+})
+
+const btnStyle = StyleSheet.create({
+  wrapper: {
+    marginTop: 40,
+    width: 310,
+    alignItems: 'flex-start'
+  },
+  btn: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    height: 40,
+    width: 80,
+    backgroundColor: '#EDB413',
+  },
+  text: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#ffffff'
   }
 })
 
