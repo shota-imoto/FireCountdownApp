@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Button, StyleSheet, Text, ImageBackground } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextInputComponent from './components/textInputComponent.js';
+import { useFocusEffect } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
 import Url from 'url-parse';
 import { Buffer } from 'buffer';
@@ -73,52 +74,62 @@ function handlePress(props) {
 }
 
 function UserSigninScreen(props) {
+  const [visible, setVisible] = useState(true)
 
   useEffect(() => {
-    console.log(props)
     if (props.linkingParams) {
       alert(props.linkingParams.message)
     }
   }, [props.linkingParams])
 
+  useFocusEffect(
+    React.useCallback(() => {
+      setVisible(true)
+    }, [])
+  )
+
   return (
     <View style={styles.wrapper}>
       <ImageBackground source={backgroundImage} style={styles.backgroundImage}/>
-      <TitleLogo />
-      <View style={ formStyle.wrapper }>
-        <Text style={ formStyle.text }>メールアドレス</Text>
-        <TextInputComponent
-          value={ props.email }
-          onChangeText={(text) => props.onChangeEmail(text)}
-          type='email'
-        />
-      </View>
-      <View style={ formStyle.wrapper }>
-        <Text style={ formStyle.text }>パスワード</Text>
-        <TextInputComponent
-          value={ props.password }
-          onChangeText={(text) => props.onChangePassword(text)}
-          type='password'
-        />
-      </View>
-      <View style={ btnStyle.wrapper }>
-        <View>
-          <TouchableOpacity
-            style={btnYellow}
-            onPress={() => {handlePress(props)} }
-          >
-            <Text style={btnStyle.textYellow}>ログイン</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <TouchableOpacity
-            style={btnStyle.btn}
-            onPress={() => {props.navigation.navigate('UserSignup')}}
-          >
-            <Text style={btnStyle.text}>新規登録</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+        {visible ? (
+          <>
+            <TitleLogo />
+            <View style={ formStyle.wrapper }>
+              <Text style={ formStyle.text }>メールアドレス</Text>
+              <TextInputComponent
+                value={ props.email }
+                onChangeText={(text) => props.onChangeEmail(text)}
+                type='email'
+              />
+            </View>
+            <View style={ formStyle.wrapper }>
+              <Text style={ formStyle.text }>パスワード</Text>
+              <TextInputComponent
+                value={ props.password }
+                onChangeText={(text) => props.onChangePassword(text)}
+                type='password'
+              />
+            </View>
+            <View style={ btnStyle.wrapper }>
+              <View>
+                <TouchableOpacity
+                  style={btnYellow}
+                  onPress={() => {handlePress(props)} }
+                >
+                  <Text style={btnStyle.textYellow}>ログイン</Text>
+                </TouchableOpacity>
+              </View>
+              <View>
+                <TouchableOpacity
+                  style={btnStyle.btn}
+                  onPress={() => {setVisible(false); props.navigation.navigate('UserSignup')}}
+                >
+                  <Text style={btnStyle.text}>新規登録</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+        </>
+        ) : (<></>)}
     </View>
   )
 }
