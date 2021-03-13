@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import { SafeAreaView, View, Button, StyleSheet, Text, TextInput } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextInputComponent from './components/textInputComponent.js'
@@ -58,10 +58,6 @@ function UserSignupScreen(props) {
     password_confirmation: password_confirmation
   }
 
-  useEffect(() => {
-    // これが死ぬほどよばれる＝navigate(signupが死ぬほどよばれる)
-    // console.log('signup useEffect')
-  }, [])
   return (
     <View style={ styles.wrapper }>
       <View style={ textStyle.wrapper }>
