@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, StyleSheet, Text, Button, ImageBackground } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useFocusEffect } from '@react-navigation/native';
 
 const TitleLogo = () => (
   <View style={titleStyle.wrapper}>
@@ -128,19 +129,29 @@ function fetchData(props) {
 }
 
 function HomeScreen (props) {
-
+  const [visible, setVisible] = useState(true)
   useEffect(() => {fetchData(props)}, [props.config_changed])
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setVisible(true)
+    }, [])
+  )
 
   return (
     <SafeAreaView style={styles.screen}>
       <ImageBackground source={backgroundImage} style={styles.backgroundImage}/>
-      <Header/>
-      <Content {...props}/>
-      <ItemList
-        onPressConfig={() => {props.navigation.navigate('Config')}}
-        onPressRetirementAssetConfig={() => {props.navigation.navigate('RetirementAssetConfig')}}
-      />
-      <Footer onSignout={() => {props.onSignout()}}/>
+        {visible ? (
+          <>
+            <Header/>
+            <Content {...props}/>
+            <ItemList
+              onPressConfig={() => {setVisible(false); props.navigation.navigate('Config')}}
+              onPressRetirementAssetConfig={() => {props.navigation.navigate('RetirementAssetConfig')}}
+            />
+            <Footer onSignout={() => {props.onSignout()}}/>
+          </>
+        ) : (<></>)}
     </SafeAreaView>
   );
 }
