@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
   wrapper: {
     ...StyleSheet.absoluteFillObject,
     padding: 40,
+    paddingTop: 80,
     alignItems: 'center'
   },
   listner: {
