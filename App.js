@@ -39,11 +39,6 @@ class App extends React.Component {
       rest_months: null,
       unset_configs: [],
       config_changed: false,
-      // retirement asset config
-      monthly_living_cost: null, // 月々の生活費
-      tax_rate: null, // 税引き後レート
-      annual_yield: null, // 期待年利
-      mouted: true,
     };
   }
 
@@ -140,25 +135,6 @@ class App extends React.Component {
     })
   }
 
-  // retirement_asset_config
-  handleChangeMonthlyLivingCost(text) {
-    this.setState({
-      monthly_living_cost: text
-    });
-  };
-
-  handleChangeTaxRate(text) {
-    this.setState({
-      tax_rate: text
-    });
-  };
-
-  handleChangeAnnualYield(text) {
-    this.setState({
-      annual_yield: text
-    });
-  };
-
   resetState(attributes) {
     let stateList = {}
     attributes.forEach( attribute => {
@@ -179,10 +155,6 @@ class App extends React.Component {
       prefixes: ['firecountdownapp://'],
       config,
     };
-
-    // const commonContext = {
-
-    // }
 
     return (
       <NavigationContainer linking={linking}>
