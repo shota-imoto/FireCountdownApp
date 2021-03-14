@@ -147,7 +147,7 @@ function HomeScreen (props) {
             <Content {...props}/>
             <ItemList
               onPressConfig={() => {setVisible(false); props.navigation.navigate('Config')}}
-              onPressRetirementAssetConfig={() => {props.navigation.navigate('RetirementAssetConfig')}}
+              onPressRetirementAssetConfig={() => {setVisible(false); props.navigation.navigate('RetirementAssetConfig')}}
             />
             <Footer onSignout={() => {props.onSignout()}}/>
           </>
