@@ -1,5 +1,5 @@
-import React from 'react';
-import { NavigationContainer, useLinkProps, useNavigation } from '@react-navigation/native';
+import React, {useState} from 'react';
+import { NavigationContainer, NavigationContext, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as Linking from 'expo-linking';
 import HomeScreen from './homeScreen.js';
@@ -11,6 +11,7 @@ import RetirementAssetConfigScreen from './retirementAssetConfigScreen.js';
 import UrlParser from './lib/url.js';
 import { TransitionPresets } from '@react-navigation/stack';
 
+
 const Stack = createStackNavigator();
 
 class App extends React.Component {
@@ -21,8 +22,8 @@ class App extends React.Component {
       hostDomain: 'localhost:3000',
       apiVersion: 'v1',
       rootPath: null,
-      jwtToken: "",
-      // jwtToken: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOjE4LCJpYXQiOjE2MTc0OTUwMTh9.BK8J6efrBhqJ7ts2rPMH0hJrEO-9c4LSY6V-a296YM9aDyEJY8n5dY3XFBP2VTn13zi1IfHuuekazhcLCruTavPwsjOZc2Jaluzl4RRHtaZBt9K8xKmrS2a_8jAxaW4TO6jPValhsoIfHpNZDk-krW3TrYKRtngvBqz7QFiLPoGjKr7MzN0j801OgvwnDe7rRVPPBnPPwQApPwLqp5bt4efxlPf6fEqgQIjnbDDHDymO5VcQXgR9o9kgzC781PLE9kBiHeXbsJM08VbaUSpdDdW4lPUU36L7a5X0g5JNdOdgsfuQ1xo156AUZ1NRQcu9UIvbr_BRIj0YE-KjHg",
+      // jwtToken: "",
+      jwtToken: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOjE4LCJpYXQiOjE2MTc0OTUwMTh9.BK8J6efrBhqJ7ts2rPMH0hJrEO-9c4LSY6V-a296YM9aDyEJY8n5dY3XFBP2VTn13zi1IfHuuekazhcLCruTavPwsjOZc2Jaluzl4RRHtaZBt9K8xKmrS2a_8jAxaW4TO6jPValhsoIfHpNZDk-krW3TrYKRtngvBqz7QFiLPoGjKr7MzN0j801OgvwnDe7rRVPPBnPPwQApPwLqp5bt4efxlPf6fEqgQIjnbDDHDymO5VcQXgR9o9kgzC781PLE9kBiHeXbsJM08VbaUSpdDdW4lPUU36L7a5X0g5JNdOdgsfuQ1xo156AUZ1NRQcu9UIvbr_BRIj0YE-KjHg",
       linkingUrl: null,
       linkingHostname: null,
       linkingParams: null,
@@ -38,10 +39,6 @@ class App extends React.Component {
       rest_months: null,
       unset_configs: [],
       config_changed: false,
-      // asset config
-      initial_asset: null, // 現在の資産
-      monthly_purchase: null, // 月々の積立額
-      annual_yield: null, // 期待年利
       // retirement asset config
       monthly_living_cost: null, // 月々の生活費
       tax_rate: null, // 税引き後レート
@@ -49,6 +46,8 @@ class App extends React.Component {
       mouted: true,
     };
   }
+
+
 
   componentDidMount() {
     // var string = decodeURI('firecalc://home?status=error&message=%E7%99%BB%E9%8C%B2%E7%A2%BA%E8%AA%8D%E3%83%A1%E3%83%BC%E3%83%AB%E3%81%AE%E6%9C%9F%E9%99%90%E3%81%8C%E5%88%87%E3%82%8C%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99')
@@ -141,25 +140,6 @@ class App extends React.Component {
     })
   }
 
-  // asset_config
-  handleChangeInitialAsset(text) {
-    this.setState({
-      initial_asset: text
-    });
-  };
-
-  handleChangeMonthlyPurchase(text) {
-    this.setState({
-      monthly_purchase: text
-    });
-  };
-
-  handleChangeAnnualYield(text) {
-    this.setState({
-      annual_yield: text
-    });
-  };
-
   // retirement_asset_config
   handleChangeMonthlyLivingCost(text) {
     this.setState({
@@ -187,6 +167,7 @@ class App extends React.Component {
     this.setState(stateList)
   }
 
+
   render() {
     const config = {
       screens: {
@@ -199,16 +180,20 @@ class App extends React.Component {
       config,
     };
 
+    // const commonContext = {
+
+    // }
+
     return (
       <NavigationContainer linking={linking}>
         <Stack.Navigator initialRouteName="Home">
           {this.state.jwtToken == "" ? (
             <>
               <Stack.Screen name="UserSignin" options={{ headerShown: false }}>
-                {() => <UserSigninScreen navigation={ useNavigation()} {...this.state} setToken={(token) => {this.setToken(token)}} onChangeEmail={(text) => {this.handleChangeEmail(text)}} onChangePassword={(text) => {this.handleChangePassword(text)}}/>}
+                {() =><UserSigninScreen navigation={ useNavigation()} {...this.state} setToken={(token) => {this.setToken(token)}} onChangeEmail={(text) => {this.handleChangeEmail(text)}} onChangePassword={(text) => {this.handleChangePassword(text)}}/>}
               </Stack.Screen>
               <Stack.Screen name="UserSignup" options={{ headerShown: false, cardStyle: {backgroundColor: 'transparent'}, ...TransitionPresets.ModalTransition }}>
-                {() => <UserSignupScreen navigation={useNavigation()} {...this.state} onChangeNickname={(text) => {this.handleChangeNickname(text)}} onChangeEmail={(text) => {this.handleChangeEmail(text)}} onChangePassword={(text) => {this.handleChangePassword(text)}} onChangePasswordConfirmation={(text) => {this.handleChangePasswordConfirmation(text)}} onClearInput={this.clearUserInput}/>}
+                {() =>  <UserSignupScreen navigation={useNavigation()} {...this.state} onChangeNickname={(text) => {this.handleChangeNickname(text)}} onChangeEmail={(text) => {this.handleChangeEmail(text)}} onChangePassword={(text) => {this.handleChangePassword(text)}} onChangePasswordConfirmation={(text) => {this.handleChangePasswordConfirmation(text)}} onClearInput={this.clearUserInput}/>}
               </Stack.Screen>
               <Stack.Screen name="ResetPassword">
                 {() => <ResetPasswordScreen navigation={useNavigation()} {...this.state} onChangePassword={(text) => {this.handleChangePassword(text)}} onChangePasswordConfirmation={(text) => {this.handleChangePasswordConfirmation(text)}} resetState={(attributes) => {this.resetState(attributes)}}/>}
