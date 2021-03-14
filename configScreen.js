@@ -53,7 +53,6 @@ function handlePress(asset_config, props) {
   })
 }
 
-
 function ConfigScreen (props) {
   const [initial_asset, setInitialAsset] = useState(null)
   const [monthly_purchase, setMonthlyPurchase] = useState(null)
