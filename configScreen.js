@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { SafeAreaView, View, StyleSheet, Text, Button } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextInputComponent from './components/textInputComponent.js'
 
-function getConfig(props, rootPath, jwtToken) {
-  const url = rootPath + 'config/new'
+function getConfig(props) {
+  const url = props.rootPath + 'config/new'
   return fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': jwtToken
+      'Authorization': props.jwtToken
     }
   }).then(res => res.json())
   .then(body => {
@@ -18,18 +18,17 @@ function getConfig(props, rootPath, jwtToken) {
     Object.keys(asset_config).forEach(key => {
           newState[key] = asset_config[key];
     });
-    props.setConfig(newState);
+    return newState;
   })
 }
 
-
-function handlePress(props, rootPath, jwtToken, navigation) {
-  const url = rootPath + 'config'
+function handlePress(asset_config, props) {
+  const url = props.rootPath + 'config'
   const data = {
     "asset_config": {
-      initial_asset: props.initial_asset,
-      monthly_purchase: props.monthly_purchase,
-      annual_yield: props.annual_yield
+      initial_asset: asset_config.initial_asset,
+      monthly_purchase: asset_config.monthly_purchase,
+      annual_yield: asset_config.annual_yield
     }
   }
 
@@ -37,7 +36,7 @@ function handlePress(props, rootPath, jwtToken, navigation) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': jwtToken
+      'Authorization': props.jwtToken
     },
     body: JSON.stringify(data)
   }).then(res => res.json())
@@ -46,15 +45,10 @@ function handlePress(props, rootPath, jwtToken, navigation) {
     const message = body.data.attributes.message;
     if (status == 'success') {
       alert('設定が完了しました')
-      navigation.navigate('Home')
-      // home画面の更新
+      props.navigation.navigate('Home')
       props.changeConfig()
     } else {
-      const errorMessage = []
-      Object.keys(message).forEach(key => {
-        errorMessage.push(key + ':' + message[key]);
-      });
-      alert(errorMessage.join('\n'));
+      alert(message.join('\n'));
     }
   })
 }
@@ -71,7 +65,14 @@ function ConfigScreen (props) {
     annual_yield: annual_yield
   }
 
-  useEffect(() => {getConfig(assetConfigInput, props.rootPath, props.jwtToken)}, [])
+  useEffect(() => {
+    const config = getConfig(props);
+    config.then(config => {
+      setInitialAsset(config.initial_asset)
+      setMonthlyPurchase(config.monthly_purchase)
+      setAnnualYield(config.annual_yield)
+    })
+  }, [])
 
   return (
     <View style={ styles.wrapper }>
@@ -106,7 +107,7 @@ function ConfigScreen (props) {
         />
       </View>
       <View style={ btnStyle.wrapper }>
-        <TouchableOpacity style={ btnStyle.btn } onPress={() => {handlePress(assetConfigInput, props.rootPath, props.jwtToken, props.navigation)}}>
+        <TouchableOpacity style={ btnStyle.btn } onPress={() => {handlePress(assetConfigInput, props)}}>
           <Text style={ btnStyle.text }>設定</Text>
         </TouchableOpacity>
       </View>
