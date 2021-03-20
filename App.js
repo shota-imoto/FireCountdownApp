@@ -10,9 +10,20 @@ import ResetPasswordScreen from './resetPasswordScreen.js';
 import RetirementAssetConfigScreen from './retirementAssetConfigScreen.js';
 import UrlParser from './lib/url.js';
 import { TransitionPresets } from '@react-navigation/stack';
-
+import * as firebase from 'firebase';
 
 const Stack = createStackNavigator();
+
+// Initialize Firebase
+const firebaseConfig = {
+  apiKey: 'AIzaSyACLCFZ7eRkj-Zr_XXkh_zXCgqyetgK8EQ',
+  authDomain: 'fcapp-58538.firebaseapp.com',
+  databaseURL: 'https://project-id.firebaseio.com',
+  projectId: 'fcapp-58538',
+  storageBucket: 'fcapp-58538.appspot.com',
+};
+
+firebase.initializeApp(firebaseConfig);
 
 class App extends React.Component {
   constructor(props) {

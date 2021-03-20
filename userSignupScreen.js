@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import { SafeAreaView, View, Button, StyleSheet, Text, TextInput } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import TextInputComponent from './components/textInputComponent.js'
+import TextInputComponent from './components/textInputComponent.js';
+import firebase from "firebase/app";
+import "firebase/auth";
 
 function handlePress(props, rootPath, navigation) {
   console.log(props)
@@ -16,32 +18,40 @@ function handlePress(props, rootPath, navigation) {
     }
   }
 
-  const errorMessage = (props) =>  "通信エラー しばらくお待ちいただき、再度お試しください (何度か試してもうまく行かない場合は次のエラーメッセージを管理者に連絡ください) <エラーメッセージ> " + props
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data),
-  }).then(res => res.json())
-  .then(result => {
-    const status = result.data.attributes.status;
-    const message = result.data.attributes.message;
-    if (status == 'success') {
-      // props.onClearInput()
-      navigation.navigate('UserSignin')
-      // alert('ユーザー本登録用のメールを送信しました。しばらく経っても届かない場合は再度お試しください')
-      alert('ユーザー登録が完了しました')
-    } else if (status == 'error') {
-      const errorMessage = []
-      Object.keys(message).forEach(key => {
-        errorMessage.push(key + ':' + message[key]);
-      });
-      alert(errorMessage.join('\n'))
-      // TODO: アラートの順番変更、日本語化
-    }
+  firebase.auth().createUserWithEmailAndPassword(props.email, props.password)
+  .then((user) => {
+    console.log(user)
+  }).catch((error) => {
+    console.log(error.code);
+    console.log(error.message);
   })
-  .catch(error => {alert(errorMessage(error))})
+
+  // const errorMessage = (props) =>  "通信エラー しばらくお待ちいただき、再度お試しください (何度か試してもうまく行かない場合は次のエラーメッセージを管理者に連絡ください) <エラーメッセージ> " + props
+  // fetch(url, {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json'
+  //   },
+  //   body: JSON.stringify(data),
+  // }).then(res => res.json())
+  // .then(result => {
+  //   const status = result.data.attributes.status;
+  //   const message = result.data.attributes.message;
+  //   if (status == 'success') {
+  //     // props.onClearInput()
+  //     navigation.navigate('UserSignin')
+  //     // alert('ユーザー本登録用のメールを送信しました。しばらく経っても届かない場合は再度お試しください')
+  //     alert('ユーザー登録が完了しました')
+  //   } else if (status == 'error') {
+  //     const errorMessage = []
+  //     Object.keys(message).forEach(key => {
+  //       errorMessage.push(key + ':' + message[key]);
+  //     });
+  //     alert(errorMessage.join('\n'))
+  //     // TODO: アラートの順番変更、日本語化
+  //   }
+  // })
+  // .catch(error => {alert(errorMessage(error))})
 }
 
 function UserSignupScreen(props) {
