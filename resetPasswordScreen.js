@@ -1,71 +1,73 @@
-import React from 'react';
-import { SafeAreaView, View, StyleSheet, Text, Button } from 'react-native';
-import TextInputComponent from './components/textInputComponent.js'
-import * as Linking from 'expo-linking';
-import Url from 'url-parse';
+import React, {useState} from 'react';
+import { SafeAreaView, View, Button, StyleSheet, Text, TextInput } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import TextInputComponent from './components/textInputComponent.js';
+import firebase from "firebase/app";
+import "firebase/auth";
 
-function handlePress(props) {
-  const url = props.rootPath + 'users/password'
+function handlePress(props, rootPath, navigation) {
+  console.log(props)
+  console.log(rootPath)
+  const url = rootPath + 'users/sign_up'
   const data = {
     "user": {
-      "user_id" : props.linkingParams.user_id,
-      "reset_password_token" : props.linkingParams.reset_password_token,
-      "password" : props.password,
-      "password_confirmation" : props.password_confirmation
+      "email" : props.email,
     }
   }
-  fetch(url, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data),
-  }).then(res => res.json())
-  .then(body => {
-    const status = body.data.attributes.status;
-    const message = body.data.attributes.message;
 
-    alert(message.join('\n'))
-    if (status == 'error') return
-    props.resetState(['password', 'password_confirmation', 'linkingParams'])
-    console.log(status)
-    props.navigation.navigate('UserSignin')
+  if (props.password != props.password_confirmation) {
+    alert('password is not correspond with password confirmation')
+    return
+  }
+
+  firebase.auth().createUserWithEmailAndPassword(props.email, props.password)
+  .then((user) => {
+    firebase.auth().currentUser.sendEmailVerification()
+    .then(() => {
+      alert('verify email was sent. Open URL in email and complete sign up.')
+      navigation.navigate('UserSignin')
+})
+  }).catch((error) => {
+    alert(error.message);
   })
+
 }
 
-function ResetPasswordScreen (props) {
+function ResetPasswordScreen(props) {
+  const [email, setEmail] = useState(null)
+
+  const signupInput = {
+    email: email,
+  }
+
   return (
-    <View>
-      <View style={ styles.textFormBox }>
-        <Text style={ styles.text }>新しいパスワード</Text>
+    <View style={ styles.wrapper }>
+      <View style={ textStyle.wrapper }>
+        <View style={ textStyle.labelBlock }>
+          <Text style={ textStyle.label }>メールアドレス</Text>
+        </View>
         <TextInputComponent
-          value={ props.password }
-          onChangeText={(text) => props.onChangePassword(text)}
-          type='password'
+          value={ props.email }
+          onChangeText={(text) => setEmail(text)}
+          type='email'
         />
       </View>
-      <View style={ styles.textFormBox }>
-        <Text style={ styles.text }>新しいパスワード(確認用)</Text>
-        <TextInputComponent
-          value={ props.password_confirmation }
-          onChangeText={(text) => props.onChangePasswordConfirmation(text)}
-          type='password_confirmation'
-        />
-      </View>
-      <View style={ styles.submitBox }>
-        <Button
-          title={ '変更する' }
-          onPress={() => {handlePress(props)} }
-        />
+      <View style={ btnStyle.wrapper }>
+        <TouchableOpacity style={ btnStyle.btn } onPress={() => {handlePress(signupInput, props.rootPath, props.navigation)} }>
+          <Text style={ btnStyle.text }>登録</Text>
+        </TouchableOpacity>
       </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  wrapper:{
+  wrapper: {
+    ...StyleSheet.absoluteFillObject,
+    paddingTop: 150,
+    paddingHorizontal: 40,
     alignItems: 'center',
-    justifyContent: 'flex-start'
+    backgroundColor: 'rgba(255, 255, 255, 0.6)',
   },
   text: {
     width: 140,
@@ -79,6 +81,41 @@ const styles = StyleSheet.create({
   },
   submitBox: {
     alignItems: 'center'
+  }
+})
+
+const textStyle = StyleSheet.create({
+  wrapper: {
+
+  },
+  labelBlock: {
+    marginTop: 25,
+    marginBottom: 15
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: 'bold'
+  }
+})
+
+const btnStyle = StyleSheet.create({
+  wrapper: {
+    marginTop: 40,
+    width: 310,
+    alignItems: 'flex-start'
+  },
+  btn: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    height: 40,
+    width: 80,
+    backgroundColor: '#EDB413',
+  },
+  text: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#ffffff'
   }
 })
 
