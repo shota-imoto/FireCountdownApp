@@ -6,31 +6,15 @@ import firebase from "firebase/app";
 import "firebase/auth";
 
 function handlePress(props, rootPath, navigation) {
-  console.log(props)
-  console.log(rootPath)
-  const url = rootPath + 'users/sign_up'
-  const data = {
-    "user": {
-      "email" : props.email,
-    }
-  }
-
-  if (props.password != props.password_confirmation) {
-    alert('password is not correspond with password confirmation')
-    return
-  }
-
-  firebase.auth().createUserWithEmailAndPassword(props.email, props.password)
-  .then((user) => {
-    firebase.auth().currentUser.sendEmailVerification()
-    .then(() => {
-      alert('verify email was sent. Open URL in email and complete sign up.')
-      navigation.navigate('UserSignin')
-})
-  }).catch((error) => {
-    alert(error.message);
+  // TODO: リッチなパスワード変更画面の提供
+  firebase.auth().sendPasswordResetEmail(props.email)
+  .then(function() {
+    alert('Password reset email had sent.Click URL and Input password in the email.')
+    navigation.navigate('UserSignin')
   })
-
+  .catch(function(error) {
+    alert(error.message)
+  });;
 }
 
 function ResetPasswordScreen(props) {
@@ -54,7 +38,7 @@ function ResetPasswordScreen(props) {
       </View>
       <View style={ btnStyle.wrapper }>
         <TouchableOpacity style={ btnStyle.btn } onPress={() => {handlePress(signupInput, props.rootPath, props.navigation)} }>
-          <Text style={ btnStyle.text }>登録</Text>
+          <Text style={ btnStyle.text }>送信</Text>
         </TouchableOpacity>
       </View>
     </View>
