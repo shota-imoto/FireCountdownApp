@@ -118,6 +118,7 @@ function fetchData(props) {
     if (props.mounted) {
       const messages = result.data.attributes.messages
       const unset_configs = Object.keys(messages)
+      console.log(props)
 
       if (!unset_configs.length) {
         props.setSuccessData(result)
