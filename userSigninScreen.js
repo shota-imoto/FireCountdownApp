@@ -3,7 +3,9 @@ import { SafeAreaView, View, Button, StyleSheet, Text, ImageBackground } from 'r
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextInputComponent from './components/textInputComponent.js';
 import { useFocusEffect } from '@react-navigation/native';
-import { StoreContext } from './App.js'
+import firebase from "firebase/app";
+import "firebase/auth";
+// import { StoreContext } from './App.js'
 import * as Linking from 'expo-linking';
 import Url from 'url-parse';
 import { Buffer } from 'buffer';
@@ -45,38 +47,58 @@ function handleLinkSignUp() {
   // alert(queryObject.message)
 }
 
-function handlePress(props, store) {
-  const url = store.rootPath + 'users/sign_in'
+function handlePress(props) {
+  const url = props.rootPath + 'users/sign_in'
   const data = {
     "user": {
       "email" : props.email,
       "password" : props.password
     }
   }
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  }).then(res => {
-    const token = res.headers.map["x-authentication-token"];
-    if (token) {props.setToken(token)}
-    return res.json()
-  }).then(body => {
-    const status = body.data.attributes.status;
-    const message = body.data.attributes.message;
-    if (status == 'success') {
-      alert('ログインしました')
-    } else if (status == 'error') {
-      alert(message)
+
+  firebase.auth().signInWithEmailAndPassword(props.email, props.password)
+  .then((res) => {
+    if (res.user.emailVerified) {
+      firebase.auth().currentUser.getIdToken()
+      .then((token) => {
+        props.setToken(token)
+      })
+    } else {
+      alert('メール認証が完了していません')
     }
+    // console.log(user)
+    // Signed in
+    // ...
   })
+  .catch((error) => {
+    console.log(error.code);
+    alert(error.message);
+  });
+
+  // fetch(url, {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json'
+  //   },
+  //   body: JSON.stringify(data)
+  // }).then(res => {
+  //   const token = res.headers.map["x-authentication-token"];
+  //   if (token) {props.setToken(token)}
+  //   return res.json()
+  // }).then(body => {
+  //   const status = body.data.attributes.status;
+  //   const message = body.data.attributes.message;
+  //   if (status == 'success') {
+  //     alert('ログインしました')
+  //   } else if (status == 'error') {
+  //     alert(message)
+  //   }
+  // })
 }
 
 function UserSigninScreen(props) {
   const [visible, setVisible] = useState(true)
-  const store = useContext(StoreContext)
+  // const store = useContext(StoreContext)
 
   useEffect(() => {
     // store.setJwtToken("eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOjE4LCJpYXQiOjE2MTc0OTUwMTh9.BK8J6efrBhqJ7ts2rPMH0hJrEO-9c4LSY6V-a296YM9aDyEJY8n5dY3XFBP2VTn13zi1IfHuuekazhcLCruTavPwsjOZc2Jaluzl4RRHtaZBt9K8xKmrS2a_8jAxaW4TO6jPValhsoIfHpNZDk-krW3TrYKRtngvBqz7QFiLPoGjKr7MzN0j801OgvwnDe7rRVPPBnPPwQApPwLqp5bt4efxlPf6fEqgQIjnbDDHDymO5VcQXgR9o9kgzC781PLE9kBiHeXbsJM08VbaUSpdDdW4lPUU36L7a5X0g5JNdOdgsfuQ1xo156AUZ1NRQcu9UIvbr_BRIj0YE-KjHg")
@@ -117,7 +139,7 @@ function UserSigninScreen(props) {
               <View>
                 <TouchableOpacity
                   style={btnYellow}
-                  onPress={() => {handlePress(props, store)} }
+                  onPress={() => {handlePress(props)} }
                 >
                   <Text style={btnStyle.textYellow}>ログイン</Text>
                 </TouchableOpacity>

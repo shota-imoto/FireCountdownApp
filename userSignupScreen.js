@@ -18,12 +18,20 @@ function handlePress(props, rootPath, navigation) {
     }
   }
 
+  if (props.password != props.password_confirmation) {
+    alert('password is not correspond with password confirmation')
+    return
+  }
+
   firebase.auth().createUserWithEmailAndPassword(props.email, props.password)
   .then((user) => {
-    console.log(user)
+    firebase.auth().currentUser.sendEmailVerification()
+    .then(() => {
+      alert('verify email was sent. Open URL in email and complete sign up.')
+      navigation.navigate('UserSignin')
+})
   }).catch((error) => {
-    console.log(error.code);
-    console.log(error.message);
+    alert(error.message);
   })
 
   // const errorMessage = (props) =>  "通信エラー しばらくお待ちいただき、再度お試しください (何度か試してもうまく行かない場合は次のエラーメッセージを管理者に連絡ください) <エラーメッセージ> " + props
@@ -69,16 +77,6 @@ function UserSignupScreen(props) {
 
   return (
     <View style={ styles.wrapper }>
-      <View style={ textStyle.wrapper }>
-        <View style={ textStyle.labelBlock }>
-          <Text style={ textStyle.label }>ニックネーム</Text>
-        </View>
-        <TextInputComponent
-          value={ props.nickname }
-          onChangeText={(text) => setNickname(text)}
-          type='nickname'
-        />
-      </View>
       <View style={ textStyle.wrapper }>
         <View style={ textStyle.labelBlock }>
           <Text style={ textStyle.label }>メールアドレス</Text>

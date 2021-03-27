@@ -33,8 +33,8 @@ class App extends React.Component {
       hostDomain: 'localhost:3000',
       apiVersion: 'v1',
       rootPath: null,
-      // jwtToken: "",
-      jwtToken: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOjE4LCJpYXQiOjE2MTc0OTUwMTh9.BK8J6efrBhqJ7ts2rPMH0hJrEO-9c4LSY6V-a296YM9aDyEJY8n5dY3XFBP2VTn13zi1IfHuuekazhcLCruTavPwsjOZc2Jaluzl4RRHtaZBt9K8xKmrS2a_8jAxaW4TO6jPValhsoIfHpNZDk-krW3TrYKRtngvBqz7QFiLPoGjKr7MzN0j801OgvwnDe7rRVPPBnPPwQApPwLqp5bt4efxlPf6fEqgQIjnbDDHDymO5VcQXgR9o9kgzC781PLE9kBiHeXbsJM08VbaUSpdDdW4lPUU36L7a5X0g5JNdOdgsfuQ1xo156AUZ1NRQcu9UIvbr_BRIj0YE-KjHg",
+      jwtToken: "",
+      // jwtToken: "eyJhbGciOiJSUzI1NiIsImtpZCI6ImY4NDY2MjEyMTQxMjQ4NzUxOWJiZjhlYWQ4ZGZiYjM3ODYwMjk5ZDciLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmNhcHAtNTg1MzgiLCJhdWQiOiJmY2FwcC01ODUzOCIsImF1dGhfdGltZSI6MTYxNjgxODIwMiwidXNlcl9pZCI6IjRBdTR0VlFId21hRTg1RkJkT3ZqdkpoZjVTMTMiLCJzdWIiOiI0QXU0dFZRSHdtYUU4NUZCZE92anZKaGY1UzEzIiwiaWF0IjoxNjE2ODE4MjAyLCJleHAiOjE2MTY4MjE4MDIsImVtYWlsIjoiaGlkZXlvc2hpLnBsYXlpbmcudGhlLmJhbmpvQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImhpZGV5b3NoaS5wbGF5aW5nLnRoZS5iYW5qb0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.P79tQJSiCDAEjls_LZVn1nBPV-V-HXlQ49ipBs5_v8L90ahPUJ0R19EueImfUOdQ8HFmG31uz94aOLPeU-TkZsnDxQDTOGbLbEr9R_PREAx4kvL1Z5TRl3pH7oshKsK60kJo3jdrxLSNIsP6qewvDCDPhbzB38qwT9uadH2XP08MgemnWwquST23qkZt_J56WTb2NaBnWT-MQyJsdDYvvRcirbb4z3wnCD6jlVgZ4jigHwCKMdIxJYqYC_UQo15ZG4JVFkkfYy4LswfbQuHtG7sXuAIXe2Kob1z3LGVBjk_LwK11Zcjyhwkbxq9yV2HSwsvmBFSBw83CyP9pNSdHBg",
       linkingUrl: null,
       linkingHostname: null,
       linkingParams: null,
@@ -123,7 +123,6 @@ class App extends React.Component {
     this.setState({
       rest_years: result.data.attributes.asset_years,
       rest_months: result.data.attributes.asset_months,
-      username: result.included[0].attributes.nickname,
       messages: null
     })
   }
