@@ -87,10 +87,6 @@ function handlePress(props) {
   // })
 }
 
-function resetPassword() {
-  console.log('dammy')
-}
-
 const TitleLogo = () => (
   <View style={titleStyle.wrapper}>
     <View>
@@ -105,7 +101,7 @@ const TitleLogo = () => (
 function Footer(props) {
   return (
     <View style={footerStyle.wrapper}>
-      <TouchableOpacity onPress={() => {resetPassword()}}>
+      <TouchableOpacity onPress={() => {props.onPress()}}>
         <Text style={footerStyle.text}>パスワードを忘れた方はこちら</Text>
       </TouchableOpacity>
     </View>
@@ -169,7 +165,7 @@ function UserSigninScreen(props) {
                 </TouchableOpacity>
               </View>
             </View>
-            <Footer />
+            <Footer onPress={() => {setVisible(false); props.navigation.navigate('ResetPassword')}}/>
         </>
         ) : (<></>)}
     </View>
