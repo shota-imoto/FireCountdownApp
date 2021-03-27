@@ -6,18 +6,6 @@ import firebase from "firebase/app";
 import "firebase/auth";
 
 function handlePress(props, rootPath, navigation) {
-  console.log(props)
-  console.log(rootPath)
-  const url = rootPath + 'users/sign_up'
-  const data = {
-    "user": {
-      "nickname" : props.nickname,
-      "email" : props.email,
-      "password" : props.password,
-      "password_confirmation" : props.password_confirmation
-    }
-  }
-
   if (props.password != props.password_confirmation) {
     alert('password is not correspond with password confirmation')
     return
@@ -33,43 +21,14 @@ function handlePress(props, rootPath, navigation) {
   }).catch((error) => {
     alert(error.message);
   })
-
-  // const errorMessage = (props) =>  "通信エラー しばらくお待ちいただき、再度お試しください (何度か試してもうまく行かない場合は次のエラーメッセージを管理者に連絡ください) <エラーメッセージ> " + props
-  // fetch(url, {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json'
-  //   },
-  //   body: JSON.stringify(data),
-  // }).then(res => res.json())
-  // .then(result => {
-  //   const status = result.data.attributes.status;
-  //   const message = result.data.attributes.message;
-  //   if (status == 'success') {
-  //     // props.onClearInput()
-  //     navigation.navigate('UserSignin')
-  //     // alert('ユーザー本登録用のメールを送信しました。しばらく経っても届かない場合は再度お試しください')
-  //     alert('ユーザー登録が完了しました')
-  //   } else if (status == 'error') {
-  //     const errorMessage = []
-  //     Object.keys(message).forEach(key => {
-  //       errorMessage.push(key + ':' + message[key]);
-  //     });
-  //     alert(errorMessage.join('\n'))
-  //     // TODO: アラートの順番変更、日本語化
-  //   }
-  // })
-  // .catch(error => {alert(errorMessage(error))})
 }
 
 function UserSignupScreen(props) {
-  const [nickname, setNickname] = useState(null)
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
   const [password_confirmation, setPasswordConfirmation] = useState(null)
 
   const signupInput = {
-    nickname: nickname,
     email: email,
     password: password,
     password_confirmation: password_confirmation
