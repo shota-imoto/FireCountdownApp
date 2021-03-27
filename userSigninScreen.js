@@ -10,16 +10,7 @@ import * as Linking from 'expo-linking';
 import Url from 'url-parse';
 import { Buffer } from 'buffer';
 
-const TitleLogo = () => (
-  <View style={titleStyle.wrapper}>
-    <View>
-      <Text style={textTitleMain}>F.I.R.E</Text>
-    </View>
-    <View>
-      <Text style={textTitleSub}>Countdown App</Text>
-    </View>
-  </View>
-)
+
 
 function handleLinkSignUp() {
   // alert('url')
@@ -96,6 +87,31 @@ function handlePress(props) {
   // })
 }
 
+function resetPassword() {
+  console.log('dammy')
+}
+
+const TitleLogo = () => (
+  <View style={titleStyle.wrapper}>
+    <View>
+      <Text style={textTitleMain}>F.I.R.E</Text>
+    </View>
+    <View>
+      <Text style={textTitleSub}>Countdown App</Text>
+    </View>
+  </View>
+)
+
+function Footer(props) {
+  return (
+    <View style={footerStyle.wrapper}>
+      <TouchableOpacity onPress={() => {resetPassword()}}>
+        <Text style={footerStyle.text}>パスワードを忘れた方はこちら</Text>
+      </TouchableOpacity>
+    </View>
+  )
+}
+
 function UserSigninScreen(props) {
   const [visible, setVisible] = useState(true)
   // const store = useContext(StoreContext)
@@ -153,6 +169,7 @@ function UserSigninScreen(props) {
                 </TouchableOpacity>
               </View>
             </View>
+            <Footer />
         </>
         ) : (<></>)}
     </View>
@@ -243,6 +260,20 @@ const formStyle = StyleSheet.create ({
     width: 140,
     textAlign: 'left',
     fontSize: 20,
+    fontWeight: 'bold',
+    color: '#ffffff'
+  }
+})
+
+const footerStyle = StyleSheet.create({
+  wrapper: {
+    width: 310,
+    position: 'absolute',
+    bottom:40,
+    alignItems: 'flex-end'
+  },
+  text: {
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#ffffff'
   }
