@@ -5,48 +5,10 @@ import TextInputComponent from './components/textInputComponent.js';
 import { useFocusEffect } from '@react-navigation/native';
 import firebase from "firebase/app";
 import "firebase/auth";
-// import { StoreContext } from './App.js'
 import * as Linking from 'expo-linking';
-import Url from 'url-parse';
 import { Buffer } from 'buffer';
 
-
-
-function handleLinkSignUp() {
-  // alert('url')
-  // alert(url)
-  // alert('url.query')
-  // alert(url.query)
-  // const urlobj = new Url(url)
-  // alert('urlobj')
-  // alert(urlobj.query)
-
-
-
-  // FIXME: アプリが起動されていない状態で本登録をタップしたときに、イベントリスナーが機能しない不具合
-  // const query = this.props.linkingQuery.slice(1).split('&')
-  // alert('1')
-
-  // const queryObject = query.reduce((result, val, i) => {
-  //   const index = val.indexOf('=')
-  //   const key = val.slice(0, index)
-  //   result[key] = val.slice(index + 1)
-  //   return result
-  // }, {})
-  // alert('2')
-
-  // alert(queryObject.message)
-}
-
 function handlePress(props) {
-  const url = props.rootPath + 'users/sign_in'
-  const data = {
-    "user": {
-      "email" : props.email,
-      "password" : props.password
-    }
-  }
-
   firebase.auth().signInWithEmailAndPassword(props.email, props.password)
   .then((res) => {
     if (res.user.emailVerified) {
@@ -57,34 +19,11 @@ function handlePress(props) {
     } else {
       alert('メール認証が完了していません')
     }
-    // console.log(user)
-    // Signed in
-    // ...
   })
   .catch((error) => {
     console.log(error.code);
     alert(error.message);
   });
-
-  // fetch(url, {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json'
-  //   },
-  //   body: JSON.stringify(data)
-  // }).then(res => {
-  //   const token = res.headers.map["x-authentication-token"];
-  //   if (token) {props.setToken(token)}
-  //   return res.json()
-  // }).then(body => {
-  //   const status = body.data.attributes.status;
-  //   const message = body.data.attributes.message;
-  //   if (status == 'success') {
-  //     alert('ログインしました')
-  //   } else if (status == 'error') {
-  //     alert(message)
-  //   }
-  // })
 }
 
 const TitleLogo = () => (

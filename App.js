@@ -53,12 +53,7 @@ class App extends React.Component {
     };
   }
 
-
-
   componentDidMount() {
-    // var string = decodeURI('firecalc://home?status=error&message=%E7%99%BB%E9%8C%B2%E7%A2%BA%E8%AA%8D%E3%83%A1%E3%83%BC%E3%83%AB%E3%81%AE%E6%9C%9F%E9%99%90%E3%81%8C%E5%88%87%E3%82%8C%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99')
-    // const url = new UrlParser(string);
-
     this.setState({
       rootPath: this.state.protcol + this.state.hostDomain + '/api/' + this.state.apiVersion +'/'
     });
@@ -152,7 +147,6 @@ class App extends React.Component {
     })
     this.setState(stateList)
   }
-
 
   render() {
     const config = {
