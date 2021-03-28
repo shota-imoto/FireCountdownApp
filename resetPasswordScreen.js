@@ -14,7 +14,7 @@ function handlePress(props, rootPath, navigation) {
   })
   .catch(function(error) {
     alert(error.message)
-  });;
+  });
 }
 
 function ResetPasswordScreen(props) {
