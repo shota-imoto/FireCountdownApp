@@ -57,14 +57,10 @@ function handlePress(retirement_asset_config, props) {
 
 function RetirementAssetConfigScreen(props) {
   const [monthly_living_cost, setMonthlyLivingCost] = useState(null)
-  const [tax_rate, setTaxRate] = useState(null)
-  const [annual_yield, setAnnualYield] = useState(null)
   const [four_percents_rule_ajustment, setFourPercentsRuleAjustment] = useState(null)
 
   const retirementAssetConfigInput = {
     monthly_living_cost: monthly_living_cost,
-    tax_rate: tax_rate,
-    annual_yield: annual_yield,
     four_percents_rule_ajustment: four_percents_rule_ajustment
   }
 
@@ -72,8 +68,6 @@ function RetirementAssetConfigScreen(props) {
     const config = getConfig(props)
     config.then(config => {
       setMonthlyLivingCost(config.monthly_living_cost)
-      setTaxRate(config.tax_rate)
-      setAnnualYield(config.annual_yield)
       setFourPercentsRuleAjustment(config.four_percents_rule_ajustment)
     })
   }, [])
@@ -87,26 +81,6 @@ function RetirementAssetConfigScreen(props) {
         <TextInputComponent
           value={ monthly_living_cost }
           onChangeText={(text) => setMonthlyLivingCost(text)}
-          type='number'
-        />
-      </View>
-      <View style={ textStyle.wrapper }>
-        <View style={textStyle.labelBlock}>
-          <Text style={ textStyle.label }>税引き後レート(%)</Text>
-        </View>
-        <TextInputComponent
-          value={ tax_rate }
-          onChangeText={(text) => setTaxRate(text)}
-          type='number'
-        />
-      </View>
-      <View style={ textStyle.wrapper }>
-        <View style={textStyle.labelBlock}>
-          <Text style={ textStyle.label }>期待年利</Text>
-        </View>
-        <TextInputComponent
-          value={ annual_yield }
-          onChangeText={(text) => setAnnualYield(text)}
           type='number'
         />
       </View>
