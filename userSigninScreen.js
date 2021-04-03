@@ -17,11 +17,17 @@ function handlePress(props) {
         props.setToken(token)
       })
     } else {
-      alert('メール認証が完了していません')
+
+      firebase.auth().currentUser.sendEmailVerification()
+      .then(function() {
+        alert('メール認証が完了していません。認証メールを再送しましたので、ご確認ください。')
+      })
+      .catch(function(e) {
+        alert('メール認証が完了していません。認証メールの再送に失敗しました。再度ログインを試みてください。')
+      })
     }
   })
   .catch((error) => {
-    console.log(error.code);
     alert(error.message);
   });
 }
@@ -42,9 +48,6 @@ function Footer(props) {
     <View style={footerStyle.wrapper}>
       <TouchableOpacity style={footerStyle.btn} onPress={() => {props.onPress()}}>
         <Text style={footerStyle.text}>パスワードを忘れた方はこちら</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={footerStyle.btn} onPress={() => {props.toResendEmail()}}>
-        <Text style={footerStyle.text}>登録確認メールの再送</Text>
       </TouchableOpacity>
     </View>
   )
