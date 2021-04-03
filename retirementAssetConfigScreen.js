@@ -28,8 +28,6 @@ function handlePress(retirement_asset_config, props) {
   const data = {
     "retirement_asset_calc": {
       monthly_living_cost: retirement_asset_config.monthly_living_cost,
-      tax_rate: 5,
-      annual_yield: 5,
       four_percents_rule_ajustment: retirement_asset_config.four_percents_rule_ajustment,
     }
   }
