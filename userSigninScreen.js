@@ -40,8 +40,11 @@ const TitleLogo = () => (
 function Footer(props) {
   return (
     <View style={footerStyle.wrapper}>
-      <TouchableOpacity onPress={() => {props.onPress()}}>
+      <TouchableOpacity style={footerStyle.btn} onPress={() => {props.onPress()}}>
         <Text style={footerStyle.text}>パスワードを忘れた方はこちら</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={footerStyle.btn} onPress={() => {props.toResendEmail()}}>
+        <Text style={footerStyle.text}>登録確認メールの再送</Text>
       </TouchableOpacity>
     </View>
   )
@@ -104,7 +107,10 @@ function UserSigninScreen(props) {
                 </TouchableOpacity>
               </View>
             </View>
-            <Footer onPress={() => {setVisible(false); props.navigation.navigate('ResetPassword')}}/>
+            <Footer
+              onPress={() => {setVisible(false); props.navigation.navigate('ResetPassword')}}
+              toResendEmail={() => {setVisible(false); props.navigation.navigate('ResendEmail')}}
+            />
         </>
         ) : (<></>)}
     </View>
@@ -206,6 +212,9 @@ const footerStyle = StyleSheet.create({
     position: 'absolute',
     bottom:40,
     alignItems: 'flex-end'
+  },
+  btn: {
+    marginBottom: 14
   },
   text: {
     fontSize: 16,
