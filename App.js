@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { NavigationContainer, NavigationContext, useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as Linking from 'expo-linking';
 import HomeScreen from './homeScreen.js';
@@ -38,11 +38,6 @@ class App extends React.Component {
       linkingUrl: null,
       linkingHostname: null,
       linkingParams: null,
-      // user
-      nickname: null,
-      email: null,
-      password: null,
-      password_confirmation: null,
       // home mount
       mounted: true,
       username: null,
