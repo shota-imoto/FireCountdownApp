@@ -15,6 +15,7 @@ function getConfig(props) {
   .then(body => {
     const asset_config = body.data.attributes
     const newState = {};
+    console.log(asset_config)
     Object.keys(asset_config).forEach(key => {
           newState[key] = asset_config[key];
     });
@@ -27,10 +28,10 @@ function handlePress(retirement_asset_config, props) {
   const data = {
     "retirement_asset_calc": {
       monthly_living_cost: retirement_asset_config.monthly_living_cost,
-      tax_rate: retirement_asset_config.tax_rate,
-      annual_yield: retirement_asset_config.annual_yield
+      four_percents_rule_ajustment: retirement_asset_config.four_percents_rule_ajustment,
     }
   }
+  console.log(data)
   fetch(url, {
     method: 'POST',
     headers: {
@@ -54,21 +55,18 @@ function handlePress(retirement_asset_config, props) {
 
 function RetirementAssetConfigScreen(props) {
   const [monthly_living_cost, setMonthlyLivingCost] = useState(null)
-  const [tax_rate, setTaxRate] = useState(null)
-  const [annual_yield, setAnnualYield] = useState(null)
+  const [four_percents_rule_ajustment, setFourPercentsRuleAjustment] = useState(null)
 
   const retirementAssetConfigInput = {
     monthly_living_cost: monthly_living_cost,
-    tax_rate: tax_rate,
-    annual_yield: annual_yield
+    four_percents_rule_ajustment: four_percents_rule_ajustment
   }
 
   useEffect(() => {
     const config = getConfig(props)
     config.then(config => {
       setMonthlyLivingCost(config.monthly_living_cost)
-      setTaxRate(config.tax_rate)
-      setAnnualYield(config.annual_yield)
+      setFourPercentsRuleAjustment(config.four_percents_rule_ajustment)
     })
   }, [])
 
@@ -86,21 +84,11 @@ function RetirementAssetConfigScreen(props) {
       </View>
       <View style={ textStyle.wrapper }>
         <View style={textStyle.labelBlock}>
-          <Text style={ textStyle.label }>税引き後レート(%)</Text>
+          <Text style={ textStyle.label }>4%ルール補正</Text>
         </View>
         <TextInputComponent
-          value={ tax_rate }
-          onChangeText={(text) => setTaxRate(text)}
-          type='number'
-        />
-      </View>
-      <View style={ textStyle.wrapper }>
-        <View style={textStyle.labelBlock}>
-          <Text style={ textStyle.label }>期待年利</Text>
-        </View>
-        <TextInputComponent
-          value={ annual_yield }
-          onChangeText={(text) => setAnnualYield(text)}
+          value={ four_percents_rule_ajustment }
+          onChangeText={(text) => setFourPercentsRuleAjustment(text)}
           type='number'
         />
       </View>
@@ -108,10 +96,6 @@ function RetirementAssetConfigScreen(props) {
         <TouchableOpacity style={ btnStyle.btn } onPress={() => {handlePress(retirementAssetConfigInput, props)} }>
           <Text style={ btnStyle.text }>設定</Text>
         </TouchableOpacity>
-      </View>
-      <View style={styles.descriptionBox}>
-        <Text>※4%ルール適用の場合は税引き後レートを80%、期待年利を5%と入力。</Text>
-        <Text> 5% × 80% = 4%</Text>
       </View>
     </View>
   )
