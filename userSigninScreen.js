@@ -49,9 +49,6 @@ function Footer(props) {
       <TouchableOpacity style={footerStyle.btn} onPress={() => {props.onPress()}}>
         <Text style={footerStyle.text}>パスワードを忘れた方はこちら</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={footerStyle.btn} onPress={() => {props.toResendEmail()}}>
-        <Text style={footerStyle.text}>登録確認メールの再送</Text>
-      </TouchableOpacity>
     </View>
   )
 }
