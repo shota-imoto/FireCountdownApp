@@ -7,7 +7,6 @@ import UserSignupScreen from './userSignupScreen.js';
 import UserSigninScreen from './userSigninScreen.js';
 import ConfigScreen from './configScreen.js';
 import ResetPasswordScreen from './resetPasswordScreen.js';
-import ResendEmailScreen from './resendEmailScreen.js';
 import RetirementAssetConfigScreen from './retirementAssetConfigScreen.js';
 import UrlParser from './lib/url.js';
 import { TransitionPresets } from '@react-navigation/stack';
@@ -174,9 +173,6 @@ class App extends React.Component {
               </Stack.Screen>
               <Stack.Screen name="ResetPassword" options={{ headerShown: false, cardStyle: {backgroundColor: 'transparent'}, ...TransitionPresets.ModalTransition }}>
                 {() => <ResetPasswordScreen navigation={useNavigation()} {...this.state} onChangePassword={(text) => {this.handleChangePassword(text)}} onChangePasswordConfirmation={(text) => {this.handleChangePasswordConfirmation(text)}} resetState={(attributes) => {this.resetState(attributes)}}/>}
-              </Stack.Screen>
-              <Stack.Screen name="ResendEmail" options={{ headerShown: false, cardStyle: {backgroundColor: 'transparent'}, ...TransitionPresets.ModalTransition }}>
-                {() => <ResendEmailScreen navigation={useNavigation()} {...this.state} onChangePassword={(text) => {this.handleChangePassword(text)}} onChangePasswordConfirmation={(text) => {this.handleChangePasswordConfirmation(text)}} resetState={(attributes) => {this.resetState(attributes)}}/>}
               </Stack.Screen>
             </>
           ) : (
