@@ -8,8 +8,8 @@ import "firebase/auth";
 import * as Linking from 'expo-linking';
 import { Buffer } from 'buffer';
 
-function handlePress(props) {
-  firebase.auth().signInWithEmailAndPassword(props.email, props.password)
+function handlePress(input, props) {
+  firebase.auth().signInWithEmailAndPassword(input.email, input.password)
   .then((res) => {
     if (res.user.emailVerified) {
       firebase.auth().currentUser.getIdToken()
@@ -55,7 +55,14 @@ function Footer(props) {
 
 function UserSigninScreen(props) {
   const [visible, setVisible] = useState(true)
-  // const store = useContext(StoreContext)
+
+  const [email, setEmail] = useState(null)
+  const [password, setPassword] = useState(null)
+
+  const signinInput = {
+    email: email,
+    password: password,
+  }
 
   useEffect(() => {
     // store.setJwtToken("eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOjE4LCJpYXQiOjE2MTc0OTUwMTh9.BK8J6efrBhqJ7ts2rPMH0hJrEO-9c4LSY6V-a296YM9aDyEJY8n5dY3XFBP2VTn13zi1IfHuuekazhcLCruTavPwsjOZc2Jaluzl4RRHtaZBt9K8xKmrS2a_8jAxaW4TO6jPValhsoIfHpNZDk-krW3TrYKRtngvBqz7QFiLPoGjKr7MzN0j801OgvwnDe7rRVPPBnPPwQApPwLqp5bt4efxlPf6fEqgQIjnbDDHDymO5VcQXgR9o9kgzC781PLE9kBiHeXbsJM08VbaUSpdDdW4lPUU36L7a5X0g5JNdOdgsfuQ1xo156AUZ1NRQcu9UIvbr_BRIj0YE-KjHg")
@@ -80,7 +87,7 @@ function UserSigninScreen(props) {
               <Text style={ formStyle.text }>メールアドレス</Text>
               <TextInputComponent
                 value={ props.email }
-                onChangeText={(text) => props.onChangeEmail(text)}
+                onChangeText={(text) => setEmail(text)}
                 type='email'
               />
             </View>
@@ -88,7 +95,7 @@ function UserSigninScreen(props) {
               <Text style={ formStyle.text }>パスワード</Text>
               <TextInputComponent
                 value={ props.password }
-                onChangeText={(text) => props.onChangePassword(text)}
+                onChangeText={(text) => setPassword(text)}
                 type='password'
               />
             </View>
@@ -96,7 +103,7 @@ function UserSigninScreen(props) {
               <View>
                 <TouchableOpacity
                   style={btnYellow}
-                  onPress={() => {handlePress(props)} }
+                  onPress={() => {handlePress(signinInput, props)} }
                 >
                   <Text style={btnStyle.textYellow}>ログイン</Text>
                 </TouchableOpacity>
