@@ -130,28 +130,14 @@ function UserSigninScreen(props) {
 }
 
 // StyleSheet
-// const { width, height, scale } = Dimensions.get('window')
-// const bgheight = 0
-// const bgwidth = 0
-// Image.getSize('./assets/background_img.jpg', (width, height) => {
-//   bgwidth = width
-//   bgheight = height
-// });
-
 const backgroundImage = require('./assets/background_img.jpg')
-
-
 
 const styles = StyleSheet.create({
   backgroundImage: {
     ...StyleSheet.absoluteFillObject,
     top: '-35%',
     width: '180%',
-    left: '-100%'
-    // flexGrow:0.5,
-    // height:null,
-    // width:null,
-    // justifyContent: 'center', alignItems: 'center'
+    left: '-110%'
   },
   wrapper: {
     ...StyleSheet.absoluteFillObject,
