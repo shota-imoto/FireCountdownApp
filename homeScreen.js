@@ -168,14 +168,14 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     top: '-35%',
     width: '180%',
-    left: '-100%'
+    left: '-110%'
   },
 });
 
 const titleStyle = StyleSheet.create({
   wrapper: {
-    marginTop: 80,
-    marginBottom: 50,
+    marginTop: 40,
+    marginBottom: 100,
     width: 310,
     alignItems: 'flex-end'
   },
@@ -198,7 +198,7 @@ const textTitleSub = StyleSheet.compose(titleStyle.textSub, titleStyle.textCommo
 const contentStyle = StyleSheet.create({
   wrapper: {
     width: 310,
-    marginBottom: 36,
+    marginBottom: 10,
   },
   countdownMessage: {
     marginBottom: 6,
