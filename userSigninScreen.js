@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { SafeAreaView, View, Button, StyleSheet, Text, ImageBackground } from 'react-native';
+import { SafeAreaView, View, Button, StyleSheet, Text, ImageBackground, Dimensions, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextInputComponent from './components/textInputComponent.js';
 import { useFocusEffect } from '@react-navigation/native';
@@ -7,6 +7,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import * as Linking from 'expo-linking';
 import { Buffer } from 'buffer';
+import background from './assets/background_img.jpg'
 
 function handlePress(input, props) {
   firebase.auth().signInWithEmailAndPassword(input.email, input.password)
@@ -53,6 +54,7 @@ function Footer(props) {
   )
 }
 
+
 function UserSigninScreen(props) {
   const [visible, setVisible] = useState(true)
 
@@ -80,63 +82,76 @@ function UserSigninScreen(props) {
   return (
     <View style={styles.wrapper}>
       <ImageBackground source={backgroundImage} style={styles.backgroundImage}/>
-        {visible ? (
-          <>
-            <TitleLogo />
-            <View style={ formStyle.wrapper }>
-              <Text style={ formStyle.text }>メールアドレス</Text>
-              <TextInputComponent
-                value={ props.email }
-                onChangeText={(text) => setEmail(text)}
-                type='email'
-              />
-            </View>
-            <View style={ formStyle.wrapper }>
-              <Text style={ formStyle.text }>パスワード</Text>
-              <TextInputComponent
-                value={ props.password }
-                onChangeText={(text) => setPassword(text)}
-                type='password'
-              />
-            </View>
-            <View style={ btnStyle.wrapper }>
-              <View>
-                <TouchableOpacity
-                  style={btnYellow}
-                  onPress={() => {handlePress(signinInput, props)} }
-                >
-                  <Text style={btnStyle.textYellow}>ログイン</Text>
-                </TouchableOpacity>
-              </View>
-              <View>
-                <TouchableOpacity
-                  style={btnStyle.btn}
-                  onPress={() => {setVisible(false); props.navigation.navigate('UserSignup')}}
-                >
-                  <Text style={btnStyle.text}>新規登録</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <Footer
-              onPress={() => {setVisible(false); props.navigation.navigate('ResetPassword')}}
-              toResendEmail={() => {setVisible(false); props.navigation.navigate('ResendEmail')}}
+      {visible ? (
+        <>
+          <TitleLogo />
+          <View style={ formStyle.wrapper }>
+            <Text style={ formStyle.text }>メールアドレス</Text>
+            <TextInputComponent
+              value={ props.email }
+              onChangeText={(text) => setEmail(text)}
+              type='email'
             />
-        </>
-        ) : (<></>)}
+          </View>
+          <View style={ formStyle.wrapper }>
+            <Text style={ formStyle.text }>パスワード</Text>
+            <TextInputComponent
+              value={ props.password }
+              onChangeText={(text) => setPassword(text)}
+              type='password'
+            />
+          </View>
+          <View style={ btnStyle.wrapper }>
+            <View>
+              <TouchableOpacity
+                style={btnYellow}
+                onPress={() => {handlePress(signinInput, props)} }
+              >
+                <Text style={btnStyle.textYellow}>ログイン</Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity
+                style={btnStyle.btn}
+                onPress={() => {setVisible(false); props.navigation.navigate('UserSignup')}}
+              >
+                <Text style={btnStyle.text}>新規登録</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <Footer
+            onPress={() => {setVisible(false); props.navigation.navigate('ResetPassword')}}
+            toResendEmail={() => {setVisible(false); props.navigation.navigate('ResendEmail')}}
+          />
+      </>
+      ) : (<></>)}
     </View>
   )
 }
 
 // StyleSheet
+// const { width, height, scale } = Dimensions.get('window')
+// const bgheight = 0
+// const bgwidth = 0
+// Image.getSize('./assets/background_img.jpg', (width, height) => {
+//   bgwidth = width
+//   bgheight = height
+// });
 
 const backgroundImage = require('./assets/background_img.jpg')
+
+
 
 const styles = StyleSheet.create({
   backgroundImage: {
     ...StyleSheet.absoluteFillObject,
-    top: -270,
-    left: -340,
-    width: 1100
+    top: '-35%',
+    width: '180%',
+    left: '-100%'
+    // flexGrow:0.5,
+    // height:null,
+    // width:null,
+    // justifyContent: 'center', alignItems: 'center'
   },
   wrapper: {
     ...StyleSheet.absoluteFillObject,
