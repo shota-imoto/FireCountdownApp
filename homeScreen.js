@@ -166,9 +166,9 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     ...StyleSheet.absoluteFillObject,
-    top: -270,
-    left: -340,
-    width: 1100
+    top: '-35%',
+    width: '180%',
+    left: '-100%'
   },
 });
 
