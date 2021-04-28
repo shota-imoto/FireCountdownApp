@@ -156,7 +156,7 @@ function HomeScreen (props) {
   );
 }
 
-const backgroundImage = require('./assets/background_img.jpg')
+const backgroundImage = require('../assets/background_img.jpg')
 
 const styles = StyleSheet.create({
   screen: {
