@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import { SafeAreaView, View, Button, StyleSheet, Text, TextInput } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import TextInputComponent from './components/textInputComponent.js';
+import TextInputComponent from '../components/textInputComponent.js';
 import firebase from "firebase/app";
 import "firebase/auth";
 
