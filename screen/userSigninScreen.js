@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { SafeAreaView, View, Button, StyleSheet, Text, ImageBackground, Dimensions, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import TextInputComponent from './components/textInputComponent.js';
+import TextInputComponent from '../components/textInputComponent.js';
 import { useFocusEffect } from '@react-navigation/native';
 import firebase from "firebase/app";
 import "firebase/auth";
 import * as Linking from 'expo-linking';
 import { Buffer } from 'buffer';
-import background from './assets/background_img.jpg'
+import background from '../assets/background_img.jpg'
 
 function handlePress(input, props) {
   firebase.auth().signInWithEmailAndPassword(input.email, input.password)
@@ -121,7 +121,6 @@ function UserSigninScreen(props) {
           </View>
           <Footer
             onPress={() => {setVisible(false); props.navigation.navigate('ResetPassword')}}
-            toResendEmail={() => {setVisible(false); props.navigation.navigate('ResendEmail')}}
           />
       </>
       ) : (<></>)}
@@ -130,7 +129,7 @@ function UserSigninScreen(props) {
 }
 
 // StyleSheet
-const backgroundImage = require('./assets/background_img.jpg')
+const backgroundImage = require('../assets/background_img.jpg')
 
 const styles = StyleSheet.create({
   backgroundImage: {

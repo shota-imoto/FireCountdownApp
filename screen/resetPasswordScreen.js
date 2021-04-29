@@ -1,37 +1,27 @@
 import React, {useState} from 'react';
-import { SafeAreaView, View, Button, StyleSheet, Text, TextInput } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import TextInputComponent from './components/textInputComponent.js';
+import TextInputComponent from '../components/textInputComponent.js';
 import firebase from "firebase/app";
 import "firebase/auth";
 
 function handlePress(props, rootPath, navigation) {
-  if (props.password != props.password_confirmation) {
-    alert('password is not correspond with password confirmation')
-    return
-  }
-
-  firebase.auth().createUserWithEmailAndPassword(props.email, props.password)
-  .then((user) => {
-    firebase.auth().currentUser.sendEmailVerification()
-    .then(() => {
-      alert('verify email was sent. Open URL in email and complete sign up.')
-      navigation.navigate('UserSignin')
-})
-  }).catch((error) => {
-    alert(error.message);
+  // TODO: リッチなパスワード変更画面の提供
+  firebase.auth().sendPasswordResetEmail(props.email)
+  .then(function() {
+    alert('Password reset email had sent.Click URL and Input password in the email.')
+    navigation.navigate('UserSignin')
   })
+  .catch(function(error) {
+    alert(error.message)
+  });
 }
 
-function UserSignupScreen(props) {
+function ResetPasswordScreen(props) {
   const [email, setEmail] = useState(null)
-  const [password, setPassword] = useState(null)
-  const [password_confirmation, setPasswordConfirmation] = useState(null)
 
   const signupInput = {
     email: email,
-    password: password,
-    password_confirmation: password_confirmation
   }
 
   return (
@@ -46,29 +36,9 @@ function UserSignupScreen(props) {
           type='email'
         />
       </View>
-      <View style={ textStyle.wrapper }>
-        <View style={ textStyle.labelBlock }>
-          <Text style={ textStyle.label }>パスワード</Text>
-        </View>
-        <TextInputComponent
-          value={ props.password }
-          onChangeText={(text) => setPassword(text)}
-          type='password'
-        />
-      </View>
-      <View style={ textStyle.wrapper }>
-        <View style={ textStyle.labelBlock }>
-          <Text style={ textStyle.label }>パスワード(確認用)</Text>
-        </View>
-        <TextInputComponent
-          value={ props.password_confirmation }
-          onChangeText={(text) => setPasswordConfirmation(text)}
-          type='password_confirmation'
-        />
-      </View>
       <View style={ btnStyle.wrapper }>
         <TouchableOpacity style={ btnStyle.btn } onPress={() => {handlePress(signupInput, props.rootPath, props.navigation)} }>
-          <Text style={ btnStyle.text }>登録</Text>
+          <Text style={ btnStyle.text }>送信</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -133,4 +103,4 @@ const btnStyle = StyleSheet.create({
   }
 })
 
-export default UserSignupScreen;
+export default ResetPasswordScreen;
