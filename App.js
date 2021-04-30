@@ -11,6 +11,7 @@ import RetirementAssetConfigScreen from './screen/retirementAssetConfigScreen.js
 import UrlParser from './lib/url.js';
 import { TransitionPresets } from '@react-navigation/stack';
 import * as firebase from 'firebase';
+import { Translations } from './locale/i18n.js'
 
 const Stack = createStackNavigator();
 
@@ -23,20 +24,23 @@ const firebaseConfig = {
   storageBucket: 'fcapp-58538.appspot.com',
 };
 
-firebase.initializeApp(firebaseConfig);
+if (firebase.apps.length === 0) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      locale: 'en',
       protcol: 'http://',
       hostDomain: 'localhost:3000',
       // protcol: 'https://'
       // hostDomain: 'fcaapp.cf',
       apiVersion: 'v1',
       rootPath: null,
-      // jwtToken: "",
-      jwtToken: "eyJhbGciOiJSUzI1NiIsImtpZCI6IjhkOGM3OTdlMDQ5YWFkZWViOWM5M2RiZGU3ZDAwMzJmNjk3NjYwYmQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmNhcHAtNTg1MzgiLCJhdWQiOiJmY2FwcC01ODUzOCIsImF1dGhfdGltZSI6MTYxNzQ0MzczNCwidXNlcl9pZCI6ImI1RzR2YjNsMFpiVkdrSmZkb0JDWU9VeFZpVDIiLCJzdWIiOiJiNUc0dmIzbDBaYlZHa0pmZG9CQ1lPVXhWaVQyIiwiaWF0IjoxNjE3NDQzNzM0LCJleHAiOjE2MTc0NDczMzQsImVtYWlsIjoiaGlkZXlvc2hpLnBsYXlpbmcudGhlLmJhbmpvQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImhpZGV5b3NoaS5wbGF5aW5nLnRoZS5iYW5qb0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.kwodeVDVwLTyN3V9XLAcZ4WEVZat3knMx-3BoADblLsM6Ie9wGdRK6rc_BYLvGVWGUiXQUfjPLPayH8HhxODF6K8G6CQ0avKIdmo7Dt68cjZdqpMFMhbDK65xQliVtQxKmqFCYCUoeG2iuIqT-zgV-LdyhpXdA5rQYDnG5FdcwiIhIz54qbBhbGlSz7H0yQo908DZwsYpYiLTBZGa-oPaqyoi1vrEEwtLOPJDfdiT5dD80H-_mXOzUsO--zi57uzqNMKCQokuuCT2wWuWbU40jF4nt8XsMs4atNr_sjT9tcl5DrDARd344l0J9TQG1RzzqgWOAzcEzGI8SlINBHluw",
+      jwtToken: "",
+      // jwtTosken: "eyJhbGciOiJSUzI1NiIsImtpZCI6IjRlOWRmNWE0ZjI4YWQwMjUwNjRkNjY1NTNiY2I5YjMzOTY4NWVmOTQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmNhcHAtNTg1MzgiLCJhdWQiOiJmY2FwcC01ODUzOCIsImF1dGhfdGltZSI6MTYxOTY2MDMyMiwidXNlcl9pZCI6InJ3WWpWaDE5aWVQWnBFSWwyMUZHRG14MVlXQjIiLCJzdWIiOiJyd1lqVmgxOWllUFpwRUlsMjFGR0RteDFZV0IyIiwiaWF0IjoxNjE5NjYwMzIyLCJleHAiOjE2MTk2NjM5MjIsImVtYWlsIjoiaGlkZXlvc2hpLnBsYXlpbmcudGhlLmJhbmpvQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImhpZGV5b3NoaS5wbGF5aW5nLnRoZS5iYW5qb0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.aaWI7ZHyeXZpjbCg5wyjzVQOI_HuSywrQoruGPB5COZIFZn1RzgdVslRJhm9FX6WPlv3V_PF1ED56z1bhYmD9xLk3Q4wCrJK2i9T-QxWQB7Mnbrz5Zg4cFxtCmygR27bmHMfIym_v6tMncC6-a-0OdvPY6Z2v2ofXU-FDsUqTP3J6p6JJ8Gr6XECgj3g0czVGTpqBulp5QpiJiV1c_KLcvSnMQO_NEh8uTyv47jqjDRlmAdpVlCH5ipPMV6BtVjF0kdjD-Koo8CCr-zksegXr4KMdaagrPK1Su4dJ8uPuA2luc8q4k6Yq3SBxR88QrX9b40AXt4mZtx73ucOKbKa6w",
       linkingUrl: null,
       linkingHostname: null,
       linkingParams: null,

@@ -107,7 +107,7 @@ function Footer(props) {
 }
 
 function fetchData(props) {
-  const url = props.rootPath
+  const url = props.rootPath + '?locale=ja'
   fetch(url, {
     headers: {
       'Authorization': 'Token ' + props.jwtToken

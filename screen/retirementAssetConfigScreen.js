@@ -15,7 +15,6 @@ function getConfig(props) {
   .then(body => {
     const asset_config = body.data.attributes
     const newState = {};
-    console.log(asset_config)
     Object.keys(asset_config).forEach(key => {
           newState[key] = asset_config[key];
     });
@@ -31,7 +30,6 @@ function handlePress(retirement_asset_config, props) {
       four_percents_rule_ajustment: retirement_asset_config.four_percents_rule_ajustment,
     }
   }
-  console.log(data)
   fetch(url, {
     method: 'POST',
     headers: {
