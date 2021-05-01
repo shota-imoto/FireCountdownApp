@@ -20,8 +20,8 @@
 		"retirement_asset_config": "Retirement Asset Config",
 		"rest_time": {
 			"until_retire": "Until retire..",
-			"rest_years": "yrs",
-			"rest_months": "mos"
+			"rest_years": "yrs.",
+			"rest_months": "mos."
 		},
 		"sign_out": "Sign out"
 	},
