@@ -2,10 +2,16 @@
 	"setting_compete": "setting completed.",
 	"common": {
 		"email": "email",
-		"password": "password"
+		"password": "password",
+		"submit": "submit"
 	},
 	"sign_in": {
 		"sign_in": "Sign in",
+		"sign_up": "Sign up",
+		"forgot_password": "Forgot your passoword?"
+	},
+	"sign_up": {
+		"password_confirmation": "password(confirmaiton)",
 		"sign_up": "Sign up"
 	}
 }

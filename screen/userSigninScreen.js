@@ -50,7 +50,7 @@ function Footer(props) {
   return (
     <View style={footerStyle.wrapper}>
       <TouchableOpacity style={footerStyle.btn} onPress={() => {props.onPress()}}>
-        <Text style={footerStyle.text}>パスワードを忘れた方はこちら</Text>
+        <Text style={footerStyle.text}>{Translations.t('sign_in.forgot_password')}</Text>
       </TouchableOpacity>
     </View>
   )

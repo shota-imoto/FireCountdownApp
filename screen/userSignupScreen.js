@@ -4,6 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextInputComponent from '../components/textInputComponent.js';
 import firebase from "firebase/app";
 import "firebase/auth";
+import { Translations } from '../locale/i18n.js'
 
 function handlePress(props, rootPath, navigation) {
   if (props.password != props.password_confirmation) {
@@ -38,7 +39,7 @@ function UserSignupScreen(props) {
     <View style={ styles.wrapper }>
       <View style={ textStyle.wrapper }>
         <View style={ textStyle.labelBlock }>
-          <Text style={ textStyle.label }>メールアドレス</Text>
+          <Text style={ textStyle.label }>{Translations.t('common.email')}</Text>
         </View>
         <TextInputComponent
           value={ props.email }
@@ -48,7 +49,7 @@ function UserSignupScreen(props) {
       </View>
       <View style={ textStyle.wrapper }>
         <View style={ textStyle.labelBlock }>
-          <Text style={ textStyle.label }>パスワード</Text>
+          <Text style={ textStyle.label }>{Translations.t('common.password')}</Text>
         </View>
         <TextInputComponent
           value={ props.password }
@@ -58,7 +59,7 @@ function UserSignupScreen(props) {
       </View>
       <View style={ textStyle.wrapper }>
         <View style={ textStyle.labelBlock }>
-          <Text style={ textStyle.label }>パスワード(確認用)</Text>
+          <Text style={ textStyle.label }>{Translations.t('sign_up.password_confirmation')}</Text>
         </View>
         <TextInputComponent
           value={ props.password_confirmation }
@@ -68,7 +69,7 @@ function UserSignupScreen(props) {
       </View>
       <View style={ btnStyle.wrapper }>
         <TouchableOpacity style={ btnStyle.btn } onPress={() => {handlePress(signupInput, props.rootPath, props.navigation)} }>
-          <Text style={ btnStyle.text }>登録</Text>
+          <Text style={ btnStyle.text }>{Translations.t('sign_up.sign_up')}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -127,7 +128,7 @@ const btnStyle = StyleSheet.create({
     backgroundColor: '#EDB413',
   },
   text: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#ffffff'
   }
