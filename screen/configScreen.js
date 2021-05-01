@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextInputComponent from '../components/textInputComponent.js'
+import { Translations } from '../locale/i18n.js';
 
 function getConfig(props) {
   const url = props.rootPath + 'config/new'
@@ -77,7 +78,7 @@ function ConfigScreen (props) {
     <View style={ styles.wrapper }>
       <View style={ textStyle.wrapper }>
         <View style={textStyle.labelBlock}>
-          <Text style={ textStyle.label }>現在の資産</Text>
+          <Text style={ textStyle.label }>{Translations.t('config.initial_asset')}</Text>
         </View>
         <TextInputComponent
           value={ initial_asset }
@@ -87,7 +88,7 @@ function ConfigScreen (props) {
       </View>
       <View style={ textStyle.wrapper }>
         <View style={textStyle.labelBlock}>
-          <Text style={ textStyle.label }>月々の積立額</Text>
+          <Text style={ textStyle.label }>{Translations.t('config.monthly_purchase')}</Text>
         </View>
         <TextInputComponent
           value={ monthly_purchase }
@@ -97,7 +98,7 @@ function ConfigScreen (props) {
       </View>
       <View style={ textStyle.wrapper }>
         <View style={textStyle.labelBlock}>
-          <Text style={ textStyle.label }>期待年利</Text>
+          <Text style={ textStyle.label }>{Translations.t('config.annual_yield')}</Text>
         </View>
         <TextInputComponent
           value={ annual_yield }
@@ -107,7 +108,7 @@ function ConfigScreen (props) {
       </View>
       <View style={ btnStyle.wrapper }>
         <TouchableOpacity style={ btnStyle.btn } onPress={() => {handlePress(assetConfigInput, props)}}>
-          <Text style={ btnStyle.text }>設定</Text>
+          <Text style={ btnStyle.text }>{Translations.t('common.setting')}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -166,7 +167,7 @@ const btnStyle = StyleSheet.create({
     backgroundColor: '#EDB413',
   },
   text: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#ffffff'
   }

@@ -3,7 +3,8 @@
 	"common": {
 		"email": "email",
 		"password": "password",
-		"submit": "submit"
+		"submit": "submit",
+		"setting": "setting"
 	},
 	"sign_in": {
 		"sign_in": "Sign in",
@@ -23,5 +24,14 @@
 			"rest_months": "mos"
 		},
 		"sign_out": "Sign out"
+	},
+	"config": {
+		"initial_asset": "Current asset",
+		"monthly_purchase": "Purchase price per month",
+		"annual_yield": "Expected yield per year",
+	},
+	"retirement_asset_config": {
+		"monthly_living_cost": "Monthly budget",
+		"four_percents_rule_adjustment": "Adjust 4% rule"
 	}
 }

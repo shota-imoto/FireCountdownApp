@@ -3,7 +3,8 @@
 	"common": {
 		"email": "メールアドレス",
 		"password": "パスワード",
-		"submit": "送信"
+		"submit": "送信",
+		"setting": "設定"
 	},
 	"sign_in": {
 		"sign_in": "ログイン",
@@ -23,5 +24,14 @@
 			"rest_months": "ヶ月"
 		},
 		"sign_out": "サインアウト"
+	},
+	"config": {
+		"initial_asset": "現在の資産",
+		"monthly_purchase": "月々の積立額",
+		"annual_yield": "期待年利"
+	},
+	"retirement_asset_config": {
+		"monthly_living_cost": "月々の生活費",
+		"four_percents_rule_adjustment": "4%ルール補正"
 	}
 }
