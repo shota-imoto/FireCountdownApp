@@ -1,0 +1,37 @@
+{
+	"setting_compete": "setting completed.",
+	"common": {
+		"email": "email",
+		"password": "password",
+		"submit": "submit",
+		"setting": "setting"
+	},
+	"sign_in": {
+		"sign_in": "Sign in",
+		"sign_up": "Sign up",
+		"forgot_password": "Forgot your passoword?"
+	},
+	"sign_up": {
+		"password_confirmation": "password(confirmaiton)",
+		"sign_up": "Sign up"
+	},
+	"home": {
+		"asset_config": "Main Config",
+		"retirement_asset_config": "Retirement Asset Config",
+		"rest_time": {
+			"until_retire": "Until retire..",
+			"rest_years": "yrs.",
+			"rest_months": "mos."
+		},
+		"sign_out": "Sign out"
+	},
+	"config": {
+		"initial_asset": "Current asset",
+		"monthly_purchase": "Purchase price per month",
+		"annual_yield": "Expected yield per year",
+	},
+	"retirement_asset_config": {
+		"monthly_living_cost": "Monthly budget",
+		"four_percents_rule_adjustment": "Adjust 4% rule"
+	}
+}

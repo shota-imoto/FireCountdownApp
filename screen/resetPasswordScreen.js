@@ -4,6 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextInputComponent from '../components/textInputComponent.js';
 import firebase from "firebase/app";
 import "firebase/auth";
+import { Translations } from '../locale/i18n.js'
 
 function handlePress(props, rootPath, navigation) {
   // TODO: リッチなパスワード変更画面の提供
@@ -28,7 +29,7 @@ function ResetPasswordScreen(props) {
     <View style={ styles.wrapper }>
       <View style={ textStyle.wrapper }>
         <View style={ textStyle.labelBlock }>
-          <Text style={ textStyle.label }>メールアドレス</Text>
+          <Text style={ textStyle.label }>{Translations.t('common.email')}</Text>
         </View>
         <TextInputComponent
           value={ props.email }
@@ -38,7 +39,7 @@ function ResetPasswordScreen(props) {
       </View>
       <View style={ btnStyle.wrapper }>
         <TouchableOpacity style={ btnStyle.btn } onPress={() => {handlePress(signupInput, props.rootPath, props.navigation)} }>
-          <Text style={ btnStyle.text }>送信</Text>
+          <Text style={ btnStyle.text }>{Translations.t('common.submit')}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -97,7 +98,7 @@ const btnStyle = StyleSheet.create({
     backgroundColor: '#EDB413',
   },
   text: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#ffffff'
   }
