@@ -11,7 +11,6 @@ import RetirementAssetConfigScreen from './screen/retirementAssetConfigScreen.js
 import UrlParser from './lib/url.js';
 import { TransitionPresets } from '@react-navigation/stack';
 import * as firebase from 'firebase';
-import { Translations } from './locale/i18n.js'
 
 const Stack = createStackNavigator();
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import TextInputComponent from '../components/textInputComponent.js'
+import TextInputComponent from '../components/textInputComponent.js';
 
 function getConfig(props) {
   const url = props.rootPath + 'retirement_asset_config/new'

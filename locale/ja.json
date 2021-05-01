@@ -1,3 +1,11 @@
 {
-	"setting_compete": "設定が完了しました"
+	"setting_compete": "設定が完了しました",
+	"common": {
+		"email": "メールアドレス",
+		"password": "パスワード"
+	},
+	"sign_in": {
+		"sign_in": "ログイン",
+		"sign_up": "新規登録"
+	}
 }

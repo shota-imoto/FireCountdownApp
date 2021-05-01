@@ -8,6 +8,8 @@ import "firebase/auth";
 import * as Linking from 'expo-linking';
 import { Buffer } from 'buffer';
 import background from '../assets/background_img.jpg'
+import { Translations } from '../locale/i18n.js'
+
 
 function handlePress(input, props) {
   firebase.auth().signInWithEmailAndPassword(input.email, input.password)
@@ -86,7 +88,7 @@ function UserSigninScreen(props) {
         <>
           <TitleLogo />
           <View style={ formStyle.wrapper }>
-            <Text style={ formStyle.text }>メールアドレス</Text>
+            <Text style={ formStyle.text }>{Translations.t('common.email')}</Text>
             <TextInputComponent
               value={ props.email }
               onChangeText={(text) => setEmail(text)}
@@ -94,7 +96,7 @@ function UserSigninScreen(props) {
             />
           </View>
           <View style={ formStyle.wrapper }>
-            <Text style={ formStyle.text }>パスワード</Text>
+            <Text style={ formStyle.text }>{Translations.t('common.password')}</Text>
             <TextInputComponent
               value={ props.password }
               onChangeText={(text) => setPassword(text)}
@@ -107,7 +109,7 @@ function UserSigninScreen(props) {
                 style={btnYellow}
                 onPress={() => {handlePress(signinInput, props)} }
               >
-                <Text style={btnStyle.textYellow}>ログイン</Text>
+                <Text style={btnStyle.textYellow}>{Translations.t('sign_in.sign_in')}</Text>
               </TouchableOpacity>
             </View>
             <View>
@@ -115,7 +117,7 @@ function UserSigninScreen(props) {
                 style={btnStyle.btn}
                 onPress={() => {setVisible(false); props.navigation.navigate('UserSignup')}}
               >
-                <Text style={btnStyle.text}>新規登録</Text>
+                <Text style={btnStyle.text}>{Translations.t('sign_in.sign_up')}</Text>
               </TouchableOpacity>
             </View>
           </View>
