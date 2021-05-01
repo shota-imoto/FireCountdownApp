@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, StyleSheet, Text, ImageBackground } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useFocusEffect } from '@react-navigation/native';
+import { Translations } from '../locale/i18n';
 
 const TitleLogo = () => (
   <View style={titleStyle.wrapper}>
@@ -67,12 +68,12 @@ function Unit(props) {
 function Content(props) {
   return (
     <View style={contentStyle.wrapper}>
-      <View><Text style={contentStyle.countdownMessage}>リタイアまで</Text></View>
+      <View><Text style={contentStyle.countdownMessage}>{Translations.t('home.rest_time.until_retire')}</Text></View>
       <View style={contentStyle.countdownDate}>
         <RestYear restYears={props.rest_years}/>
-        <Unit unitName='年'/>
+        <Unit unitName={Translations.t('home.rest_time.rest_years')}/>
         <RestMonth restMonths={props.rest_months}/>
-        <Unit unitName='ヶ月'/>
+        <Unit unitName={Translations.t('home.rest_time.rest_months')}/>
       </View>
       <NoticeNoConfig unset_configs={props.unset_configs} />
     </View>
@@ -90,8 +91,8 @@ function Item(props) {
 function ItemList(props) {
   return (
     <View>
-      <Item title='メイン設定' onPress={() => {props.onPressConfig()}} />
-      <Item title='リタイア額計算' onPress={() => {props.onPressRetirementAssetConfig()}}/>
+      <Item title={Translations.t('home.asset_config')} onPress={() => {props.onPressConfig()}} />
+      <Item title={Translations.t('home.retirement_asset_config')} onPress={() => {props.onPressRetirementAssetConfig()}}/>
     </View>
   )
 }
@@ -100,7 +101,7 @@ function Footer(props) {
   return (
     <View style={footerStyle.wrapper}>
       <TouchableOpacity onPress={() => {props.onSignout()}}>
-        <Text style={footerStyle.text}>サインアウト</Text>
+        <Text style={footerStyle.text}>{Translations.t('home.sign_out')}</Text>
       </TouchableOpacity>
     </View>
   )
@@ -254,8 +255,8 @@ const configStyle = StyleSheet.create({
   },
   title: {
     color: '#ffffff',
-    fontSize: 32,
-    fontWeight: '100'
+    fontSize: 24,
+    fontWeight: 'bold'
   }
 })
 

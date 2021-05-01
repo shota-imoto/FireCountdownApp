@@ -13,5 +13,15 @@
 	"sign_up": {
 		"password_confirmation": "password(confirmaiton)",
 		"sign_up": "Sign up"
+	},
+	"home": {
+		"asset_config": "Main Config",
+		"retirement_asset_config": "Retirement Asset Config",
+		"rest_time": {
+			"until_retire": "Until retire..",
+			"rest_years": "yrs",
+			"rest_months": "mos"
+		},
+		"sign_out": "Sign out"
 	}
 }

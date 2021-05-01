@@ -13,5 +13,15 @@
 	"sign_up": {
 		"password_confirmation": "パスワード(確認用)",
 		"sign_up": "登録"
+	},
+	"home": {
+		"asset_config": "メイン設定",
+		"retirement_asset_config": "リタイア額計算",
+		"rest_time": {
+			"until_retire": "リタイアまで",
+			"rest_years": "年",
+			"rest_months": "ヶ月"
+		},
+		"sign_out": "サインアウト"
 	}
 }
