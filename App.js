@@ -5,9 +5,10 @@ import * as Linking from 'expo-linking';
 import HomeScreen from './screen/homeScreen.js';
 import UserSignupScreen from './screen/userSignupScreen.js';
 import UserSigninScreen from './screen/userSigninScreen.js';
-import ConfigScreen from './screen/configScreen.js';
 import ResetPasswordScreen from './screen/resetPasswordScreen.js';
+import ConfigScreen from './screen/configScreen.js';
 import RetirementAssetConfigScreen from './screen/retirementAssetConfigScreen.js';
+import AssetRecordScreen from './screen/assetRecordScreen.js';
 import UrlParser from './lib/url.js';
 import { TransitionPresets } from '@react-navigation/stack';
 import * as firebase from 'firebase';
@@ -39,8 +40,7 @@ class App extends React.Component {
       apiVersion: 'v1',
       rootPath: null,
       // jwtToken: "",
-      jwtToken: "eyJhbGciOiJSUzI1NiIsImtpZCI6IjRlOWRmNWE0ZjI4YWQwMjUwNjRkNjY1NTNiY2I5YjMzOTY4NWVmOTQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmNhcHAtNTg1MzgiLCJhdWQiOiJmY2FwcC01ODUzOCIsImF1dGhfdGltZSI6MTYxOTg1Mzc3OCwidXNlcl9pZCI6InJ3WWpWaDE5aWVQWnBFSWwyMUZHRG14MVlXQjIiLCJzdWIiOiJyd1lqVmgxOWllUFpwRUlsMjFGR0RteDFZV0IyIiwiaWF0IjoxNjE5ODUzNzc4LCJleHAiOjE2MTk4NTczNzgsImVtYWlsIjoiaGlkZXlvc2hpLnBsYXlpbmcudGhlLmJhbmpvQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImhpZGV5b3NoaS5wbGF5aW5nLnRoZS5iYW5qb0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.Q4CD7YgYzEHVP8TtKLMyAnuQOaX1p74qO_b01EJsVdgidwDBPQ2AgrYNHp_g4E8v0UPtZeu4J4HF6oOy62rCwA8HpSQh4W-xp485HVajX5nEbAm7P4P1zysm9OC1zrx6s4M_2dWa3VN6DsF_T6IoPC3eeJeD4X9Jf_Vtm5PmHICAxKamXoOzNY5U6pJwjWSg93hI6zAI1tSNJH-dAu7_O-fA3rBO9FfB2aS390-TExXXrfcgOf7fVCDpKltwm0vVtkopo6nD05I0mw_qIWEQ3lI_dDeTwufiCUig0PeL-BdHaQ59fVncnGCsAYTVF7k9RECIsQ65A-2BGqzqNzzxsg",
-      // jwtTosken: "eyJhbGciOiJSUzI1NiIsImtpZCI6IjRlOWRmNWE0ZjI4YWQwMjUwNjRkNjY1NTNiY2I5YjMzOTY4NWVmOTQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmNhcHAtNTg1MzgiLCJhdWQiOiJmY2FwcC01ODUzOCIsImF1dGhfdGltZSI6MTYxOTY2MDMyMiwidXNlcl9pZCI6InJ3WWpWaDE5aWVQWnBFSWwyMUZHRG14MVlXQjIiLCJzdWIiOiJyd1lqVmgxOWllUFpwRUlsMjFGR0RteDFZV0IyIiwiaWF0IjoxNjE5NjYwMzIyLCJleHAiOjE2MTk2NjM5MjIsImVtYWlsIjoiaGlkZXlvc2hpLnBsYXlpbmcudGhlLmJhbmpvQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImhpZGV5b3NoaS5wbGF5aW5nLnRoZS5iYW5qb0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.aaWI7ZHyeXZpjbCg5wyjzVQOI_HuSywrQoruGPB5COZIFZn1RzgdVslRJhm9FX6WPlv3V_PF1ED56z1bhYmD9xLk3Q4wCrJK2i9T-QxWQB7Mnbrz5Zg4cFxtCmygR27bmHMfIym_v6tMncC6-a-0OdvPY6Z2v2ofXU-FDsUqTP3J6p6JJ8Gr6XECgj3g0czVGTpqBulp5QpiJiV1c_KLcvSnMQO_NEh8uTyv47jqjDRlmAdpVlCH5ipPMV6BtVjF0kdjD-Koo8CCr-zksegXr4KMdaagrPK1Su4dJ8uPuA2luc8q4k6Yq3SBxR88QrX9b40AXt4mZtx73ucOKbKa6w",
+      jwtToken: "eyJhbGciOiJSUzI1NiIsImtpZCI6IjRlOWRmNWE0ZjI4YWQwMjUwNjRkNjY1NTNiY2I5YjMzOTY4NWVmOTQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmNhcHAtNTg1MzgiLCJhdWQiOiJmY2FwcC01ODUzOCIsImF1dGhfdGltZSI6MTYxOTkxNjcyNCwidXNlcl9pZCI6InJ3WWpWaDE5aWVQWnBFSWwyMUZHRG14MVlXQjIiLCJzdWIiOiJyd1lqVmgxOWllUFpwRUlsMjFGR0RteDFZV0IyIiwiaWF0IjoxNjE5OTE2NzI0LCJleHAiOjE2MTk5MjAzMjQsImVtYWlsIjoiaGlkZXlvc2hpLnBsYXlpbmcudGhlLmJhbmpvQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImhpZGV5b3NoaS5wbGF5aW5nLnRoZS5iYW5qb0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.EySl9Lt04YCtVVoWrjsXka41YxbBYxISpxGz-pB-OB18Pq7uX0TRwmhW48ltbPhQItSxpvqbJrTtjwhvhQvgqDhgZCNpbQsX3cZir9EYT9YVurtTcsF5IMya4eQmP2McujiV3DmvtSDokGIYColOaDtQ5GjbAszDE8TiOdEnMdSJYe9Yw1UbdCn7gFtXQzSRCbT2c48483jjG3m_-AjIEpUNrhHi_erdyW30OG-ZjfdVqj5S3NymAQET9oFbqojwqtbCP2Oakq1YoO5nx8Qclp0jd2gW5HS4mTBVrNuK36yvydipNzQAbu9eq5Qx9hajea8onFWY9Jk8pRyvS8VYjg",
       linkingUrl: null,
       linkingHostname: null,
       linkingParams: null,
@@ -186,6 +186,9 @@ class App extends React.Component {
               </Stack.Screen>
               <Stack.Screen name="RetirementAssetConfig" options={{ headerShown: false, cardStyle: {backgroundColor: 'transparent'}, ...TransitionPresets.ModalTransition }}>
                 {() => <RetirementAssetConfigScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} changeConfig={() => {this.notifyConfigChanged()}} {...this.state}/>}
+              </Stack.Screen>
+              <Stack.Screen name="AssetRecord" options={{ headerShown: false, cardStyle: {backgroundColor: 'transparent'}, ...TransitionPresets.ModalTransition }}>
+                {() => <AssetRecordScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} changeConfig={() => {this.notifyConfigChanged()}} handleChangeInitialAsset={(props) => {this.handleChangeInitialAsset(props)}} handleChangeMonthlyPurchase={(props) => {this.handleChangeMonthlyPurchase(props)}} handleChangeAnnualYield={(props) => {this.handleChangeAnnualYield(props)}} setConfig={(props) => {this.setState(props)}} {...this.state}/>}
               </Stack.Screen>
             </>
           )

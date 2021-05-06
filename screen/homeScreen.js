@@ -93,6 +93,7 @@ function ItemList(props) {
     <View>
       <Item title={Translations.t('home.asset_config')} onPress={() => {props.onPressConfig()}} />
       <Item title={Translations.t('home.retirement_asset_config')} onPress={() => {props.onPressRetirementAssetConfig()}}/>
+      <Item title={Translations.t('home.asset_record')} onPress={() => {props.onPressAssetRecord()}} />
     </View>
   )
 }
@@ -149,6 +150,7 @@ function HomeScreen (props) {
             <ItemList
               onPressConfig={() => {setVisible(false); props.navigation.navigate('Config')}}
               onPressRetirementAssetConfig={() => {setVisible(false); props.navigation.navigate('RetirementAssetConfig')}}
+              onPressAssetRecord={() => {setVisible(false); props.navigation.navigate('AssetRecord')}}
             />
             <Footer onSignout={() => {props.onSignout()}}/>
           </>
