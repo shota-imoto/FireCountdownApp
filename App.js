@@ -12,6 +12,7 @@ import AssetRecordScreen from './screen/assetRecordScreen.js';
 import UrlParser from './lib/url.js';
 import { TransitionPresets } from '@react-navigation/stack';
 import * as firebase from 'firebase';
+import jwt from './debug_jwt.json';
 
 const Stack = createStackNavigator();
 
@@ -40,7 +41,7 @@ class App extends React.Component {
       apiVersion: 'v1',
       rootPath: null,
       // jwtToken: "",
-      jwtToken: "eyJhbGciOiJSUzI1NiIsImtpZCI6IjRlOWRmNWE0ZjI4YWQwMjUwNjRkNjY1NTNiY2I5YjMzOTY4NWVmOTQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmNhcHAtNTg1MzgiLCJhdWQiOiJmY2FwcC01ODUzOCIsImF1dGhfdGltZSI6MTYxOTkxNjcyNCwidXNlcl9pZCI6InJ3WWpWaDE5aWVQWnBFSWwyMUZHRG14MVlXQjIiLCJzdWIiOiJyd1lqVmgxOWllUFpwRUlsMjFGR0RteDFZV0IyIiwiaWF0IjoxNjE5OTE2NzI0LCJleHAiOjE2MTk5MjAzMjQsImVtYWlsIjoiaGlkZXlvc2hpLnBsYXlpbmcudGhlLmJhbmpvQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImhpZGV5b3NoaS5wbGF5aW5nLnRoZS5iYW5qb0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.EySl9Lt04YCtVVoWrjsXka41YxbBYxISpxGz-pB-OB18Pq7uX0TRwmhW48ltbPhQItSxpvqbJrTtjwhvhQvgqDhgZCNpbQsX3cZir9EYT9YVurtTcsF5IMya4eQmP2McujiV3DmvtSDokGIYColOaDtQ5GjbAszDE8TiOdEnMdSJYe9Yw1UbdCn7gFtXQzSRCbT2c48483jjG3m_-AjIEpUNrhHi_erdyW30OG-ZjfdVqj5S3NymAQET9oFbqojwqtbCP2Oakq1YoO5nx8Qclp0jd2gW5HS4mTBVrNuK36yvydipNzQAbu9eq5Qx9hajea8onFWY9Jk8pRyvS8VYjg",
+      jwtToken: jwt["token"],
       linkingUrl: null,
       linkingHostname: null,
       linkingParams: null,
@@ -49,6 +50,7 @@ class App extends React.Component {
       username: null,
       rest_years: null,
       rest_months: null,
+      rest_days: null,
       unset_configs: [],
       config_changed: false,
     };
@@ -117,8 +119,9 @@ class App extends React.Component {
 
   setSuccessData(result) {
     this.setState({
-      rest_years: result.data.attributes.asset_years,
-      rest_months: result.data.attributes.asset_months,
+      rest_years: result.data.attributes.rest_years,
+      rest_months: result.data.attributes.rest_months,
+      rest_days: result.data.attributes.rest_days,
       messages: null
     })
   }

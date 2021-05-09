@@ -19,8 +19,8 @@
 			"11": "11月",
 			"12": "12月"
 		},
-		"year": "年"
-
+		"year": "年",
+		"ok": "OK"
 	},
 	"sign_in": {
 		"sign_in": "ログイン",
@@ -38,7 +38,8 @@
 		"rest_time": {
 			"until_retire": "リタイアまで",
 			"rest_years": "年",
-			"rest_months": "ヶ月"
+			"rest_months": "ヶ月",
+			"rest_days": "日"
 		},
 		"sign_out": "サインアウト"
 	},
