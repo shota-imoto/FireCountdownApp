@@ -3,6 +3,7 @@ import { SafeAreaView, View, StyleSheet, Text, ImageBackground } from 'react-nat
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useFocusEffect } from '@react-navigation/native';
 import { Translations } from '../locale/i18n';
+import { deleteJWT } from '../components/jwt.js'
 
 const TitleLogo = () => (
   <View style={titleStyle.wrapper}>
@@ -145,7 +146,6 @@ function fetchData(props) {
 function HomeScreen (props) {
   const [visible, setVisible] = useState(true)
   useEffect(() => {fetchData(props)}, [props.config_changed])
-
   useFocusEffect(
     React.useCallback(() => {
       setVisible(true)
@@ -164,7 +164,7 @@ function HomeScreen (props) {
               onPressRetirementAssetConfig={() => {setVisible(false); props.navigation.navigate('RetirementAssetConfig')}}
               onPressAssetRecord={() => {setVisible(false); props.navigation.navigate('AssetRecord')}}
             />
-            <Footer onSignout={() => {props.onSignout()}}/>
+            <Footer onSignout={() => {deleteJWT(); props.onSignout()}}/>
           </>
         ) : (<></>)}
     </SafeAreaView>

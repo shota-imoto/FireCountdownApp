@@ -3530,7 +3530,7 @@
   "resolved" "https://registry.npmjs.org/expo-permissions/-/expo-permissions-10.0.0.tgz"
   "version" "10.0.0"
 
-"expo-secure-store@~9.3.0":
+"expo-secure-store@^9.3.0", "expo-secure-store@~9.3.0":
   "integrity" "sha512-dNhKcoUUn+1kmEfFVxSU7h+YsqODqlExZQJcQgxgeiuCeeDvJWkE10t3jjrO6aNfrdM5i/X2l3oh401EDslWsQ=="
   "resolved" "https://registry.npmjs.org/expo-secure-store/-/expo-secure-store-9.3.0.tgz"
   "version" "9.3.0"

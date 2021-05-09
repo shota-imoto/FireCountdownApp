@@ -9,16 +9,14 @@ import * as Linking from 'expo-linking';
 import { Buffer } from 'buffer';
 import background from '../assets/background_img.jpg'
 import { Translations } from '../locale/i18n.js'
-
+import { setJWT } from '../components/jwt.js'
 
 function handlePress(input, props) {
   firebase.auth().signInWithEmailAndPassword(input.email, input.password)
   .then((res) => {
     if (res.user.emailVerified) {
       firebase.auth().currentUser.getIdToken()
-      .then((token) => {
-        props.setToken(token)
-      })
+      .then((token) => {setJWT(token)})
     } else {
 
       firebase.auth().currentUser.sendEmailVerification()
@@ -60,8 +58,8 @@ function Footer(props) {
 function UserSigninScreen(props) {
   const [visible, setVisible] = useState(true)
 
-  const [email, setEmail] = useState(null)
-  const [password, setPassword] = useState(null)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
   const signinInput = {
     email: email,

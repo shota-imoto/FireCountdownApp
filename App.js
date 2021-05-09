@@ -12,7 +12,7 @@ import AssetRecordScreen from './screen/assetRecordScreen.js';
 import UrlParser from './lib/url.js';
 import { TransitionPresets } from '@react-navigation/stack';
 import * as firebase from 'firebase';
-import jwt from './debug_jwt.json';
+import { setJWT, getJWT } from './components/jwt.js'
 
 const Stack = createStackNavigator();
 
@@ -40,8 +40,7 @@ class App extends React.Component {
       // hostDomain: 'fcaapp.cf',
       apiVersion: 'v1',
       rootPath: null,
-      // jwtToken: "",
-      jwtToken: jwt["token"],
+      jwtToken: "",
       linkingUrl: null,
       linkingHostname: null,
       linkingParams: null,
@@ -163,6 +162,12 @@ class App extends React.Component {
       prefixes: ['firecountdownapp://'],
       config,
     };
+
+    if (this.state.jwtToken == "") {
+    getJWT().then((token) =>{
+      this.setToken(token)
+    })
+    }
 
     return (
       <NavigationContainer linking={linking}>
