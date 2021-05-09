@@ -37,7 +37,7 @@ function handlePress(asset_config, props) {
 }
 
 function AssetRecordScreen (props) {
-  const [amount, setAmount] = useState(0)
+  const [amount, setAmount] = useState("0")
 
   const current = new Date
   const [selectedMonth, setMonth] = useState(current.getMonth() + 1);

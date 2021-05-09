@@ -28,8 +28,8 @@ function handlePress(retirement_asset_config, props) {
   const url = props.rootPath + 'retirement_asset_config'
   const data = {
     "retirement_asset_calc": {
-      monthly_living_cost: retirement_asset_config.monthly_living_cost,
-      four_percents_rule_ajustment: retirement_asset_config.four_percents_rule_ajustment,
+      monthly_living_budget: retirement_asset_config.monthly_living_budget,
+      ajust_4per_rule: retirement_asset_config.ajust_4per_rule,
     }
   }
   fetch(url, {
@@ -54,19 +54,19 @@ function handlePress(retirement_asset_config, props) {
 }
 
 function RetirementAssetConfigScreen(props) {
-  const [monthly_living_cost, setMonthlyLivingCost] = useState(null)
-  const [four_percents_rule_ajustment, setFourPercentsRuleAjustment] = useState(null)
+  const [monthly_living_budget, setMonthlyLivingBudget] = useState(null)
+  const [ajust_4per_rule, setAjust4perRule] = useState(null)
 
   const retirementAssetConfigInput = {
-    monthly_living_cost: monthly_living_cost,
-    four_percents_rule_ajustment: four_percents_rule_ajustment
+    monthly_living_budget: monthly_living_budget,
+    ajust_4per_rule: ajust_4per_rule
   }
 
   useEffect(() => {
     const config = getConfig(props)
     config.then(config => {
-      setMonthlyLivingCost(config.monthly_living_cost)
-      setFourPercentsRuleAjustment(config.four_percents_rule_ajustment)
+      setMonthlyLivingBudget(config.monthly_living_budget)
+      setAjust4perRule(config.ajust_4per_rule)
     })
   }, [])
 
@@ -74,11 +74,11 @@ function RetirementAssetConfigScreen(props) {
     <View style={ styles.wrapper }>
       <View style={ textStyle.wrapper }>
         <View style={textStyle.labelBlock}>
-          <Text style={ textStyle.label }>{Translations.t('retirement_asset_config.monthly_living_cost')}</Text>
+          <Text style={ textStyle.label }>{Translations.t('retirement_asset_config.monthly_living_budget')}</Text>
         </View>
         <TextInputComponent
-          value={ monthly_living_cost }
-          onChangeText={(text) => setMonthlyLivingCost(text)}
+          value={ monthly_living_budget }
+          onChangeText={(text) => setMonthlyLivingBudget(text)}
           type='number'
         />
       </View>
@@ -87,8 +87,8 @@ function RetirementAssetConfigScreen(props) {
           <Text style={ textStyle.label }>{Translations.t('retirement_asset_config.four_percents_rule_adjustment')}</Text>
         </View>
         <TextInputComponent
-          value={ four_percents_rule_ajustment }
-          onChangeText={(text) => setFourPercentsRuleAjustment(text)}
+          value={ ajust_4per_rule }
+          onChangeText={(text) => setAjust4perRule(text)}
           type='number'
         />
       </View>
