@@ -3,7 +3,7 @@ import { SafeAreaView, View, StyleSheet, Text, ImageBackground } from 'react-nat
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useFocusEffect } from '@react-navigation/native';
 import { Translations } from '../locale/i18n';
-import { getJWT, deleteJWT } from '../components/jwt.js'
+import { deleteJWT } from '../components/jwt.js'
 
 const TitleLogo = () => (
   <View style={titleStyle.wrapper}>

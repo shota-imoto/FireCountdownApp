@@ -13,7 +13,6 @@ import UrlParser from './lib/url.js';
 import { TransitionPresets } from '@react-navigation/stack';
 import * as firebase from 'firebase';
 import { setJWT, getJWT } from './components/jwt.js'
-import jwt from './debug_jwt.json';
 
 const Stack = createStackNavigator();
 

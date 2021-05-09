@@ -9,7 +9,7 @@ import * as Linking from 'expo-linking';
 import { Buffer } from 'buffer';
 import background from '../assets/background_img.jpg'
 import { Translations } from '../locale/i18n.js'
-import { setJWT, getJWT } from '../components/jwt.js'
+import { setJWT } from '../components/jwt.js'
 
 function handlePress(input, props) {
   firebase.auth().signInWithEmailAndPassword(input.email, input.password)
