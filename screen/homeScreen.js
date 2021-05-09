@@ -25,6 +25,8 @@ const restYears = (years) => (years ? years : '??')
 
 const restMonths = (months) => (months ? months :'?')
 
+const restDays = (days) => (days ? days :'?')
+
 function NoticeNoConfig(props) {
   if (props.unset_configs.length) {
     return (
@@ -56,6 +58,14 @@ function RestMonth(props) {
   )
 }
 
+function RestDay(props) {
+  return (
+    <View style={contentStyle.numberBlock}>
+      <Text style={contentStyle.countdownNumber}>{restDays(props.restDays)}</Text>
+    </View>
+  )
+}
+
 function Unit(props) {
   return (
     <View style={contentStyle.unitBlock}>
@@ -74,6 +84,8 @@ function Content(props) {
         <Unit unitName={Translations.t('home.rest_time.rest_years')}/>
         <RestMonth restMonths={props.rest_months}/>
         <Unit unitName={Translations.t('home.rest_time.rest_months')}/>
+        <RestDay restDays={props.rest_days}/>
+        <Unit unitName={Translations.t('home.rest_time.rest_days')}/>
       </View>
       <NoticeNoConfig unset_configs={props.unset_configs} />
     </View>
@@ -213,22 +225,20 @@ const contentStyle = StyleSheet.create({
     marginBottom: 6,
     alignItems: 'flex-end',
     flexDirection: 'row',
-  },
-  numberBlock: {
-    marginRight: 6
+    justifyContent: 'space-between'
   },
   unitBlock:{
-    marginRight: 18,
+    marginRight: 10,
     position: 'relative',
-    bottom: 15
+    bottom: 10
   },
   countdownNumber: {
-    fontSize: 64,
+    fontSize: 52,
     fontWeight: 'bold',
     color: '#ffffff'
   },
   countdownUnit: {
-    fontSize: 36,
+    fontSize: 28,
     fontWeight: 'bold',
     color: '#ffffff'
   },

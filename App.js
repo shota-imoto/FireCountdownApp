@@ -12,6 +12,7 @@ import AssetRecordScreen from './screen/assetRecordScreen.js';
 import UrlParser from './lib/url.js';
 import { TransitionPresets } from '@react-navigation/stack';
 import * as firebase from 'firebase';
+import jwt from './debug_jwt.json';
 
 const Stack = createStackNavigator();
 
@@ -40,7 +41,7 @@ class App extends React.Component {
       apiVersion: 'v1',
       rootPath: null,
       // jwtToken: "",
-      jwtToken: "eyJhbGciOiJSUzI1NiIsImtpZCI6ImNjM2Y0ZThiMmYxZDAyZjBlYTRiMWJkZGU1NWFkZDhiMDhiYzUzODYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmNhcHAtNTg1MzgiLCJhdWQiOiJmY2FwcC01ODUzOCIsImF1dGhfdGltZSI6MTYyMDM0MzQ0NSwidXNlcl9pZCI6InJ3WWpWaDE5aWVQWnBFSWwyMUZHRG14MVlXQjIiLCJzdWIiOiJyd1lqVmgxOWllUFpwRUlsMjFGR0RteDFZV0IyIiwiaWF0IjoxNjIwMzQzNDQ1LCJleHAiOjE2MjAzNDcwNDUsImVtYWlsIjoiaGlkZXlvc2hpLnBsYXlpbmcudGhlLmJhbmpvQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImhpZGV5b3NoaS5wbGF5aW5nLnRoZS5iYW5qb0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.fRGLQWmgpsHGgv4nnWS_vXUs6jscLREKq5Nj8KcDdIH_KJwOrsTUdvIWp8ziLMVNElQFZuVp0nehH3ByctlO9SIsd8ojUNA6ARhIu7nwmMIhDZg_Juz4rL4mOdl1XmmgHOkQZY5-G7F3I6LUEjXL3VOuDzrmY4VZyrutkACXBNrsOJJzCA64WTzerJA9zhan7uJbYH7ALahyBSOXOsiwXJRouIguG2PJcOln7GhnM38Ns7dZGvo8Q17HXhtiQBvYwn4ALz1KmOl2H4DZFuAQA_BnEMSN5-J0UuKdtFCQj3iJJ8XzFwwGAPWn8KTGiiqchBBSWNE9J9C22lEGYv5XNA",
+      jwtToken: jwt["token"],
       linkingUrl: null,
       linkingHostname: null,
       linkingParams: null,
