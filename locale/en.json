@@ -49,7 +49,7 @@
 		"annual_yield": "Expected yield per year"
 	},
 	"retirement_asset_config": {
-		"monthly_living_cost": "Monthly budget",
+		"monthly_living_cost": "Monthly living budget",
 		"four_percents_rule_adjustment": "Adjust 4% rule"
 	},
 	"asset_record": {
