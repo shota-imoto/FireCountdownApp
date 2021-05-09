@@ -27,7 +27,6 @@ function handlePress(asset_config, props) {
   const url = props.rootPath + 'config'
   const data = {
     "asset_config": {
-      initial_asset: asset_config.initial_asset,
       monthly_purchase: asset_config.monthly_purchase,
       annual_yield: asset_config.annual_yield
     }
@@ -55,12 +54,10 @@ function handlePress(asset_config, props) {
 }
 
 function ConfigScreen (props) {
-  const [initial_asset, setInitialAsset] = useState(null)
   const [monthly_purchase, setMonthlyPurchase] = useState(null)
   const [annual_yield, setAnnualYield] = useState(null)
 
   const assetConfigInput = {
-    initial_asset: initial_asset,
     monthly_purchase: monthly_purchase,
     annual_yield: annual_yield
   }
@@ -68,7 +65,6 @@ function ConfigScreen (props) {
   useEffect(() => {
     const config = getConfig(props);
     config.then(config => {
-      setInitialAsset(config.initial_asset)
       setMonthlyPurchase(config.monthly_purchase)
       setAnnualYield(config.annual_yield)
     })
@@ -76,16 +72,6 @@ function ConfigScreen (props) {
 
   return (
     <View style={ styles.wrapper }>
-      <View style={ textStyle.wrapper }>
-        <View style={textStyle.labelBlock}>
-          <Text style={ textStyle.label }>{Translations.t('config.initial_asset')}</Text>
-        </View>
-        <TextInputComponent
-          value={ initial_asset }
-          onChangeText={(text) => setInitialAsset(text)}
-          type='number'
-        />
-      </View>
       <View style={ textStyle.wrapper }>
         <View style={textStyle.labelBlock}>
           <Text style={ textStyle.label }>{Translations.t('config.monthly_purchase')}</Text>
