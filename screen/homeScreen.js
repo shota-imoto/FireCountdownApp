@@ -123,32 +123,32 @@ function Footer(props) {
 }
 
 function fetchData(props) {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        getJWT().then((token) => {
-          const url = props.rootPath + '?locale=ja'
-          fetch(url, {
-            headers: {
-              'Authorization': 'Token ' + token
-            }
-          })
-          .then(res => res.json())
-          .then((result) => {
-            if (props.mounted) {
-              const messages = result.data.attributes.messages
-              const unset_configs = Object.keys(messages)
-        
-              if (!unset_configs.length) {
-                props.setSuccessData(result)
-              } else {
-                props.setErrorData(result)
-              }
-            };
-          });    
-      
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      getJWT().then((token) => {
+        const url = props.rootPath + '?locale=ja'
+        fetch(url, {
+          headers: {
+            'Authorization': 'Token ' + token
+          }
         })
-      }
-    })
+        .then(res => res.json())
+        .then((result) => {
+          if (props.mounted) {
+            const messages = result.data.attributes.messages
+            const unset_configs = Object.keys(messages)
+
+            if (!unset_configs.length) {
+              props.setSuccessData(result)
+            } else {
+              props.setErrorData(result)
+            }
+          };
+        });
+
+      })
+    }
+  })
 }
 
 function HomeScreen (props) {
