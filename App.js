@@ -12,7 +12,7 @@ import AssetRecordScreen from './screen/assetRecordScreen.js';
 import UrlParser from './lib/url.js';
 import { TransitionPresets } from '@react-navigation/stack';
 import * as firebase from 'firebase';
-import { setJWT, getJWT } from './components/jwt.js'
+import { setSignin, getSignin, setSignout } from './components/jwt.js'
 
 const Stack = createStackNavigator();
 
@@ -27,6 +27,7 @@ const firebaseConfig = {
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
+  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
 }
 
 class App extends React.Component {
@@ -40,11 +41,11 @@ class App extends React.Component {
       // hostDomain: 'fcaapp.cf',
       apiVersion: 'v1',
       rootPath: null,
-      jwtToken: "",
+      isSignIn: false,
       linkingUrl: null,
       linkingHostname: null,
       linkingParams: null,
-      // home mount
+      // home mounts
       mounted: true,
       username: null,
       rest_years: null,
@@ -71,15 +72,19 @@ class App extends React.Component {
     })
   }
 
-  setToken(token) {
+  setToken() {
     this.setState({
-      jwtToken: token
+      isSignIn: true
     })
   }
 
   handleSignout() {
-    this.setState({
-      jwtToken: ""
+    setSignout().then(() => {
+      firebase.auth().signOut().then(() => {
+        this.setState({
+          isSignIn: false
+        })
+      })
     })
   }
 
@@ -163,16 +168,43 @@ class App extends React.Component {
       config,
     };
 
-    if (this.state.jwtToken == "") {
-    getJWT().then((token) =>{
-      this.setToken(token)
-    })
+    if (!this.state.isSignIn) {
+      getSignin().then((isSignin) => {
+        if (isSignin) {
+          firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              setSignin().then(()=> {
+                getSignin().then((st) => {
+                })
+              }
+            )
+              this.setToken()
+            }
+          })
+        }
+      })
     }
+
 
     return (
       <NavigationContainer linking={linking}>
         <Stack.Navigator initialRouteName="Home">
-          {this.state.jwtToken == "" ? (
+          {this.state.isSignIn ? (
+            <>
+              <Stack.Screen name="Home" options={{ headerShown: false }}>
+                {() => <HomeScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} onSignout={() => {this.handleSignout()}} {...this.state} setSuccessData={(props) => {this.setSuccessData(props)}} setErrorData={(props) => {this.setErrorData(props)}}/>}
+              </Stack.Screen>
+              <Stack.Screen name="Config" options={{ headerShown: false, cardStyle: {backgroundColor: 'transparent'}, ...TransitionPresets.ModalTransition }}>
+                {() => <ConfigScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} changeConfig={() => {this.notifyConfigChanged()}} handleChangeInitialAsset={(props) => {this.handleChangeInitialAsset(props)}} handleChangeMonthlyPurchase={(props) => {this.handleChangeMonthlyPurchase(props)}} handleChangeAnnualYield={(props) => {this.handleChangeAnnualYield(props)}} setConfig={(props) => {this.setState(props)}} {...this.state}/>}
+              </Stack.Screen>
+              <Stack.Screen name="RetirementAssetConfig" options={{ headerShown: false, cardStyle: {backgroundColor: 'transparent'}, ...TransitionPresets.ModalTransition }}>
+                {() => <RetirementAssetConfigScreen navigation={useNavigation()} setToken={() => {this.setToken()}} changeConfig={() => {this.notifyConfigChanged()}} {...this.state}/>}
+              </Stack.Screen>
+              <Stack.Screen name="AssetRecord" options={{ headerShown: false, cardStyle: {backgroundColor: 'transparent'}, ...TransitionPresets.ModalTransition }}>
+                {() => <AssetRecordScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} changeConfig={() => {this.notifyConfigChanged()}} handleChangeInitialAsset={(props) => {this.handleChangeInitialAsset(props)}} handleChangeMonthlyPurchase={(props) => {this.handleChangeMonthlyPurchase(props)}} handleChangeAnnualYield={(props) => {this.handleChangeAnnualYield(props)}} setConfig={(props) => {this.setState(props)}} {...this.state}/>}
+              </Stack.Screen>
+            </>
+          ) : (
             <>
               <Stack.Screen name="UserSignin" options={{ headerShown: false }}>
                 {() =><UserSigninScreen navigation={ useNavigation()} {...this.state} setToken={(token) => {this.setToken(token)}} onChangeEmail={(text) => {this.handleChangeEmail(text)}} onChangePassword={(text) => {this.handleChangePassword(text)}}/>}
@@ -182,21 +214,6 @@ class App extends React.Component {
               </Stack.Screen>
               <Stack.Screen name="ResetPassword" options={{ headerShown: false, cardStyle: {backgroundColor: 'transparent'}, ...TransitionPresets.ModalTransition }}>
                 {() => <ResetPasswordScreen navigation={useNavigation()} {...this.state} onChangePassword={(text) => {this.handleChangePassword(text)}} onChangePasswordConfirmation={(text) => {this.handleChangePasswordConfirmation(text)}} resetState={(attributes) => {this.resetState(attributes)}}/>}
-              </Stack.Screen>
-            </>
-          ) : (
-            <>
-              <Stack.Screen name="Home" options={{ headerShown: false }}>
-                {() => <HomeScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} onSignout={() => {this.handleSignout()}} {...this.state} setSuccessData={(props) => {this.setSuccessData(props)}} setErrorData={(props) => {this.setErrorData(props)}}/>}
-              </Stack.Screen>
-              <Stack.Screen name="Config" options={{ headerShown: false, cardStyle: {backgroundColor: 'transparent'}, ...TransitionPresets.ModalTransition }}>
-                {() => <ConfigScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} changeConfig={() => {this.notifyConfigChanged()}} handleChangeInitialAsset={(props) => {this.handleChangeInitialAsset(props)}} handleChangeMonthlyPurchase={(props) => {this.handleChangeMonthlyPurchase(props)}} handleChangeAnnualYield={(props) => {this.handleChangeAnnualYield(props)}} setConfig={(props) => {this.setState(props)}} {...this.state}/>}
-              </Stack.Screen>
-              <Stack.Screen name="RetirementAssetConfig" options={{ headerShown: false, cardStyle: {backgroundColor: 'transparent'}, ...TransitionPresets.ModalTransition }}>
-                {() => <RetirementAssetConfigScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} changeConfig={() => {this.notifyConfigChanged()}} {...this.state}/>}
-              </Stack.Screen>
-              <Stack.Screen name="AssetRecord" options={{ headerShown: false, cardStyle: {backgroundColor: 'transparent'}, ...TransitionPresets.ModalTransition }}>
-                {() => <AssetRecordScreen navigation={useNavigation()} setToken={(token) => {this.setToken(token)}} changeConfig={() => {this.notifyConfigChanged()}} handleChangeInitialAsset={(props) => {this.handleChangeInitialAsset(props)}} handleChangeMonthlyPurchase={(props) => {this.handleChangeMonthlyPurchase(props)}} handleChangeAnnualYield={(props) => {this.handleChangeAnnualYield(props)}} setConfig={(props) => {this.setState(props)}} {...this.state}/>}
               </Stack.Screen>
             </>
           )

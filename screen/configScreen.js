@@ -3,53 +3,59 @@ import { View, StyleSheet, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextInputComponent from '../components/textInputComponent.js'
 import { Translations } from '../locale/i18n.js';
+import { getJWT } from '../components/jwt.js'
+
 
 function getConfig(props) {
-  const url = props.rootPath + 'config/new'
-  return fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': props.jwtToken
-    }
-  }).then(res => res.json())
-  .then(body => {
-    const asset_config = body.data.attributes
-    const newState = {};
-    Object.keys(asset_config).forEach(key => {
-          newState[key] = asset_config[key];
-    });
-    return newState;
+  return getJWT().then((token) =>{
+    const url = props.rootPath + 'config/new'
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      }
+    }).then(res => res.json())
+    .then(body => {
+      const asset_config = body.data.attributes
+      const newState = {};
+      Object.keys(asset_config).forEach(key => {
+            newState[key] = asset_config[key];
+      });
+      return newState;
+    })
   })
+
 }
 
 function handlePress(asset_config, props) {
-  const url = props.rootPath + 'config'
-  const data = {
-    "asset_config": {
-      monthly_purchase: asset_config.monthly_purchase,
-      annual_yield: asset_config.annual_yield
+  getJWT().then((token) => {
+    const url = props.rootPath + 'config'
+    const data = {
+      "asset_config": {
+        monthly_purchase: asset_config.monthly_purchase,
+        annual_yield: asset_config.annual_yield
+      }
     }
-  }
-
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': props.jwtToken
-    },
-    body: JSON.stringify(data)
-  }).then(res => res.json())
-  .then(body => {
-    const status = body.data.attributes.status;
-    const message = body.data.attributes.message;
-    if (status == 'success') {
-      alert('設定が完了しました')
-      props.navigation.navigate('Home')
-      props.changeConfig()
-    } else {
-      alert(message.join('\n'));
-    }
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      },
+      body: JSON.stringify(data)
+    }).then(res => res.json())
+    .then(body => {
+      const status = body.data.attributes.status;
+      const message = body.data.attributes.message;
+      if (status == 'success') {
+        alert('設定が完了しました')
+        props.navigation.navigate('Home')
+        props.changeConfig()
+      } else {
+        alert(message.join('\n'));
+      }
+    })  
   })
 }
 

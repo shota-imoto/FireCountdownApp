@@ -3,7 +3,8 @@ import { SafeAreaView, View, StyleSheet, Text, ImageBackground } from 'react-nat
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useFocusEffect } from '@react-navigation/native';
 import { Translations } from '../locale/i18n';
-import { deleteJWT } from '../components/jwt.js'
+import { getJWT, getToken } from '../components/jwt.js'
+import firebase from 'firebase';
 
 const TitleLogo = () => (
   <View style={titleStyle.wrapper}>
@@ -26,7 +27,7 @@ const restYears = (years) => (years ? years : '??')
 
 const restMonths = (months) => (months ? months :'?')
 
-const restDays = (days) => (days ? days :'?')
+const restDays = (days) => (days ? days :'??')
 
 function NoticeNoConfig(props) {
   if (props.unset_configs.length) {
@@ -122,25 +123,32 @@ function Footer(props) {
 }
 
 function fetchData(props) {
-  const url = props.rootPath + '?locale=ja'
-  fetch(url, {
-    headers: {
-      'Authorization': 'Token ' + props.jwtToken
-    }
-  })
-  .then(res => res.json())
-  .then((result) => {
-    if (props.mounted) {
-      const messages = result.data.attributes.messages
-      const unset_configs = Object.keys(messages)
-
-      if (!unset_configs.length) {
-        props.setSuccessData(result)
-      } else {
-        props.setErrorData(result)
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        getJWT().then((token) => {
+          const url = props.rootPath + '?locale=ja'
+          fetch(url, {
+            headers: {
+              'Authorization': 'Token ' + token
+            }
+          })
+          .then(res => res.json())
+          .then((result) => {
+            if (props.mounted) {
+              const messages = result.data.attributes.messages
+              const unset_configs = Object.keys(messages)
+        
+              if (!unset_configs.length) {
+                props.setSuccessData(result)
+              } else {
+                props.setErrorData(result)
+              }
+            };
+          });    
+      
+        })
       }
-    };
-  });
+    })
 }
 
 function HomeScreen (props) {
@@ -164,7 +172,7 @@ function HomeScreen (props) {
               onPressRetirementAssetConfig={() => {setVisible(false); props.navigation.navigate('RetirementAssetConfig')}}
               onPressAssetRecord={() => {setVisible(false); props.navigation.navigate('AssetRecord')}}
             />
-            <Footer onSignout={() => {deleteJWT(); props.onSignout()}}/>
+            <Footer onSignout={() => {props.onSignout()}}/>
           </>
         ) : (<></>)}
     </SafeAreaView>

@@ -9,16 +9,18 @@ import * as Linking from 'expo-linking';
 import { Buffer } from 'buffer';
 import background from '../assets/background_img.jpg'
 import { Translations } from '../locale/i18n.js'
-import { setJWT } from '../components/jwt.js'
+import {setJWT, setSignin} from '../components/jwt.js'
 
 function handlePress(input, props) {
   firebase.auth().signInWithEmailAndPassword(input.email, input.password)
   .then((res) => {
     if (res.user.emailVerified) {
-      firebase.auth().currentUser.getIdToken()
-      .then((token) => {setJWT(token)})
+      props.setToken()
+      firebase.auth().currentUser.getIdToken().then((token) => {
+        setJWT(token)
+        setSignin()
+      })
     } else {
-
       firebase.auth().currentUser.sendEmailVerification()
       .then(function() {
         alert('メール認証が完了していません。認証メールを再送しましたので、ご確認ください。')

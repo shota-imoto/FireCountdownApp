@@ -4,35 +4,38 @@ import Modal from 'react-native-modal';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextInputComponent from '../components/textInputComponent.js'
 import { Translations } from '../locale/i18n.js';
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
+import { getJWT } from '../components/jwt.js'
 
 function handlePress(asset_config, props) {
-  const url = props.rootPath + 'asset_record'
-  const data = {
-    "asset_record": {
-      amount: asset_config.amount,
-      date: asset_config.date + '-1',
+  getJWT().then((token) =>{
+    const url = props.rootPath + 'asset_record'
+    const data = {
+      "asset_record": {
+        amount: asset_config.amount,
+        date: asset_config.date + '-1',
+      }
     }
-  }
-
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': props.jwtToken
-    },
-    body: JSON.stringify(data)
-  }).then(res => res.json())
-  .then(body => {
-    const status = body.data.attributes.status;
-    const message = body.data.attributes.message;
-    if (status == 'success') {
-      alert('設定が完了しました')
-      props.navigation.navigate('Home')
-      props.changeConfig()
-    } else {
-      alert(message.join('\n'));
-    }
+  
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      },
+      body: JSON.stringify(data)
+    }).then(res => res.json())
+    .then(body => {
+      const status = body.data.attributes.status;
+      const message = body.data.attributes.message;
+      if (status == 'success') {
+        alert('設定が完了しました')
+        props.navigation.navigate('Home')
+        props.changeConfig()
+      } else {
+        alert(message.join('\n'));
+      }
+    })  
   })
 }
 
