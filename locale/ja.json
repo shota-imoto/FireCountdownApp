@@ -41,6 +41,9 @@
 			"rest_months": "ヶ月",
 			"rest_days": "日"
 		},
+		"retire_date": {
+			"you_will_retire": "あなたがリタイアする日"
+		},
 		"sign_out": "サインアウト"
 	},
 	"config": {
