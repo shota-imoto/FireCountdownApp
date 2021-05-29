@@ -51,6 +51,7 @@ class App extends React.Component {
       rest_years: null,
       rest_months: null,
       rest_days: null,
+      retire_date: null,
       unset_configs: [],
       config_changed: false,
     };
@@ -126,6 +127,7 @@ class App extends React.Component {
       rest_years: result.data.attributes.rest_years,
       rest_months: result.data.attributes.rest_months,
       rest_days: result.data.attributes.rest_days,
+      retire_date: result.data.attributes.retire_day,
       messages: null
     })
   }

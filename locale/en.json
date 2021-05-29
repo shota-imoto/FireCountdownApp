@@ -37,9 +37,12 @@
 		"asset_record": "Add Asset Record",
 		"rest_time": {
 			"until_retire": "Until retire..",
-			"rest_years": "Y",
-			"rest_months": "M",
-			"rest_days": "D"
+			"rest_years": "years",
+			"rest_months": "months",
+			"rest_days": "days"
+		},
+		"retire_date": {
+			"you_will_retire": "Date you'll retire"
 		},
 		"sign_out": "Sign out"
 	},

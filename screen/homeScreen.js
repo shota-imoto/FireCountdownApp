@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, StyleSheet, Text, ImageBackground } from 'react-native';
+import { SafeAreaView, View, StyleSheet, Text, ImageBackground, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useFocusEffect } from '@react-navigation/native';
 import { Translations } from '../locale/i18n';
 import { getJWT, getToken } from '../components/jwt.js'
 import firebase from 'firebase';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 const TitleLogo = () => (
   <View style={titleStyle.wrapper}>
@@ -23,9 +24,9 @@ const Header = () => {
   )
 };
 
-const restYears = (years) => (years ? years : '??')
+const restYears = (years) => (years != null ? years : '??')
 
-const restMonths = (months) => (months ? months :'?')
+const restMonths = (months) => (months != null ? months :'?')
 
 const restDays = (days) => (days ? days :'??')
 
@@ -60,13 +61,6 @@ function RestMonth(props) {
   )
 }
 
-function RestDay(props) {
-  return (
-    <View style={contentStyle.numberBlock}>
-      <Text style={contentStyle.countdownNumber}>{restDays(props.restDays)}</Text>
-    </View>
-  )
-}
 
 function Unit(props) {
   return (
@@ -76,19 +70,101 @@ function Unit(props) {
   )
 }
 
+function RestPeriod(props) {
+  const rest_years = Math.floor(props.days / 365)
+  const rest_months = Math.floor(props.days % 365 / 30)
+
+  return (
+    <View>
+      <Text style={contentStyle.countdownMessage}>{Translations.t('home.rest_time.until_retire')}</Text>
+      <View style={contentStyle.countdownDate}>
+        <View style={contentStyle.numberBlock}>
+          <Text style={contentStyle.countdownNumber}>{restYears(rest_years)}</Text>
+        </View>
+        <Unit unitName={Translations.t('home.rest_time.rest_years')}/>
+        <View style={contentStyle.numberBlock}>
+          <Text style={contentStyle.countdownNumber}>{restMonths(rest_months)}</Text>
+        </View>
+        <Unit unitName={Translations.t('home.rest_time.rest_months')}/>
+      </View>
+    </View>
+  )
+}
+
+function RestDay(props) {
+  return (
+    <View>
+      <Text style={contentStyle.countdownMessage}>{Translations.t('home.rest_time.until_retire')}</Text>
+      <View style={contentStyle.countdownDate}>
+        <View style={contentStyle.numberBlock}>
+          <Text style={contentStyle.countdownNumber}>{restDays(props.days)}</Text>
+        </View>
+        <Unit unitName={Translations.t('home.rest_time.rest_days')}/>
+      </View>
+    </View>
+  )
+}
+
+function RetirementDate(props) {
+  return (
+    <View>
+      <Text style={contentStyle.countdownMessage}>{Translations.t('home.retire_date.you_will_retire')}</Text>
+      <View style={contentStyle.countdownDate}>
+        <Text style={contentStyle.retireDate}>{props.retire_date}</Text>
+      </View>
+    </View>
+  )
+}
+
+function ChangeDisplayButton(props) {
+  return (
+    <View style={contentStyle.changeBtnWrapper}>
+      <TouchableOpacity style={contentStyle.changeBtn} onPress={() => {props.changeDisplayMode()}}>
+        <FontAwesome5 name="exchange-alt" style={contentStyle.changeBtnIcon}/>
+        <Text style={contentStyle.changeBtnText}>mode</Text>
+      </TouchableOpacity>
+    </View>
+  )
+}
+
+function DisplayControler(props) {
+  const modeArray = [0, 1, 2]
+  const nextMode = (modeArray.indexOf(props.displayMode) == modeArray.length - 1) ? modeArray[0] : props.displayMode + 1
+
+  switch (props.displayMode) {
+    case 0: return (
+      <View>
+        <View style={contentStyle.mainWrapper}>
+          <RestDay days={props.rest_days} />
+        </View>
+        <ChangeDisplayButton changeDisplayMode={() => {props.setDisplayMode(nextMode)}}/>
+      </View>
+    )
+    case 1: return (
+      <View>
+        <View style={contentStyle.mainWrapper}>
+          <RestPeriod days={props.rest_days}/>
+        </View>
+        <ChangeDisplayButton changeDisplayMode={() => {props.setDisplayMode(nextMode)}}/>
+      </View>
+    )
+    case 2: return (
+      <View>
+        <View style={contentStyle.mainWrapper}>
+          <RetirementDate retire_date={props.retire_date}/>
+        </View>
+        <ChangeDisplayButton changeDisplayMode={() => {props.setDisplayMode(nextMode)}}/>
+      </View>
+    )
+
+  }
+}
+
 // TODO: リファクタリング
 function Content(props) {
   return (
     <View style={contentStyle.wrapper}>
-      <View><Text style={contentStyle.countdownMessage}>{Translations.t('home.rest_time.until_retire')}</Text></View>
-      <View style={contentStyle.countdownDate}>
-        <RestYear restYears={props.rest_years}/>
-        <Unit unitName={Translations.t('home.rest_time.rest_years')}/>
-        <RestMonth restMonths={props.rest_months}/>
-        <Unit unitName={Translations.t('home.rest_time.rest_months')}/>
-        <RestDay restDays={props.rest_days}/>
-        <Unit unitName={Translations.t('home.rest_time.rest_days')}/>
-      </View>
+      <DisplayControler {...props}/>
       <NoticeNoConfig unset_configs={props.unset_configs} />
     </View>
   )
@@ -153,6 +229,8 @@ function fetchData(props) {
 
 function HomeScreen (props) {
   const [visible, setVisible] = useState(true)
+  const [displayMode, setDisplayMode] = useState(0)
+
   useEffect(() => {fetchData(props)}, [props.config_changed])
   useFocusEffect(
     React.useCallback(() => {
@@ -166,7 +244,11 @@ function HomeScreen (props) {
         {visible ? (
           <>
             <Header/>
-            <Content {...props}/>
+            <Content
+              {...props}
+              displayMode={displayMode}
+              setDisplayMode={setDisplayMode}
+            />
             <ItemList
               onPressConfig={() => {setVisible(false); props.navigation.navigate('Config')}}
               onPressRetirementAssetConfig={() => {setVisible(false); props.navigation.navigate('RetirementAssetConfig')}}
@@ -223,6 +305,31 @@ const contentStyle = StyleSheet.create({
     width: 310,
     marginBottom: 10,
   },
+  mainWrapper: {
+    height: 80,
+    marginBottom: 20
+  },
+  changeBtnWrapper: {
+    alignItems: 'flex-end'
+  },
+  changeBtn: {
+    flexDirection: 'row',
+    height: 30,
+    width: 80,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#0e38ad'
+  },
+  changeBtnIcon: {
+    marginRight: 5,
+    fontSize: 14,
+    color: '#ffffff',
+  },
+  changeBtnText: {
+    fontSize: 14,
+    color: '#ffffff'
+  },
   countdownMessage: {
     marginBottom: 6,
     fontSize: 24,
@@ -233,10 +340,13 @@ const contentStyle = StyleSheet.create({
     marginBottom: 6,
     alignItems: 'flex-end',
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'flex-end'
+  },
+  numberBlock: {
+    marginLeft: 20,
+    marginRight: 10,
   },
   unitBlock:{
-    marginRight: 10,
     position: 'relative',
     bottom: 10
   },
@@ -250,6 +360,11 @@ const contentStyle = StyleSheet.create({
     fontWeight: 'bold',
     color: '#ffffff'
   },
+  retireDate: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    color: '#ffffff'
+  }
 })
 
 const unsetConfigStyle = StyleSheet.create({
